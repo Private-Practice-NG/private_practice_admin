@@ -1,4 +1,10 @@
-/* font import goes here */
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+:root {
+  --brand-text-color: #212323;
+  --auth-input-background: #E4E4E4;
+  --btn-form-background: #10ACF5;
+}
 
 *{
   box-sizing: border-box;
@@ -6,9 +12,29 @@
 body,html{
   margin: 0;
   padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 .container{
   width: 80%;
   margin: 0 auto;
   max-width: 1440px;
+}
+
+a{
+  color: var(--brand-text-color);
+  text-decoration: none;
+}
+
+.btn{
+  border: 2px solid var(--btn-form-background);
+  background-color: var(--btn-form-background);
+  color: #FFFFFF ;
+  font-size:1.2rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+.btn:hover{
+  cursor: pointer;
+  color: var(--btn-form-background);
+  background-color: #FFFFFF;
 }
