@@ -1,10 +1,10 @@
 import './App.css'
-
+import Auth from './pages/Auth'
 function App() {
 
   return (
     <>
-      <h1>Hello welcome</h1>
+      <Auth />
     </>
   )
 }
