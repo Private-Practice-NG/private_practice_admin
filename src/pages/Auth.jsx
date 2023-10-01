@@ -4,6 +4,7 @@ import authImg from './../assets/authImg.png'
 import logo from './../assets/logo.png'
 import { TfiEmail } from "react-icons/tfi";
 import { SlLock } from "react-icons/sl";
+import { Link } from 'react-router-dom';
 const Auth = () => {
   return (
     <div className='auth'>
@@ -34,8 +35,8 @@ const Auth = () => {
                 </div>
                 <input type='password' placeholder='Password' required />
               </div>
-              <a href="#" >Forget Password?</a>
-
+              <Link to="/forgot-password">Forget Password?</Link>
+              
               <button className='btn auth-submit-btn' type='submit'>Login</button>
             </form>
         </div>

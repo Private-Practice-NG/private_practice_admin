@@ -1,0 +1,19 @@
+.forgot-msg{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+.forgot-msg-details{
+    text-align: center;
+}
+.forgot-msg-details h1{
+    font-weight: bolder;
+}
+.forgot-msg-btn{
+    width: 350px;
+    text-align: center;
+}
