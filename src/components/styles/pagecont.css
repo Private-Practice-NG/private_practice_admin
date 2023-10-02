@@ -37,7 +37,12 @@
     gap: 15px;
     font-size: 0.9rem;
     color: var(--nav-links-color);
+    font-weight: bold;
 }
+.vertical-nav-links a:active, .vertical-nav-links a:hover{
+    color: var(--brand-color-blue);
+}
+
 .page-cont-2{
     width: 75%;
 }
