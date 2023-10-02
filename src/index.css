@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root {
-  --body-bg-color: #F0F0F0;
+  --body-bg-color: #D0D0D0;
+  --auth-bg-color: #F0F0F0;
+  --nav-ver--bg-color: #F1F1F1;;
   --brand-text-color: #212323;
   --auth-input-background: #E4E4E4;
   --btn-form-background: #10ACF5;
+  --brand-color-blue: #10ACF5;
+  --brand-nav-color: #FFF;
+  --nav-links-color: #9F9F9F;
 }
 
 *{
@@ -15,6 +20,9 @@ body,html{
   padding: 0;
   font-family: 'Inter', sans-serif;
   background-color: var(--body-bg-color);
+}
+.auth-body{
+  background-color: var(--auth-bg-color);
 }
 .container{
   width: 80%;
