@@ -4,7 +4,7 @@ import "./styles/auth.css";
 import { Link } from "react-router-dom";
 const ForgotPassMsg = () => {
   return (
-    <div className="forgot-msg">
+    <div className="auth-body forgot-msg">
       <svg
         width="159"
         height="148"

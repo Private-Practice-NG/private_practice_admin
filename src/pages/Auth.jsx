@@ -7,7 +7,7 @@ import { SlLock } from "react-icons/sl";
 import { Link } from 'react-router-dom';
 const Auth = () => {
   return (
-    <div className='auth'>
+    <div className='auth auth-body'>
         <div className="auth-img">
             <img src={authImg} alt="auth-img" />
         </div>

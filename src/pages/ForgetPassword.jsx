@@ -6,7 +6,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { SlLock } from "react-icons/sl"
 const ForgetPassword = () => {
   return (
-    <div className='auth'>
+    <div className='auth auth-body'>
     <div className="auth-img">
         <img src={authImg} alt="auth-img" />
     </div>
