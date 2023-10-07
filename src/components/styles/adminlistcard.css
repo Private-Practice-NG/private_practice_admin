@@ -1,0 +1,45 @@
+.admin-list-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2929291a;
+    border-bottom: 1px solid #2929291a;
+    padding: 10px 0px;
+}
+.admin-list-card-profile {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.admin-list-card-profile img{
+    width:60px;
+    height:60px;
+}
+.admin-list-card-profile h3, .admin-list-card-profile p{
+    margin: 0;
+}
+.admin-list-card-profile h3{
+    font-weight: 200;
+    margin-bottom: 5px;
+
+}
+.admin-list-card-profile p{
+    font-size: 0.9rem;
+    color: #464646;
+}
+.btn-switch{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.admin-btn-reset{
+    border-radius: 8px;
+    background: #D9D9D9;
+    color: #464646;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    padding: 10px;
+}
