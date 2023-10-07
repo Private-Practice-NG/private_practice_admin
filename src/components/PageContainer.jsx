@@ -9,7 +9,9 @@ import { MdLocalHospital } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 import { FaHospitalAlt } from "react-icons/fa";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
 import { Outlet } from 'react-router-dom';
+import Home from '../pages/Home';
 const PageContainer = () => {
   return (
     <div className='page-cont'>
@@ -19,11 +21,14 @@ const PageContainer = () => {
                 <h1>Private Practice</h1>
             </div>
             <div className="vertical-nav-links">
-                <Link to="/"><AiFillHome/> Home</Link>
-                <Link to="/"><BiSolidUser/> Admin</Link>
-                <Link to="/"><MdLocalHospital/> Hospital</Link>
-                <Link to="/"><GrUserWorker/> Specialist</Link>
-                <Link to="/"><FaHospitalAlt/> Hospital</Link>
+                <div className="vertical-nav-links-top">
+                    <Link to="/"><AiFillHome/> Home</Link>
+                    <Link to="/"><BiSolidUser/> Admin</Link>
+                    <Link to="/"><MdLocalHospital/> Hospital</Link>
+                    <Link to="/"><GrUserWorker/> Specialist</Link>
+                    <Link to="/"><FaHospitalAlt/> Hospital</Link>
+                </div>
+                    <Link to="/"><MdCancel/> Log Out</Link>
             </div>
         </div>
         <div className='page-cont-2'>
@@ -41,7 +46,7 @@ const PageContainer = () => {
                 </div>
             </div>
             <div className="page-cont-outlet">
-                <Outlet/>
+                <Home/>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@
   --brand-color-blue: #10ACF5;
   --brand-nav-color: #FFF;
   --nav-links-color: #9F9F9F;
+  --metric-bg-color: #ECECEC;
 }
 
 *{
@@ -35,6 +36,16 @@ a{
   text-decoration: none;
 }
 
+button{
+  border:none;
+  outline: none;
+}
+
+button:hover{
+  cursor: pointer;
+  
+}
+
 .btn{
   border: 2px solid var(--btn-form-background);
   background-color: var(--btn-form-background);
@@ -44,7 +55,6 @@ a{
   border-radius: 8px;
 }
 .btn:hover{
-  cursor: pointer;
   color: var(--btn-form-background);
   background-color: #FFFFFF;
 }
