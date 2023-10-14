@@ -32,7 +32,7 @@ const Home = () => {
             
         </div>
         <HomeUsers />
-        <HomeAdmins />
+        <HomeAdmins  home={true} />
     </div>
   )
 }
