@@ -13,6 +13,9 @@ import { MdCancel } from "react-icons/md";
 import { Outlet } from 'react-router-dom';
 import Home from '../pages/Home';
 import Admin from '../pages/Admin';
+import UsersTab from './UsersTab';
+import Hospital from './HospitalTab';
+import SpecialistDetails from './SpecialistDetails';
 const PageContainer = () => {
   return (
     <div className='page-cont'>
@@ -47,7 +50,7 @@ const PageContainer = () => {
                 </div>
             </div>
             <div className="page-cont-outlet">
-                <Admin />
+                <Home />
             </div>
         </div>
     </div>
