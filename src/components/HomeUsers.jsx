@@ -15,8 +15,8 @@ const HomeUsers = () => {
       {/* hospital section */}
       <div className="home-user-hos">
         <h1>Hospitals</h1>
-        {dashboardInfo?.hospital.map(user => (
-          <div className="home-user-hos-pro">
+        {dashboardInfo?.hospital.map((user, index) => (
+          <div key={index} className="home-user-hos-pro">
             <div className="home-img-title">
                 <div className="home-profile-img">
                     <img src={hos1} alt="hospital 1" />
@@ -36,8 +36,8 @@ const HomeUsers = () => {
       <div className="home-user-spec">
         <h1>Specialist</h1>
         <div className="home-user-spec-pros">
-            {dashboardInfo?.specialist.map((user) =>(
-              <div className="home-user-spec-pro">
+            {dashboardInfo?.specialist.map((user,index) =>(
+              <div key={index} className="home-user-spec-pro">
                   <div className="home-avatar">
                       <img src={avatar} alt="avatar" />
                   </div>
