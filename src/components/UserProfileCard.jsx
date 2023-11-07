@@ -1,9 +1,9 @@
 import React from "react";
-import "./styles/userstab.css";
+import "../pages/styles/userstab.css";
 import { Link } from "react-router-dom";
 import profile from "./../assets/avatar.png";
 import stars from "./../assets/stars.png";
-const UserProfileCard = () => {
+const UserProfileCard = ({user}) => {
   return (
     <div className="user-profile-card">
       <div className="user-profile-card-status">
@@ -39,7 +39,7 @@ const UserProfileCard = () => {
         <div className="user-profile-card-stars">
           <img src={stars} alt="user-stars" />
         </div>
-        <Link to="/" className={true && "user-profile-card-active"}>
+        <Link to={`/${user}/001`} className={true && "user-profile-card-active"}>
           View Profile
         </Link>
       </div>

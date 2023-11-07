@@ -84,7 +84,7 @@ const SpecialistDetails = () => {
         </section>
       </header>
       <div className="specialist-details-details">
-        <JobsCompleted />
+        <PersonalDetails />
       </div>
     </section>
   );
