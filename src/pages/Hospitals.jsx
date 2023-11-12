@@ -16,7 +16,6 @@ const Hospitals = () => {
       try {
         const res = await users().unwrap();
         dispatch(setHospitals(res.data));
-        console.log(res)
       } catch (error) {
         console.log(error?.data?.message || error.error);
       }
