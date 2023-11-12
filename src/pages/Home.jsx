@@ -51,7 +51,7 @@ const Home = () => {
         </div>
       </div>
       <HomeUsers />
-      <HomeAdmins home={true} />
+      <HomeAdmins home={true} dashboardInfo={dashboardInfo}/>
     </div>
   );
 };

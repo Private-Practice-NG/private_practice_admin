@@ -1,7 +1,26 @@
 import React from "react";
 import "./styles/adminlistcard.css";
-import avatar from "./../assets/avatar.png";
+import avatar from "./../assets/user-settings-icon.png";
+import { useSelector, useDispatch } from "react-redux";
+import { useActivateAdminMutation } from "../slices/usersApiSlice";
+import { toast } from "react-toastify";
+import { useState } from "react";
 const AdminListCard = ({ id, name, email, profileImg, activated }) => {
+  const [active, setActivate] = useState(activated);
+  const [activateAdminApi, { isLoading }] = useActivateAdminMutation();
+
+  const handleActivate = async (e) => {
+    try {
+      const nActivated = !active;
+      const data = { id, activated: nActivated };
+      const res = await activateAdminApi(data).unwrap();
+      setActivate(nActivated);
+      const text = nActivated ? "Activated" : "Deactivated ";
+      toast.success(`User ${text}`);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
   return (
     <div className="admin-list-card">
       <div className="admin-list-card-profile">
@@ -11,8 +30,8 @@ const AdminListCard = ({ id, name, email, profileImg, activated }) => {
           <p>{email}</p>
         </div>
       </div>
-      {activated ? (
-        <button className="btn-switch">
+      {active ? (
+        <button className="btn-switch" onClick={handleActivate}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="27"
@@ -37,7 +56,7 @@ const AdminListCard = ({ id, name, email, profileImg, activated }) => {
           Activated
         </button>
       ) : (
-        <button className="btn-switch">
+        <button className="btn-switch" onClick={handleActivate}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="27"

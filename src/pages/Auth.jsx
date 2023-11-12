@@ -5,12 +5,12 @@ import logo from "./../assets/logo.png";
 import { TfiEmail } from "react-icons/tfi";
 import { SlLock } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,26 +18,26 @@ const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [login,{isLoading}] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
-  const {userInfo} = useSelector((state)=> state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
-  useEffect(()=>{
-    if(userInfo){
-      navigate("/")
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
     }
-  },[navigate, userInfo])
+  }, [navigate, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await login({email, password}).unwrap();
-      dispatch(setCredentials({...res}))
-      navigate("/")
-      toast.success("Login Successful")
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate("/");
+      toast.success("Login Successful");
     } catch (error) {
-      toast.error(error?.data?.message || error.error)
+      toast.error(error?.data?.message || error.error);
     }
   };
   return (

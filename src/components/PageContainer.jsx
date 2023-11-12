@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./../assets/logo.png";
-import profile from "./../assets/profile.png";
+import profile from "./../assets/user-settings-icon.png";
 import { AiFillHome } from "react-icons/ai";
 import { BiSolidUser } from "react-icons/bi";
 import { MdLocalHospital } from "react-icons/md";

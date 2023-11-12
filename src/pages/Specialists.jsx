@@ -2,14 +2,60 @@ import React from "react";
 import "./styles/userstab.css";
 import { CiSearch } from "react-icons/ci";
 import UserProfileCard from "../components/UserProfileCard";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSpecialistsMutation } from "../slices/usersApiSlice";
+import { setSpecialists } from "../slices/usersSlice";
 const Specialists = () => {
+  const [searchData, setSearchData] = useState(null);
+  const dispatch = useDispatch();
+  const [users, { isLoading }] = useSpecialistsMutation();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await users().unwrap();
+        dispatch(setSpecialists(res.data));
+      } catch (error) {
+        console.log(error?.data?.message || error.error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const { specialists } = useSelector((state) => state.users);
+
+  // Function to perform the search
+  function search(query) {
+    // Convert the query to lowercase for a case-insensitive search
+    const searchTerm = query.toLowerCase();
+
+    // Filter the specialists array based on the search term
+    const results = specialists.filter(
+      (item) =>
+        item.firstName.toLowerCase().includes(searchTerm) || // search in 'firstname' property
+        item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
+    );
+
+    return results;
+  }
+
+  //function to handle the search query
+  const handleSearch = (searchQuery) => {
+    const searchResults = search(searchQuery);
+    setSearchData(searchResults);
+  };
   return (
     <div className="users-tab">
       <header className="users-tab-header">
         <h1>Specialist</h1>
         <div className="users-tab-input">
           <CiSearch />
-          <input type="text" placeholder="Search Specialist" />
+          <input
+            type="text"
+            placeholder="Search Specialist"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </div>
         <div className="users-tab-sort">
           <svg
@@ -42,15 +88,21 @@ const Specialists = () => {
         </div>
       </header>
       <section className="users-tab-profiles">
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-        <UserProfileCard user='specialist' />
-
+        {searchData
+          ? searchData?.map((user, index) => (
+              <UserProfileCard
+                user="specialist"
+                specialist={user}
+                key={index}
+              />
+            ))
+          : specialists?.map((user, index) => (
+              <UserProfileCard
+                user="specialist"
+                specialist={user}
+                key={index}
+              />
+            ))}
       </section>
     </div>
   );

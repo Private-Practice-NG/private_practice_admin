@@ -1,21 +1,49 @@
 import React from "react";
 import "./styles/specialistdetails.css";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import profile from './../assets/avatar-info.png'
+import profile from './../assets/avatar-icon.png'
 import stars from './../assets/stars.png'
 import PersonalDetails from "./PersonalDetails";
-import JobsCompleted from "./JobsCompleted";
+import JobsInstance from "./JobsInstance";
+import { useEffect,useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
+import { useSpecialistMutation } from "../slices/usersApiSlice";
+import { setSpecialist } from "../slices/usersSlice";
+import { Rating } from "react-simple-star-rating";
+
 const SpecialistDetails = () => {
+  const navigate = useNavigate()
+  const [details, setDetails] = useState("personalDet");
+  const { userId } = useParams();
+
+  const dispatch = useDispatch();
+  const [specialistApiCall, { isLoading }] = useSpecialistMutation();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await specialistApiCall(userId).unwrap();
+        dispatch(setSpecialist( res.data ));
+      } catch (error) {
+        console.log(error?.data?.message || error.error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const { specialist } = useSelector((state) => state.users);
+
   return (
     <section className="specialist-details">
       <header className="specialist-details-header">
         <nav className="specialist-details-header-nav">
-          <button className="nav-back">
+          <button className="nav-back" onClick={()=> navigate(-1)}>
             <MdOutlineArrowBackIosNew /> <span>Back</span>
           </button>
           <div className="nav-right">
-            {true ? (
+            {specialist?.verified.profile ? (
               <div className="nav-right-status">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -50,41 +78,44 @@ const SpecialistDetails = () => {
                 <div className="specialist-details-sec-first-1">
                     <img src={profile} alt="" className="specialist-detail-profile"/>
                     <div className="specialist-details-sec-first-1-info">
-                        <h1>David Paul</h1>
+                        <h1>{specialist?.firstName} {specialist?.lastName}</h1>
                         <p>DOCTOR</p>
-                        <img src={stars} alt="stars"  className="info-stars"/>
-                        <h3>34 Years Old</h3>
-                        <Link to="/" className="view-doc">View Documents</Link>
+                        {/* <img src={stars} alt="stars"  className="info-stars"/> */}
+                        <Rating size={"25px"} readonly={true} initialValue={specialist?.rating ? specialist?.rating : 5} />
+                        <h3> 34 Years Old</h3>
                     </div>
                 </div>
                 <div className="specialist-details-sec-first-2">
-                    <div className="total-earn">
+                    {/* <div className="total-earn">
                         <p>Total Earnings</p>
                         <h1>₦326,200,000.23</h1>
-                    </div>
+                    </div> */}
                     <div className="balance">
                         <div className="main-bal">
                             <p>Main Balance</p>
-                            <h3>₦326,200</h3>
+                            <h3>₦{`${specialist?.wallet.balance}`}</h3>
                         </div>
                         <div className="book-bal">
                             <p>Book Balance</p>
-                            <h4>₦426,200</h4>
+                            <h4>₦{`${specialist?.wallet.bookBalance}`}</h4>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="specialist-details-sec-second">
-                <button className="active">Personal Details</button>
-                <button>Jobs Completed (6)</button>
-                <button>Pending Jobs (2)</button>
-                <button>Declined Jobs (9)</button>
+                <button className={details == 'personalDet' ? "active" : undefined} onClick={()=>{setDetails("personalDet")}}>Personal Details</button>
+                <button className={details == 'jobCompleted' ? "active" : undefined} onClick={()=>{setDetails("jobCompleted")}} >Jobs Completed ({specialist?.completedJobs.jobsCompleted})</button>
+                <button className={details == 'pendingJobs' ? "active" : undefined} onClick={()=>{setDetails("pendingJobs")}} >Pending Jobs ({specialist?.pendingJobs.pendingJobslength})</button>
+                <button className={details == 'declinedJob' ? "active" : undefined} onClick={()=>{setDetails("declinedJob")}} >Declined Jobs ({specialist?.declinedJobs.declinedJobslength})</button>
                 
             </div>
         </section>
       </header>
       <div className="specialist-details-details">
-        <PersonalDetails />
+       {details == 'personalDet' && <PersonalDetails data ={specialist} />}
+       {details == 'jobCompleted' && <JobsInstance  data = {specialist?.completedJobs.completedJobInbox}/>}
+       {details == 'pendingJobs' && <JobsInstance data = {specialist?.pendingJobs.pendingJobsInbox} />}
+       {details == 'declinedJob' && <JobsInstance  data = {specialist?.declinedJobs.declinedJobsInbox} />}
       </div>
     </section>
   );

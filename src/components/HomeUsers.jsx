@@ -1,11 +1,12 @@
 import React from "react";
 import "./styles/homeusers.css";
-import hos1 from "./../assets/hos1.png";
+import hos1 from "./../assets/hospitalAvatar.png";
 import hos2 from "./../assets/hos2.png";
 import stars from "./../assets/stars.png";
-import avatar from "./../assets/avatar.png";
+import avatar from "./../assets/avatar-icon.png";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Rating } from "react-simple-star-rating";
 const HomeUsers = () => {
 
   const {dashboardInfo} = useSelector((state)=> state.dashboard);
@@ -23,7 +24,8 @@ const HomeUsers = () => {
                 </div>
                 <div className="hospital-title">
                     <p>{user?.hospitalName}</p>
-                    <img src={stars} alt="rank" />
+                    {/* <img src={stars} alt="rank" /> */}
+                    <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
                 </div>
             </div>
             <Link to={`/hospital/${user?._id}`} className="btn-view-profile">View Profile</Link>
@@ -40,9 +42,11 @@ const HomeUsers = () => {
               <div key={index} className="home-user-spec-pro">
                   <div className="home-avatar">
                       <img src={avatar} alt="avatar" />
+                     
                   </div>
                   <p>{user?.firstName}  {user?.lastName}</p>
-                  <img src={stars} alt="stars" className="spec-stars"/>
+                  {/* <img src={stars} alt="stars" className="spec-stars"/> */}
+                  <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
                   <Link to={`/specialist/${user?._id}`} className="btn-view-profile">View Profile</Link>
               </div>
                

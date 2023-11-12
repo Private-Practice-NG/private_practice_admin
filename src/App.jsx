@@ -9,6 +9,7 @@ import Admins from "./pages/Admins";
 import Specialists from "./pages/Specialists";
 import Hospitals from './pages/Hospitals'
 import SpecialistDetails from "./components/SpecialistDetails";
+import HospitalDetails from "./components/hospitalDetails";
 import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
@@ -27,7 +28,7 @@ function App() {
               <Route path="/hospitals" element={<Hospitals />} />
               <Route path="/specialists" element={<Specialists />} />
               <Route path="/specialist/:userId" element={<SpecialistDetails />} />
-              <Route path="/hospital/:userId" element={<SpecialistDetails />} />
+              <Route path="/hospital/:userId" element={<HospitalDetails />} />
             </Route>
           </Route>
         </Routes>

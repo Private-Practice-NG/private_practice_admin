@@ -1,15 +1,14 @@
 import React from 'react'
 import './styles/jobscompleted.css'
 import "./styles/personaldetails.css"
-import JobCompletedCard from './JobCompletedCard'
-const JobsCompleted = () => {
+import JobInstanceCard from './JobInstanceCard'
+const JobsCompleted = ({data}) => {
   return (
     <div className='personal-details'>
         <div className="job-completed-cards">
-            <JobCompletedCard />
-            <JobCompletedCard />
-            <JobCompletedCard />
-            <JobCompletedCard />
+         { data?.map((card,index)=>(
+           <JobInstanceCard data = {card} key={index}/>
+         ))}
         </div>
     </div>
   )

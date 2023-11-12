@@ -1,6 +1,6 @@
 import React from 'react'
 import "./styles/personaldetails.css"
-const PersonalDetails = () => {
+const PersonalDetails = ({data}) => {
   return (
     <div className='personal-details'>
         <div className="person-details-info">
@@ -8,105 +8,84 @@ const PersonalDetails = () => {
             <div className="personal-details-info-fields">
                 <div className="personal-details-info-field">
                     <h4>FULL NAME</h4>
-                    <p>David Paul James</p>
+                    <p>{data?.firstName} {data?.middleName} {data?.lastName}</p>
                 </div>
                 <div className="personal-details-info-field">
                     <h4>PHONE NUMBER</h4>
-                    <p>07060780922</p>
+                    <p>{data?.phoneNumber ? data?.phoneNumber : "None"}</p>
                 </div>
                 <div className="personal-details-info-field">
                     <h4>EMAIL ADDRESS</h4>
-                    <p>davidpaul@gmail.com</p>
+                    <p>{data?.email}</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>BVN</h4>
-                    <p>davidpaul@gmail.com</p>
+                    <h4>Years In Practice</h4>
+                    <p>{data?.yearsInPractice  ? data?.yearsInPractice : "None"}</p>
                 </div>
                 <div className="personal-details-info-field">
                     <h4>GENDER</h4>
-                    <p>Male</p>
+                    <p>{data?.sex ? data?.sex : "None"}</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>MARITAL STATUS</h4>
-                    <p>Single</p>
+                    <h4>Specialisation</h4>
+                    <p>{data?.specialisation ? data?.specialisation : "None"}</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>CHILDREN</h4>
-                    <p>None</p>
+                    <h4>City</h4>
+                    <p>{data?.locationData.city ? data?.locationData.city : "None"}</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>TYPE OF RESIDENCE</h4>
-                    <p>Personal Apartment</p>
+                    <h4>State</h4>
+                    <p>{data?.locationData.state ? data?.locationData.state : "None"}</p>
+                </div>
+                <div className="personal-details-info-field">
+                    <h4>Address</h4>
+                    <p>{data?.locationData.address ? data?.locationData.address : "None"}</p>
                 </div>
             </div>
         </div>
         <div className="person-details-info">
-            <h3>Education and Employment</h3>
+            <h3>Verification</h3>
             <div className="personal-details-info-fields">
                 <div className="personal-details-info-field">
-                    <h4>level of education</h4>
-                    <p>B.Sc</p>
+                    <h4>Email</h4>
+                    <p>{data?.verified.email ? "Verified" : "Not Verified"}</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>employment status</h4>
+                    <h4>Phone</h4>
+                    <p>{data?.verified.phone ? "Verified" : "Not Verified"}</p>
+                </div>
+                <div className="personal-details-info-field">
+                    <h4>Profile</h4>
+                    <p>{data?.verified.profile ? "Verified" : "Not Verified"}</p>
+                </div>
+                <div className="personal-details-info-field">
+                    <h4>Certificate</h4>
+                    <p>{data?.verified.certificate ? "Verified" : "Not Verified"}</p>
+                </div>
+            </div>
+        </div>
+        {/* <div className="person-details-info">
+            <h3>Education and Certificates</h3>
+            <div className="personal-details-info-fields">
+                <div className="personal-details-info-field">
+                    <h4>Secondary School Document</h4>
                     <p>Self Employed</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>sector of employment</h4>
+                    <h4>Practicing License Document</h4>
                     <p>Medical</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>office email</h4>
+                    <h4>Nysc Document</h4>
                     <p>davidpaul@privatepractice.com</p>
                 </div>
                 <div className="personal-details-info-field">
-                    <h4>Monthly income</h4>
+                    <h4>Specialization Document</h4>
                     <p>₦200,000.00</p>
                 </div>
-                <div className="personal-details-info-field">
-                    <h4>Duration of employment</h4>
-                    <p>3 Months</p>
-                </div>
             </div>
-        </div>
-        <div className="person-details-info">
-            <h3>Socials</h3>
-            <div className="personal-details-info-fields">
-                <div className="personal-details-info-field">
-                    <h4>Twitter</h4>
-                    <p>@davidthedoc</p>
-                </div>
-                <div className="personal-details-info-field">
-                    <h4>Facebook</h4>
-                    <p>David Paul</p>
-                </div>
-                <div className="personal-details-info-field">
-                    <h4>Instagram</h4>
-                    <p>@davidthedoc</p>
-                </div>
-            </div>
-        </div>
-        <div className="person-details-info">
-            <h3>Guarantor</h3>
-            <div className="personal-details-info-fields">
-                <div className="personal-details-info-field">
-                    <h4>FULL NAME</h4>
-                    <p>Thomas John</p>
-                </div>
-                <div className="personal-details-info-field">
-                    <h4>PHONE NUMBER</h4>
-                    <p>07060780922</p>
-                </div>
-                <div className="personal-details-info-field">
-                    <h4>EMAIL ADDRESS</h4>
-                    <p>Thomasjohn234@gmail.com</p>
-                </div>
-                <div className="personal-details-info-field">
-                    <h4>Relationship</h4>
-                    <p>Uncle</p>
-                </div>
-            </div>
-        </div>
+        </div> */}
     </div>
   )
 }
