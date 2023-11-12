@@ -4,7 +4,7 @@ import { Link,useParams,useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { useHospitalMutation } from "../slices/usersApiSlice";
-import { setHospital } from "../slices/usersSlice";
+import { setHospital,setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import profile from "./../assets/hospitalAvatar.png";
@@ -15,6 +15,7 @@ const Hospital = () => {
   const { userId } = useParams();
   const navigate = useNavigate()
   const dispatch = useDispatch();
+  dispatch(setNav("Hospital"))
 
   const [hospitalApiCall, { isLoading }] = useHospitalMutation();
   

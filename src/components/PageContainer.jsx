@@ -19,6 +19,8 @@ import { logout } from "../slices/authSlice";
 import { removeDashboard } from "../slices/dashboardSlice";
 const PageContainer = () => {
   const [active, setActive] = useState("Home");
+  const { nav } = useSelector((state) => state.users);
+  console.log(nav)
 
   const handleNav = (event, { nav, to }) => {
     setActive(nav);
@@ -53,7 +55,7 @@ const PageContainer = () => {
           <div className="vertical-nav-links-top">
             <div
               onClick={(event) => handleNav(event, { nav: "Home", to: "/" })}
-              className={active == "Home" ? "nav-link active" : "nav-link"}
+              className={nav == "Home" ? "nav-link active" : "nav-link"}
             >
               <AiFillHome /> Home
             </div>
@@ -61,7 +63,7 @@ const PageContainer = () => {
               onClick={(event) =>
                 handleNav(event, { nav: "Admin", to: "/admins" })
               }
-              className={active == "Admin" ? "nav-link active" : "nav-link"}
+              className={nav == "Admin" ? "nav-link active" : "nav-link"}
             >
               <BiSolidUser /> Admin
             </div>
@@ -73,7 +75,7 @@ const PageContainer = () => {
                 })
               }
               className={
-                active == "Hospital Enroll" ? "nav-link active" : "nav-link"
+                nav == "Hospital Enroll" ? "nav-link active" : "nav-link"
               }
             >
               <MdLocalHospital /> Hospital Enroll
@@ -83,7 +85,7 @@ const PageContainer = () => {
                 handleNav(event, { nav: "Specialist", to: "/specialists" })
               }
               className={
-                active == "Specialist" ? "nav-link active" : "nav-link"
+                nav == "Specialist" ? "nav-link active" : "nav-link"
               }
             >
               <GrUserWorker /> Specialist
@@ -92,14 +94,14 @@ const PageContainer = () => {
               onClick={(event) =>
                 handleNav(event, { nav: "Hospital", to: "/hospitals" })
               }
-              className={active == "Hospital" ? "nav-link active" : "nav-link"}
+              className={nav == "Hospital" ? "nav-link active" : "nav-link"}
             >
               <FaHospitalAlt /> Hospital
             </div>
           </div>
           <div
             onClick={logoutHandler}
-            className={active == "Log Out" ? "nav-link active" : "nav-link"}
+            className={nav == "Log Out" ? "nav-link active" : "nav-link"}
           >
             <MdCancel /> Log Out
           </div>

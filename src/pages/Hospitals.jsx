@@ -5,10 +5,11 @@ import UserProfileCard from "../components/UserProfileCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHospitalsMutation } from "../slices/usersApiSlice";
-import { setHospitals } from "../slices/usersSlice";
+import { setHospitals,setNav } from "../slices/usersSlice";
 const Hospitals = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
+  dispatch(setNav("Hospital"))
   const [users, { isLoading }] = useHospitalsMutation();
 
   useEffect(() => {

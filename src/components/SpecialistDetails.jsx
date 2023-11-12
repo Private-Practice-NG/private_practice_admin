@@ -10,7 +10,7 @@ import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 import { useSpecialistMutation } from "../slices/usersApiSlice";
-import { setSpecialist } from "../slices/usersSlice";
+import { setSpecialist,setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
 
 const SpecialistDetails = () => {
@@ -19,6 +19,7 @@ const SpecialistDetails = () => {
   const { userId } = useParams();
 
   const dispatch = useDispatch();
+  dispatch(setNav("Specialist"))
   const [specialistApiCall, { isLoading }] = useSpecialistMutation();
 
   useEffect(() => {

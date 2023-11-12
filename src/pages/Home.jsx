@@ -6,9 +6,12 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDashboardMutation } from "../slices/usersApiSlice";
 import { setDashboard } from "../slices/dashboardSlice";
+import { setNav } from "../slices/usersSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
+  dispatch(setNav("Home"))
+  
   const [dashboardApiCall, { isLoading }] = useDashboardMutation();
 
   useEffect(() => {

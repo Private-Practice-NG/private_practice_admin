@@ -4,9 +4,11 @@ import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useAdminsMutation } from "../slices/usersApiSlice";
 import { setAdmins } from "../slices/usersSlice";
+import { setNav } from "../slices/usersSlice";
 const Admins = () => {
   const dispatch = useDispatch();
   const [users, { isLoading }] = useAdminsMutation();
+  dispatch(setNav("Admin"))
 
   useEffect(() => {
     async function fetchData() {
