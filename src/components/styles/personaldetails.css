@@ -39,6 +39,10 @@
     color: #545F7D;
     font-size: 0.8rem;
     font-weight: bold;
+    
+}
+.personal-details-info-field .pName{
+    text-transform: capitalize;
 }
 
 /* for the large view */
