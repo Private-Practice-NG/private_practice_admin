@@ -82,7 +82,7 @@ const SpecialistDetails = () => {
                         <p>DOCTOR</p>
                         {/* <img src={stars} alt="stars"  className="info-stars"/> */}
                         <Rating size={"25px"} readonly={true} initialValue={specialist?.rating ? specialist?.rating : 5} />
-                        <h3> 34 Years Old</h3>
+                        <h3> {specialist?.age}</h3>
                     </div>
                 </div>
                 <div className="specialist-details-sec-first-2">
@@ -112,10 +112,10 @@ const SpecialistDetails = () => {
         </section>
       </header>
       <div className="specialist-details-details">
-       {details == 'personalDet' && <PersonalDetails data ={specialist} />}
-       {details == 'jobCompleted' && <JobsInstance  data = {specialist?.completedJobs.completedJobInbox}/>}
-       {details == 'pendingJobs' && <JobsInstance data = {specialist?.pendingJobs.pendingJobsInbox} />}
-       {details == 'declinedJob' && <JobsInstance  data = {specialist?.declinedJobs.declinedJobsInbox} />}
+       {details == 'personalDet' && <PersonalDetails user={"specialist"} data ={specialist} />}
+       {details == 'jobCompleted' && <JobsInstance user={"specialist"}  data = {specialist?.completedJobs.completedJobInbox}/>}
+       {details == 'pendingJobs' && <JobsInstance user={"specialist"} data = {specialist?.pendingJobs.pendingJobsInbox} />}
+       {details == 'declinedJob' && <JobsInstance user={"specialist"}  data = {specialist?.declinedJobs.declinedJobsInbox} />}
       </div>
     </section>
   );
