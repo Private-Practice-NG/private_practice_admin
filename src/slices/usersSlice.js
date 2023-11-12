@@ -8,12 +8,16 @@ const initialState = {
   hospital: null,
   specialist: null,
   admin: null,
+  nav: null,
 };
 
 const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
+    setNav: (state, action) => {
+      state.nav = action.payload;
+    },
     setHospitals: (state, action) => {
       state.hospitals = action.payload;
     },
@@ -36,6 +40,7 @@ const usersSlice = createSlice({
 });
 
 export const {
+  setNav,
   setHospitals,
   setSpecialists,
   setAdmins,
