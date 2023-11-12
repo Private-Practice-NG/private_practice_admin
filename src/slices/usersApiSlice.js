@@ -46,9 +46,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    specialist: builder.mutation({
+    hospital: builder.mutation({
       query: (userId) => ({
-        url: `${USERS_URL}/specialist?id=${userId}`,
+        url: `${USERS_URL}/hospital?id=${userId}`,
         method: "GET",
       }),
     }),
@@ -70,5 +70,6 @@ export const {
   useHospitalsMutation,
   useAdminsMutation,
   useSpecialistMutation,
+  useHospitalMutation,
   useActivateAdminMutation
 } = usersApiSlice;
