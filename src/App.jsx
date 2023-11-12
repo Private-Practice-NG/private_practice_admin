@@ -10,6 +10,7 @@ import Specialists from "./pages/Specialists";
 import Hospitals from './pages/Hospitals'
 import SpecialistDetails from "./components/SpecialistDetails";
 import Hospital from "./components/Hospital";
+import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Auth />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/forgot-pass-msg" element={<ForgotPassMsg />} />
+          
           <Route path="/" element={<Layout />}>
             <Route path="" element={<PrivateRoute />}>
               <Route index element={<Home />} />
@@ -31,6 +33,7 @@ function App() {
               <Route path="/hospital/:userId" element={<Hospital />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>
