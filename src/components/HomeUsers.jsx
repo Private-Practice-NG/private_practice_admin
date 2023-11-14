@@ -44,9 +44,9 @@ const HomeUsers = () => {
                       <img src={avatar} alt="avatar" />
                      
                   </div>
-                  <p>{user?.firstName}  {user?.lastName}</p>
+                  <p>{user?.firstName}</p>
                   {/* <img src={stars} alt="stars" className="spec-stars"/> */}
-                  <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
+                  <Rating size={"20px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
                   <Link to={`/specialist/${user?._id}`} className="btn-view-profile">View Profile</Link>
               </div>
                
