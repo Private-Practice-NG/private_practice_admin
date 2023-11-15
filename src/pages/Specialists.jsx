@@ -34,8 +34,9 @@ const Specialists = () => {
     // Filter the specialists array based on the search term
     const results = specialists.filter(
       (item) =>
-        item.firstName.toLowerCase().includes(searchTerm) || // search in 'firstname' property
-        item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
+        item.firstName.toLowerCase().includes(searchTerm) 
+        //|| // search in 'firstname' property
+        //item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
     );
 
     return results;

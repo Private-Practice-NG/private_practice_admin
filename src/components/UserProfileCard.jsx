@@ -81,7 +81,7 @@ const UserProfileCard = ({ user, hospital,specialist }) => {
               src={profile}
               alt="user-profile-img"
             />
-            <p>{specialist?.firstName} {specialist?.lastName}</p>
+            <p>{specialist?.firstName}</p>
             <div className="user-profile-card-stars">
               {/* <img src={stars} alt="user-stars" /> */}
               <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
