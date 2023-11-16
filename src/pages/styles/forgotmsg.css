@@ -17,3 +17,16 @@
     width: 350px;
     text-align: center;
 }
+.not-found h1{
+    text-transform: uppercase;
+    font-weight: bolder;
+} 
+.not-found p{
+    padding: 0 20%;
+}
+.not-found .back:hover{
+    cursor: pointer;
+}
+.not-found .back svg{
+    width: 150px;
+}

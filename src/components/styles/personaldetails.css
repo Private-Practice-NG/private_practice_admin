@@ -39,6 +39,20 @@
     color: #545F7D;
     font-size: 0.8rem;
     font-weight: bold;
+    
+}
+.personal-details-info-field a.download-cert{
+    font-size: 0.8rem;
+    border: 2px solid var(--btn-form-background);
+    background-color: var(--btn-form-background);
+    color: #FFFFFF ;
+    padding: 10px 5px;
+    border-radius: 8px;
+    text-align: center;
+    
+}
+.personal-details-info-field .pName{
+    text-transform: capitalize;
 }
 
 /* for the large view */

@@ -15,16 +15,16 @@ const ForgotPassMsg = () => {
         <path
           d="M138.597 49.8337L41.8661 145.414L44.3213 86.9079L2.67172 45.7464L138.597 49.8337Z"
           stroke="#0E6EA1"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M132.355 52.2797L43.8381 86.8253"
           stroke="#0E6EA1"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <div className="forgot-msg-details">

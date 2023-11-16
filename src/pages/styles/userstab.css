@@ -84,6 +84,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    text-transform: capitalize;
 }
 .user-profile-card-status svg{
     width: 10px;

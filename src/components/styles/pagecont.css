@@ -39,7 +39,7 @@
     justify-content: center;
     gap: 25px;
 }
-.vertical-nav-links a{
+.vertical-nav-links .nav-link{
     display: flex;
     align-items: center;
     gap: 15px;
@@ -47,8 +47,17 @@
     color: var(--nav-links-color);
     font-weight: bold;
 }
-.vertical-nav-links a:active, .vertical-nav-links a:hover{
+.vertical-nav-links .nav-link.active{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
     color: var(--brand-color-blue);
+    font-weight: bold;
+}
+.vertical-nav-links .nav-link:active, .vertical-nav-links .nav-link:hover{
+    color: var(--brand-color-blue);
+    cursor: pointer;
 }
 
 .page-cont-2{
