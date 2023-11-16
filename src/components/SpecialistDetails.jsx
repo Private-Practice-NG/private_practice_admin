@@ -9,7 +9,7 @@ import JobsInstance from "./JobsInstance";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useSpecialistMutation,useActivateSpecialistMutation } from "../slices/usersApiSlice";
+import { useSpecialistMutation,useActivateSpecialistMutation,useVerifySpecialistMutation } from "../slices/usersApiSlice";
 import { setSpecialist, setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ const SpecialistDetails = () => {
   const [specialistApiCall, { isLoading }] = useSpecialistMutation();
   
   const [activateSpecialist,] = useActivateSpecialistMutation();
+  const [VerifySpecialist,] = useVerifySpecialistMutation();
   
   useEffect(() => {
     dispatch(setNav("Specialist"));
@@ -45,6 +46,15 @@ const SpecialistDetails = () => {
       dispatch(setSpecialist(res.data));
       const text = nActivated ? "Activated" : "Deactivated ";
       toast.success(`Specialist Account ${text}`);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+  const handleVerify = async (e) => {
+    try {
+      const res = await VerifySpecialist(specialist?._id).unwrap();
+      dispatch(setSpecialist(res.data));
+      toast.success(`Specialist Account Verified`);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
@@ -89,7 +99,7 @@ const SpecialistDetails = () => {
             )}
             {!specialist?.verified.profile && (
               <>
-                <button className="sucess">Verify</button>
+                <button className="sucess" onClick={handleVerify} >Verify</button>
               </>
             )}
             {specialist?.activated ? (
