@@ -9,10 +9,10 @@ import { setSpecialists,setNav } from "../slices/usersSlice";
 const Specialists = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
-  dispatch(setNav("Specialist"))
   const [users, { isLoading }] = useSpecialistsMutation();
-
+  
   useEffect(() => {
+    dispatch(setNav("Specialist"))
     async function fetchData() {
       try {
         const res = await users().unwrap();

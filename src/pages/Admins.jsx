@@ -8,9 +8,9 @@ import { setNav } from "../slices/usersSlice";
 const Admins = () => {
   const dispatch = useDispatch();
   const [users, { isLoading }] = useAdminsMutation();
-  dispatch(setNav("Admin"))
-
+  
   useEffect(() => {
+    dispatch(setNav("Admin"))
     async function fetchData() {
       try {
         const res = await users().unwrap();

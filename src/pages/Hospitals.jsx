@@ -9,10 +9,10 @@ import { setHospitals,setNav } from "../slices/usersSlice";
 const Hospitals = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
-  dispatch(setNav("Hospital"))
   const [users, { isLoading }] = useHospitalsMutation();
-
+  
   useEffect(() => {
+    dispatch(setNav("Hospital"))
     async function fetchData() {
       try {
         const res = await users().unwrap();

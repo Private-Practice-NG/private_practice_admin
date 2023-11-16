@@ -9,9 +9,10 @@ import JobsInstance from "./JobsInstance";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useSpecialistMutation } from "../slices/usersApiSlice";
+import { useSpecialistMutation,useActivateSpecialistMutation } from "../slices/usersApiSlice";
 import { setSpecialist, setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
+import { toast } from "react-toastify";
 
 const SpecialistDetails = () => {
   const navigate = useNavigate();
@@ -19,10 +20,12 @@ const SpecialistDetails = () => {
   const { userId } = useParams();
 
   const dispatch = useDispatch();
-  dispatch(setNav("Specialist"));
   const [specialistApiCall, { isLoading }] = useSpecialistMutation();
-
+  
+  const [activateSpecialist,] = useActivateSpecialistMutation();
+  
   useEffect(() => {
+    dispatch(setNav("Specialist"));
     async function fetchData() {
       try {
         const res = await specialistApiCall(userId).unwrap();
@@ -33,6 +36,19 @@ const SpecialistDetails = () => {
     }
     fetchData();
   }, []);
+
+  const handleActivate = async (e) => {
+    try {
+      const nActivated = !specialist?.activated;
+      const data = { id:specialist?._id, activated: nActivated };
+      const res = await activateSpecialist(data).unwrap();
+      dispatch(setSpecialist(res.data));
+      const text = nActivated ? "Activated" : "Deactivated ";
+      toast.success(`User Account ${text}`);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   const { specialist } = useSelector((state) => state.users);
 
@@ -78,11 +94,11 @@ const SpecialistDetails = () => {
             )}
             {specialist?.activated ? (
               <>
-                <button>Deactivate</button>
+                <button onClick={handleActivate} >Deactivate</button>
               </>
             ) : (
               <>
-                <button>Activate</button>
+                <button onClick={handleActivate} >Activate</button>
               </>
             )}
 
