@@ -84,7 +84,7 @@ const UserProfileCard = ({ user, hospital,specialist }) => {
             <p>{specialist?.firstName}</p>
             <div className="user-profile-card-stars">
               {/* <img src={stars} alt="user-stars" /> */}
-              <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
+              <Rating size={"23px"} readonly={true} initialValue={specialist?.rating ? specialist?.rating : 5} />
             </div>
             <Link to={`/${user}/${specialist?._id}`} className={true && "user-profile-card-active"}>
               View Profile
