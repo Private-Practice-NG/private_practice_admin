@@ -89,7 +89,7 @@ const SpecialistDetails = () => {
             )}
             {!specialist?.verified.profile && (
               <>
-                <button>Verify</button>
+                <button className="sucess">Verify</button>
               </>
             )}
             {specialist?.activated ? (
