@@ -1,32 +1,32 @@
 import React from "react";
 import "./styles/specialistdetails.css";
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import profile from './../assets/avatar-icon.png'
-import stars from './../assets/stars.png'
+import profile from "./../assets/avatar-icon.png";
+import stars from "./../assets/stars.png";
 import PersonalDetails from "./PersonalDetails";
 import JobsInstance from "./JobsInstance";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSpecialistMutation } from "../slices/usersApiSlice";
-import { setSpecialist,setNav } from "../slices/usersSlice";
+import { setSpecialist, setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
 
 const SpecialistDetails = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [details, setDetails] = useState("personalDet");
   const { userId } = useParams();
 
   const dispatch = useDispatch();
-  dispatch(setNav("Specialist"))
+  dispatch(setNav("Specialist"));
   const [specialistApiCall, { isLoading }] = useSpecialistMutation();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await specialistApiCall(userId).unwrap();
-        dispatch(setSpecialist( res.data ));
+        dispatch(setSpecialist(res.data));
       } catch (error) {
         console.log(error?.data?.message || error.error);
       }
@@ -40,7 +40,7 @@ const SpecialistDetails = () => {
     <section className="specialist-details">
       <header className="specialist-details-header">
         <nav className="specialist-details-header-nav">
-          <button className="nav-back" onClick={()=> navigate(-1)}>
+          <button className="nav-back" onClick={() => navigate(-1)}>
             <MdOutlineArrowBackIosNew /> <span>Back</span>
           </button>
           <div className="nav-right">
@@ -71,52 +71,117 @@ const SpecialistDetails = () => {
                 <span>Unverified</span>
               </div>
             )}
+            {!specialist?.verified.profile && (
+              <>
+                <button>Verify</button>
+              </>
+            )}
+            {specialist?.activated ? (
+              <>
+                <button>Deactivate</button>
+              </>
+            ) : (
+              <>
+                <button>Activate</button>
+              </>
+            )}
+
             <Link>Reset Password</Link>
           </div>
         </nav>
         <section className="specialist-details-sec">
-            <div className="specialist-details-sec-first">
-                <div className="specialist-details-sec-first-1">
-                    <img src={profile} alt="" className="specialist-detail-profile"/>
-                    <div className="specialist-details-sec-first-1-info">
-                        <h1>{specialist?.firstName} {specialist?.lastName}</h1>
-                        <p>DOCTOR</p>
-                        {/* <img src={stars} alt="stars"  className="info-stars"/> */}
-                        <Rating size={"25px"} readonly={true} initialValue={specialist?.rating ? specialist?.rating : 5} />
-                        <h3> {specialist?.age}</h3>
-                    </div>
-                </div>
-                <div className="specialist-details-sec-first-2">
-                    {/* <div className="total-earn">
+          <div className="specialist-details-sec-first">
+            <div className="specialist-details-sec-first-1">
+              <img src={profile} alt="" className="specialist-detail-profile" />
+              <div className="specialist-details-sec-first-1-info">
+                <h1>
+                  {specialist?.firstName} {specialist?.lastName}
+                </h1>
+                <p>DOCTOR</p>
+                {/* <img src={stars} alt="stars"  className="info-stars"/> */}
+                <Rating
+                  size={"25px"}
+                  readonly={true}
+                  initialValue={specialist?.rating ? specialist?.rating : 5}
+                />
+                <h3> {specialist?.age}</h3>
+              </div>
+            </div>
+            <div className="specialist-details-sec-first-2">
+              {/* <div className="total-earn">
                         <p>Total Earnings</p>
                         <h1>₦326,200,000.23</h1>
                     </div> */}
-                    <div className="balance">
-                        <div className="main-bal">
-                            <p>Main Balance</p>
-                            <h3>₦{`${specialist?.wallet.balance}`}</h3>
-                        </div>
-                        <div className="book-bal">
-                            <p>Book Balance</p>
-                            <h4>₦{`${specialist?.wallet.bookBalance}`}</h4>
-                        </div>
-                    </div>
+              <div className="balance">
+                <div className="main-bal">
+                  <p>Main Balance</p>
+                  <h3>₦{`${specialist?.wallet.balance}`}</h3>
                 </div>
+                <div className="book-bal">
+                  <p>Book Balance</p>
+                  <h4>₦{`${specialist?.wallet.bookBalance}`}</h4>
+                </div>
+              </div>
             </div>
-            <div className="specialist-details-sec-second">
-                <button className={details == 'personalDet' ? "active" : undefined} onClick={()=>{setDetails("personalDet")}}>Personal Details</button>
-                <button className={details == 'jobCompleted' ? "active" : undefined} onClick={()=>{setDetails("jobCompleted")}} >Jobs Completed ({specialist?.completedJobs.jobsCompleted})</button>
-                <button className={details == 'pendingJobs' ? "active" : undefined} onClick={()=>{setDetails("pendingJobs")}} >Pending Jobs ({specialist?.pendingJobs.pendingJobslength})</button>
-                <button className={details == 'declinedJob' ? "active" : undefined} onClick={()=>{setDetails("declinedJob")}} >Declined Jobs ({specialist?.declinedJobs.declinedJobslength})</button>
-                
-            </div>
+          </div>
+          <div className="specialist-details-sec-second">
+            <button
+              className={details == "personalDet" ? "active" : undefined}
+              onClick={() => {
+                setDetails("personalDet");
+              }}
+            >
+              Personal Details
+            </button>
+            <button
+              className={details == "jobCompleted" ? "active" : undefined}
+              onClick={() => {
+                setDetails("jobCompleted");
+              }}
+            >
+              Jobs Completed ({specialist?.completedJobs.jobsCompleted})
+            </button>
+            <button
+              className={details == "pendingJobs" ? "active" : undefined}
+              onClick={() => {
+                setDetails("pendingJobs");
+              }}
+            >
+              Pending Jobs ({specialist?.pendingJobs.pendingJobslength})
+            </button>
+            <button
+              className={details == "declinedJob" ? "active" : undefined}
+              onClick={() => {
+                setDetails("declinedJob");
+              }}
+            >
+              Declined Jobs ({specialist?.declinedJobs.declinedJobslength})
+            </button>
+          </div>
         </section>
       </header>
       <div className="specialist-details-details">
-       {details == 'personalDet' && <PersonalDetails user={"specialist"} data ={specialist} />}
-       {details == 'jobCompleted' && <JobsInstance user={"specialist"}  data = {specialist?.completedJobs.completedJobInbox}/>}
-       {details == 'pendingJobs' && <JobsInstance user={"specialist"} data = {specialist?.pendingJobs.pendingJobsInbox} />}
-       {details == 'declinedJob' && <JobsInstance user={"specialist"}  data = {specialist?.declinedJobs.declinedJobsInbox} />}
+        {details == "personalDet" && (
+          <PersonalDetails user={"specialist"} data={specialist} />
+        )}
+        {details == "jobCompleted" && (
+          <JobsInstance
+            user={"specialist"}
+            data={specialist?.completedJobs.completedJobInbox}
+          />
+        )}
+        {details == "pendingJobs" && (
+          <JobsInstance
+            user={"specialist"}
+            data={specialist?.pendingJobs.pendingJobsInbox}
+          />
+        )}
+        {details == "declinedJob" && (
+          <JobsInstance
+            user={"specialist"}
+            data={specialist?.declinedJobs.declinedJobsInbox}
+          />
+        )}
       </div>
     </section>
   );

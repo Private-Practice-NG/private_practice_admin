@@ -68,6 +68,15 @@ const Hospital = () => {
                 <span>Unverified</span>
               </div>
             )}
+             {hospital?.activated ? (
+              <>
+                <button>Deactivate</button>
+              </>
+            ) : (
+              <>
+                <button>Activate</button>
+              </>
+            )}
             <Link>Reset Password</Link>
           </div>
         </nav>

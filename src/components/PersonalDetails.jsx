@@ -95,27 +95,28 @@ const PersonalDetails = ({ user, data }) => {
               </div>
             </div>
           </div>
-          {/* <div className="person-details-info">
+          <div className="person-details-info">
             <h3>Education and Certificates</h3>
             <div className="personal-details-info-fields">
                 <div className="personal-details-info-field">
                     <h4>Secondary School Document</h4>
-                    <p>Self Employed</p>
+                    {data?.certificates.secondarySchoolDocument ? (<><a href={`${data?.certificates.secondarySchoolDocument}` }className="download-cert">Download</a></>) :(<><a href="#" className="download-cert">Not available</a></>)}
+                    
                 </div>
                 <div className="personal-details-info-field">
                     <h4>Practicing License Document</h4>
-                    <p>Medical</p>
+                    {data?.certificates.nyscDocument ? (<><a href={`${data?.certificates.nyscDocument}` }className="download-cert">Download</a></>) :(<><a href="#" className="download-cert">Not available</a></>)}
                 </div>
                 <div className="personal-details-info-field">
                     <h4>Nysc Document</h4>
-                    <p>davidpaul@privatepractice.com</p>
+                    {data?.certificates.practicingLicenseDocument ? (<><a href={`${data?.certificates.practicingLicenseDocument}` }className="download-cert">Download</a></>) :(<><a href="#" className="download-cert">Not available</a></>)}
                 </div>
                 <div className="personal-details-info-field">
                     <h4>Specialization Document</h4>
-                    <p>₦200,000.00</p>
+                    {data?.certificates.specializationDocument ? (<><a href={`${data?.certificates.specializationDocument}` }className="download-cert">Download</a></>) :(<><a href="#" className="download-cert">Not available</a></>)}
                 </div>
             </div>
-        </div> */}
+        </div>
         </>
       )}
       {user == "hospital" && (

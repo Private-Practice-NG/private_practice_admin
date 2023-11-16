@@ -27,6 +27,14 @@ margin: 0 auto;
     align-items: center;
     gap: 50px;
 }
+.nav-right button{
+    border: 2px solid var(--btn-form-background);
+  background-color: var(--btn-form-background);
+  color: #FFFFFF ;
+  font-size:1rem;
+  padding: 5px 20px;
+  border-radius: 8px;
+}
 .nav-right-status{
     display: flex;
     align-items: center;
