@@ -10,11 +10,11 @@ import { setNav } from "../slices/usersSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  dispatch(setNav("Home"))
   
   const [dashboardApiCall, { isLoading }] = useDashboardMutation();
-
+  
   useEffect(() => {
+    dispatch(setNav("Home"))
     async function fetchData() {
       try {
         const res = await dashboardApiCall().unwrap();

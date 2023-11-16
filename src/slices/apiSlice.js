@@ -3,7 +3,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
-  // credentials: "include",
+  credentials: "include",
 });
 
 export const apiSlice = createApi({
