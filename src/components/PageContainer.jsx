@@ -20,7 +20,6 @@ import { removeDashboard } from "../slices/dashboardSlice";
 const PageContainer = () => {
   const [active, setActive] = useState("Home");
   const { nav } = useSelector((state) => state.users);
-  console.log(nav)
 
   const handleNav = (event, { nav, to }) => {
     setActive(nav);
