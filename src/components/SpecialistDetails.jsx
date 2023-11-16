@@ -44,7 +44,7 @@ const SpecialistDetails = () => {
       const res = await activateSpecialist(data).unwrap();
       dispatch(setSpecialist(res.data));
       const text = nActivated ? "Activated" : "Deactivated ";
-      toast.success(`User Account ${text}`);
+      toast.success(`Specialist Account ${text}`);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
@@ -94,11 +94,11 @@ const SpecialistDetails = () => {
             )}
             {specialist?.activated ? (
               <>
-                <button onClick={handleActivate} >Deactivate</button>
+                <button className="warn" onClick={handleActivate} >Deactivate</button>
               </>
             ) : (
               <>
-                <button onClick={handleActivate} >Activate</button>
+                <button className="sucess" onClick={handleActivate} >Activate</button>
               </>
             )}
 

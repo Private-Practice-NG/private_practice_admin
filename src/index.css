@@ -58,3 +58,11 @@ button:hover{
   color: var(--btn-form-background);
   background-color: #FFFFFF;
 }
+button.warn{
+  background-color: #DE3163;
+  border-color: #DE3163;
+}
+button.sucess{
+  background-color: #489754;
+  border-color: #489754;
+}

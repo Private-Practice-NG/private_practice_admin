@@ -3,23 +3,26 @@ import "./styles/specialistdetails.css";
 import { Link,useParams,useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { useHospitalMutation } from "../slices/usersApiSlice";
+import { useHospitalMutation,useActivateHospitalMutation } from "../slices/usersApiSlice";
 import { setHospital,setNav } from "../slices/usersSlice";
 import { Rating } from "react-simple-star-rating";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import profile from "./../assets/hospitalAvatar.png";
 import stars from "./../assets/stars.png";
 import PersonalDetails from "./PersonalDetails";
+import { toast } from "react-toastify";
 
 const Hospital = () => {
   const { userId } = useParams();
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  dispatch(setNav("Hospital"))
-
+  
   const [hospitalApiCall, { isLoading }] = useHospitalMutation();
   
+  const [activateHospital,] = useActivateHospitalMutation();
+  
   useEffect(() => {
+    dispatch(setNav("Hospital"))
     async function fetchData() {
       try {
         const res = await hospitalApiCall(userId).unwrap();
@@ -30,6 +33,21 @@ const Hospital = () => {
     }
     fetchData();
   }, []);
+
+  const handleActivate = async (e) => {
+    try {
+
+      const nActivated = !hospital?.activated;
+      const data = { id:hospital?._id, activated: nActivated };
+      const res = await activateHospital(data).unwrap();
+      console.log(res)
+      dispatch(setHospital(res.data));
+      const text = nActivated ? "Activated" : "Deactivated ";
+      toast.success(`Hospital Account ${text}`);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
   const { hospital } = useSelector((state) => state.users);
   
  
@@ -70,11 +88,11 @@ const Hospital = () => {
             )}
              {hospital?.activated ? (
               <>
-                <button>Deactivate</button>
+                <button className="warn" onClick={handleActivate} >Deactivate</button>
               </>
             ) : (
               <>
-                <button>Activate</button>
+                <button className="sucess" onClick={handleActivate} >Activate</button>
               </>
             )}
             <Link>Reset Password</Link>
