@@ -5,20 +5,22 @@ import UserProfileCard from "../components/UserProfileCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHospitalsMutation } from "../slices/usersApiSlice";
-import { setHospitals,setNav } from "../slices/usersSlice";
+import { setHospitals, setNav } from "../slices/usersSlice";
+import FadeLoader from "react-spinners/FadeLoader";
+
+
 const Hospitals = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
   const [users, { isLoading }] = useHospitalsMutation();
-  
   useEffect(() => {
-    dispatch(setNav("Hospital"))
+    dispatch(setNav("Hospital"));
     async function fetchData() {
       try {
         const res = await users().unwrap();
         dispatch(setHospitals(res.data));
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        console.log(error?.data?.message || "something went wrong");
       }
     }
     fetchData();
@@ -87,21 +89,44 @@ const Hospitals = () => {
         </div>
       </header>
       <section className="users-tab-profiles">
-        {searchData
-          ? searchData?.map((user, index) => (
-              <UserProfileCard
-                user="hospital"
-                hospital={user}
-                key={index}
-              />
-            ))
-          : hospitals?.map((user, index) => (
-              <UserProfileCard
-                user="hospital"
-                hospital={user}
-                key={index}
-              />
-            ))}
+        <>
+          {isLoading ? (
+            <>
+              <div className="spinner-users">
+                <FadeLoader
+                  color={"#10ACF5"}
+                  loading={isLoading}
+                  // cssOverride={override}
+                  size={300}
+                  height={50}
+                  width={5}
+                  radius={10}
+                  margin={20}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {searchData
+                ? searchData?.map((user, index) => (
+                    <UserProfileCard
+                      user="hospital"
+                      hospital={user}
+                      key={index}
+                    />
+                  ))
+                : hospitals?.map((user, index) => (
+                    <UserProfileCard
+                      user="hospital"
+                      hospital={user}
+                      key={index}
+                    />
+                  ))}
+            </>
+          )}
+        </>
       </section>
     </div>
   );
