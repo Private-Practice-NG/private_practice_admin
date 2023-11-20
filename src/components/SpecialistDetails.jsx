@@ -29,8 +29,8 @@ const SpecialistDetails = () => {
   const dispatch = useDispatch();
   const [specialistApiCall, { isLoading }] = useSpecialistMutation();
 
-  const [activateSpecialist] = useActivateSpecialistMutation();
-  const [VerifySpecialist] = useVerifySpecialistMutation();
+  const [activateSpecialist,{isLoading:activateLoading}] = useActivateSpecialistMutation();
+  const [VerifySpecialist,{isLoading:verifyLoading}] = useVerifySpecialistMutation();
 
   useEffect(() => {
     dispatch(setNav("Specialist"));
@@ -123,24 +123,29 @@ const SpecialistDetails = () => {
                     <span>Unverified</span>
                   </div>
                 )}
-                {!specialist?.verified.profile && (
+                {!specialist?.verified.profile && 
+                (
                   <>
-                    <button className="sucess" onClick={handleVerify}>
+                    {verifyLoading ? (<FadeLoader color="#10ACF5" />) : (<> <button className="sucess" onClick={handleVerify}>
                       Verify
-                    </button>
+                    </button></>) }
+                   
                   </>
-                )}
+                )
+                }
                 {specialist?.activated ? (
                   <>
-                    <button className="warn" onClick={handleActivate}>
+                  {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<> <button className="warn" onClick={handleActivate}>
                       Deactivate
-                    </button>
+                    </button></>)}
+                   
                   </>
                 ) : (
                   <>
-                    <button className="sucess" onClick={handleActivate}>
+                  {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<><button className="sucess" onClick={handleActivate}>
                       Activate
-                    </button>
+                    </button></>)}
+                    
                   </>
                 )}
 
