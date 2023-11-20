@@ -55,8 +55,8 @@ const Auth = () => {
       {isLoading && <>
         <div className="spinner">
           <FadeLoader
-            color={color}
-            isLoading={isLoading}
+            color={"#10ACF5"}
+            loading={isLoading}
             cssOverride={override}
             size={300}
             height={50}

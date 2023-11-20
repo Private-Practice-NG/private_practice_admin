@@ -35,6 +35,11 @@ body,html{
   margin: 0 auto;
   z-index: 10;
 }
+.spinner-details{
+  margin: 100px auto;
+  display: flex;
+  justify-content: center;
+}
 .container{
   width: 80%;
   margin: 0 auto;

@@ -5,14 +5,15 @@ import UserProfileCard from "../components/UserProfileCard";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSpecialistsMutation } from "../slices/usersApiSlice";
-import { setSpecialists,setNav } from "../slices/usersSlice";
+import { setSpecialists, setNav } from "../slices/usersSlice";
+import FadeLoader from "react-spinners/FadeLoader";
 const Specialists = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
   const [users, { isLoading }] = useSpecialistsMutation();
-  
+
   useEffect(() => {
-    dispatch(setNav("Specialist"))
+    dispatch(setNav("Specialist"));
     async function fetchData() {
       try {
         const res = await users().unwrap();
@@ -33,10 +34,9 @@ const Specialists = () => {
 
     // Filter the specialists array based on the search term
     const results = specialists.filter(
-      (item) =>
-        item.firstName.toLowerCase().includes(searchTerm) 
-        //|| // search in 'firstname' property
-        //item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
+      (item) => item.firstName.toLowerCase().includes(searchTerm)
+      //|| // search in 'firstname' property
+      //item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
     );
 
     return results;
@@ -90,21 +90,44 @@ const Specialists = () => {
         </div>
       </header>
       <section className="users-tab-profiles">
-        {searchData
-          ? searchData?.map((user, index) => (
-              <UserProfileCard
-                user="specialist"
-                specialist={user}
-                key={index}
-              />
-            ))
-          : specialists?.map((user, index) => (
-              <UserProfileCard
-                user="specialist"
-                specialist={user}
-                key={index}
-              />
-            ))}
+        <>
+          {isLoading ? (
+            <>
+              <div className="spinner-users">
+                <FadeLoader
+                  color={"#10ACF5"}
+                  loading={isLoading}
+                  // cssOverride={override}
+                  size={300}
+                  height={50}
+                  width={5}
+                  radius={10}
+                  margin={20}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {searchData
+                ? searchData?.map((user, index) => (
+                    <UserProfileCard
+                      user="specialist"
+                      specialist={user}
+                      key={index}
+                    />
+                  ))
+                : specialists?.map((user, index) => (
+                    <UserProfileCard
+                      user="specialist"
+                      specialist={user}
+                      key={index}
+                    />
+                  ))}
+            </>
+          )}
+        </>
       </section>
     </div>
   );
