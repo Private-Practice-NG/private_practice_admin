@@ -23,7 +23,7 @@ const Hospital = () => {
 
   const [hospitalApiCall, { isLoading }] = useHospitalMutation();
 
-  const [activateHospital] = useActivateHospitalMutation();
+  const [activateHospital,{isLoading:activateLoading}] = useActivateHospitalMutation();
 
   useEffect(() => {
     dispatch(setNav("Hospital"));
@@ -32,7 +32,7 @@ const Hospital = () => {
         const res = await hospitalApiCall(userId).unwrap();
         dispatch(setHospital(res.data));
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        toast.error(error?.data?.message || "Something went wrong");
       }
     }
     fetchData();
@@ -48,7 +48,7 @@ const Hospital = () => {
       const text = nActivated ? "Activated" : "Deactivated ";
       toast.success(`Hospital Account ${text}`);
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error?.data?.message || "Something went wrong");
     }
   };
   const { hospital } = useSelector((state) => state.users);
@@ -109,15 +109,15 @@ const Hospital = () => {
                 )}
                 {hospital?.activated ? (
                   <>
-                    <button className="warn" onClick={handleActivate}>
+                    {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<><button className="warn" onClick={handleActivate}>
                       Deactivate
-                    </button>
+                    </button></>)}
                   </>
                 ) : (
                   <>
-                    <button className="sucess" onClick={handleActivate}>
+                    {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<><button className="sucess" onClick={handleActivate}>
                       Activate
-                    </button>
+                    </button></>)}
                   </>
                 )}
                 <Link>Reset Password</Link>
