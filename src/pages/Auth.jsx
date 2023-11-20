@@ -5,23 +5,35 @@ import logo from "./../assets/logo.png";
 import { TfiEmail } from "react-icons/tfi";
 import { SlLock } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect,CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import FadeLoader from "react-spinners/FadeLoader";
+
+const override = {
+  margin: "0 auto",
+  width:"100%",
+  top: "50%",
+  left: "50%",
+  // transform:"translate(-50%, -50%)"
+
+};
+
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [color, setColor] = useState("#10ACF5");
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   const [login, { isLoading }] = useLoginMutation();
-
+  
   const { userInfo } = useSelector((state) => state.auth);
-
+  
   useEffect(() => {
     if (userInfo) {
       navigate("/");
@@ -37,11 +49,28 @@ const Auth = () => {
       navigate("/");
       toast.success("Login Successful");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error?.data?.message || "Something Went Wrong");
     }
   };
   return (
     <div className="auth auth-body">
+      {isLoading && <>
+        <div className="spinner">
+          <FadeLoader
+            color={color}
+            isLoading={isLoading}
+            cssOverride={override}
+            size={300}
+            height={50}
+            width={5}
+            radius={10}
+            margin={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </>}
+      
       <div className="auth-img">
         <img src={authImg} alt="auth-img" />
       </div>
