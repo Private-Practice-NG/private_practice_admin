@@ -1,4 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap'); */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Google fonts styles
+// Google fonts styles
+
+// nunito-sans
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 200 to 1000
+
+.nunito-sans-<uniquifier> {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+}
+
+// Google fonts styles
+// Google fonts styles
+
+.nunito-sans {
+  font-family: "Nunito Sans", sans-serif!important;
+}
+
+.poppins {
+  font-family: "Poppins", sans-serif!important;
+}
+
 
 :root {
   --body-bg-color: #D0D0D0;
@@ -15,17 +48,21 @@
 
 *{
   box-sizing: border-box;
+  /* font-size: 12px!important; */
 }
+
 body,html{
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--body-bg-color);
+  /* background-color: var(--body-bg-color); */
 }
+
 .auth-body{
-  background-color: var(--auth-bg-color);
+  /* background-color: var(--auth-bg-color); */
   position: relative;
 }
+
 .spinner{
   position:absolute;
   height: 100vh;
@@ -35,11 +72,13 @@ body,html{
   margin: 0 auto;
   z-index: 10;
 }
+
 .spinner-details{
   margin: 100px auto;
   display: flex;
   justify-content: center;
 }
+
 .container{
   width: 80%;
   margin: 0 auto;
@@ -67,16 +106,20 @@ button:hover{
   color: #FFFFFF ;
   font-size:1rem;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 5px;
 }
+
+/* 
 .btn:hover{
   color: var(--btn-form-background);
   background-color: #FFFFFF;
-}
+} */
+
 button.warn{
   background-color: #DE3163;
   border-color: #DE3163;
 }
+
 button.sucess{
   background-color: #489754;
   border-color: #489754;
