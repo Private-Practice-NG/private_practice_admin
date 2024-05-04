@@ -1,19 +1,19 @@
-import React from "react";
-import "./styles/userstab.css";
-import { CiSearch } from "react-icons/ci";
-import UserProfileCard from "../components/UserProfileCard";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useSpecialistsMutation } from "../slices/usersApiSlice";
-import { setSpecialists, setNav } from "../slices/usersSlice";
-import FadeLoader from "react-spinners/FadeLoader";
+// import React from "react";
+import './styles/userstab.css';
+import { CiSearch } from 'react-icons/ci';
+import UserProfileCard from '../components/UserProfileCard';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSpecialistsMutation } from '../slices/usersApiSlice';
+import { setSpecialists, setNav } from '../slices/usersSlice';
+import FadeLoader from 'react-spinners/FadeLoader';
 const Specialists = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
   const [users, { isLoading }] = useSpecialistsMutation();
 
   useEffect(() => {
-    dispatch(setNav("Specialist"));
+    dispatch(setNav('Specialist'));
     async function fetchData() {
       try {
         const res = await users().unwrap();
@@ -48,21 +48,23 @@ const Specialists = () => {
     setSearchData(searchResults);
   };
   return (
-    <div className="users-tab">
+    <div className="users-tab px-3 sm:px-4">
       <header className="users-tab-header">
-        <h1>Specialist</h1>
-        <div className="users-tab-input">
+        <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
+          Specialists
+        </h1>
+        <div className="users-tab-input w-[40%]">
           <CiSearch />
           <input
+            className="text-[14px]"
             type="text"
-            placeholder="Search Specialist"
+            placeholder="search hospital"
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
         <div className="users-tab-sort">
           <svg
-            width="31"
-            height="20"
+            className="w-[20px]"
             viewBox="0 0 31 20"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +88,7 @@ const Specialists = () => {
               strokeLinecap="round"
             />
           </svg>
-          <p>Sort</p>
+          <p className="poppins font-[500] text-[14px] sm:text-[16px]">Sort</p>
         </div>
       </header>
       <section className="users-tab-profiles">
@@ -95,7 +97,7 @@ const Specialists = () => {
             <>
               <div className="spinner-users">
                 <FadeLoader
-                  color={"#10ACF5"}
+                  color={'#10ACF5'}
                   loading={isLoading}
                   // cssOverride={override}
                   size={300}

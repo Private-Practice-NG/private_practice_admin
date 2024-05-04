@@ -1,26 +1,25 @@
-import React from "react";
-import "./styles/userstab.css";
-import { CiSearch } from "react-icons/ci";
-import UserProfileCard from "../components/UserProfileCard";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useHospitalsMutation } from "../slices/usersApiSlice";
-import { setHospitals, setNav } from "../slices/usersSlice";
-import FadeLoader from "react-spinners/FadeLoader";
-
+// import React from "react";
+import './styles/userstab.css';
+import { CiSearch } from 'react-icons/ci';
+import UserProfileCard from '../components/UserProfileCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useHospitalsMutation } from '../slices/usersApiSlice';
+import { setHospitals, setNav } from '../slices/usersSlice';
+import FadeLoader from 'react-spinners/FadeLoader';
 
 const Hospitals = () => {
   const [searchData, setSearchData] = useState(null);
   const dispatch = useDispatch();
   const [users, { isLoading }] = useHospitalsMutation();
   useEffect(() => {
-    dispatch(setNav("Hospital"));
+    dispatch(setNav('Hospital'));
     async function fetchData() {
       try {
         const res = await users().unwrap();
         dispatch(setHospitals(res.data));
       } catch (error) {
-        console.log(error?.data?.message || "something went wrong");
+        console.log(error?.data?.message || 'something went wrong');
       }
     }
     fetchData();
@@ -49,19 +48,21 @@ const Hospitals = () => {
   return (
     <div className="users-tab">
       <header className="users-tab-header">
-        <h1>Hospitals</h1>
-        <div className="users-tab-input">
+        <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
+          Hospitals
+        </h1>
+        <div className="users-tab-input w-[40%]">
           <CiSearch />
           <input
+            className="text-[14px]"
             type="text"
-            placeholder="Search Hospital"
+            placeholder="search specialist"
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
         <div className="users-tab-sort">
           <svg
-            width="31"
-            height="20"
+            className="w-[20px]"
             viewBox="0 0 31 20"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +86,9 @@ const Hospitals = () => {
               strokeLinecap="round"
             />
           </svg>
-          <p>Sort</p>
+          <span className="poppins font-[500] text-[14px] sm:text-[16px]">
+            Sort
+          </span>
         </div>
       </header>
       <section className="users-tab-profiles">
@@ -94,7 +97,7 @@ const Hospitals = () => {
             <>
               <div className="spinner-users">
                 <FadeLoader
-                  color={"#10ACF5"}
+                  color={'#10ACF5'}
                   loading={isLoading}
                   // cssOverride={override}
                   size={300}
