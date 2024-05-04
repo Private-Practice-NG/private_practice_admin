@@ -133,7 +133,7 @@ const Login = () => {
             className="mt-3 text-right underline text-[12px]"
             to="/forgot-password"
           >
-            Forget Password
+            Forgot Password
           </Link>
 
           <button

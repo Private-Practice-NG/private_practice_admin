@@ -171,7 +171,7 @@ const Layout = () => {
             </div>
           </section>
         </nav>
-        <nav className="mobile-top-nav fixed top-0 left-0 right-0 lg:hidden flex justify-between w-full bg-[#F0F0F0] py-4 px-3 sm:px-5 z-30">
+        <nav className="mobile-top-nav fixed top-0 left-0 right-0 lg:hidden flex justify-between w-full bg-[#F0F0F0] py-2 px-3 sm:px-5 z-30">
           <Link to="/" className="branding flex items-center gap-2">
             <img src={logo} alt="brand" className="w-[40px]" />
             <h5 className="poppins font-[500] text-[14px]">
