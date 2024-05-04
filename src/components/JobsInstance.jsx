@@ -2,6 +2,7 @@ import React from 'react'
 import './styles/jobscompleted.css'
 import "./styles/personaldetails.css"
 import JobInstanceCard from './JobInstanceCard'
+
 const JobsCompleted = ({data}) => {
   return (
     <div className='personal-details'>

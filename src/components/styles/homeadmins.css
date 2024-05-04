@@ -1,20 +1,18 @@
-.home-admins{
+.home-admins {
     background-color: #ECECEC;
     width: 100%;
     border-radius: 15px;
     padding: 23px;
     padding-bottom: 43px;
 }
-h1.home-admins-title{
-    font-weight: normal;
-}
 
-.home-admin-cards{
+.home-admin-cards {
     display: flex;
     flex-direction: column;
     gap: 20px;
     
 }
+
 a.home-admin-view-all{
     border-radius: 8px;
     border: 2px solid #9F9F9F;
