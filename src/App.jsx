@@ -11,7 +11,7 @@ import Hospitals from './pages/Hospitals';
 import SpecialistDetails from './components/SpecialistDetails';
 import Hospital from './components/Hospital';
 import NotFound from './pages/NotFound';
-// import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateAdmin from './pages/Admins/components/CreateAdmin';
@@ -30,23 +30,26 @@ function App() {
           />
 
           <Route path="/" element={<Layout />}>
-            {/* <Route path="" element={<PrivateRoute />}> */}
-            <Route index element={<Home />} />
-            <Route path="/admins" element={<Admins />} />
-            <Route path="/jobs" element={<JobsPage />} />
-            <Route
-              path="/admins/create-admin-account"
-              element={<CreateAdmin />}
-            />
-            <Route path="/hospitals" element={<Hospitals />} />
-            <Route
-              path="/hospitals-enrolment"
-              element={<HospitalsEnrolment />}
-            />
-            <Route path="/specialists" element={<Specialists />} />
-            <Route path="/specialist/:userId" element={<SpecialistDetails />} />
-            <Route path="/hospital/:userId" element={<Hospital />} />
-            {/* </Route> */}
+            <Route path="" element={<PrivateRoute />}>
+              <Route index element={<Home />} />
+              <Route path="/admins" element={<Admins />} />
+              <Route path="/jobs" element={<JobsPage />} />
+              <Route
+                path="/admins/create-admin-account"
+                element={<CreateAdmin />}
+              />
+              <Route path="/hospitals" element={<Hospitals />} />
+              <Route
+                path="/hospitals-enrolment"
+                element={<HospitalsEnrolment />}
+              />
+              <Route path="/specialists" element={<Specialists />} />
+              <Route
+                path="/specialist/:userId"
+                element={<SpecialistDetails />}
+              />
+              <Route path="/hospital/:userId" element={<Hospital />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
