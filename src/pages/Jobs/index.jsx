@@ -69,53 +69,47 @@ function JobsPage() {
         </button>
       </section>
       <section className="jobs-list-wrappper flex gap-8 flex-col mt-10">
-        <div className="jobs-card py-4 px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
-          <div className="flex flex-col gap-2">
-            <div className="poppins font-[500] xsm:text-[14px] sm:text-xl">
-              Kingscare Hospital
-            </div>
+        <div className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
+            <div className="poppins font-[500]">Kingscare Hospital</div>
             <div>Dentist needed</div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
             <div className="poppins font-[500]">Date posted</div>
             <div>25 October 2025</div>
           </div>
           <div>
-            <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
+            <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px] sm:text-xl">
               View job
             </button>
           </div>
         </div>
-        <div className="jobs-card py-4 px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
-          <div className="flex flex-col gap-2">
-            <div className="poppins font-[500] xsm:text-[14px] sm:text-xl">
-              Kingscare Hospital
-            </div>
+        <div className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
+            <div className="poppins font-[500]">Kingscare Hospital</div>
             <div>Dentist needed</div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
             <div className="poppins font-[500]">Date posted</div>
             <div>25 October 2025</div>
           </div>
           <div>
-            <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
+            <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px] sm:text-xl">
               View job
             </button>
           </div>
         </div>
-        <div className="jobs-card py-4 px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
-          <div className="flex flex-col gap-2">
-            <div className="poppins font-[500] xsm:text-[14px] sm:text-xl">
-              Kingscare Hospital
-            </div>
+        <div className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
+            <div className="poppins font-[500]">Kingscare Hospital</div>
             <div>Dentist needed</div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] sm:text-xl">
             <div className="poppins font-[500]">Date posted</div>
             <div>25 October 2025</div>
           </div>
           <div>
-            <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
+            <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px] sm:text-xl">
               View job
             </button>
           </div>

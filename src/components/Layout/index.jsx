@@ -67,7 +67,7 @@ const Layout = () => {
       </div>
       <div className="page-cont relative">
         <nav
-          className={` mobile-side-nav  ${
+          className={`min-h-screen mobile-side-nav  ${
             closeMobileNav ? 'nav--slide-out' : 'nav--slide-in'
           } bg-[#F0F0F0] fixed top-0 right-0 left-0 lg:hidden h-screen w-[85%] sm:w-[400px] z-50 flex flex-col gap-[30px]`}
         >
@@ -174,8 +174,8 @@ const Layout = () => {
         <nav className="mobile-top-nav fixed top-0 left-0 right-0 lg:hidden flex justify-between w-full bg-[#F0F0F0] py-4 px-3 sm:px-5 z-30">
           <Link to="/" className="branding flex items-center gap-2">
             <img src={logo} alt="brand" className="w-[40px]" />
-            <h5 className="poppins font-[500] text-[#10ACF5] text-[14px] hidden">
-              Private Practice
+            <h5 className="poppins font-[500] text-[14px]">
+              Private <br /> Practice
             </h5>
           </Link>
           <section className="flex items-center gap-4 sm:gap-6">
@@ -298,7 +298,7 @@ const Layout = () => {
               <p>3</p>
             </div>
           </div>
-          <div className="page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
+          <div className="min-h-screen page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
             <Outlet />
           </div>
         </div>

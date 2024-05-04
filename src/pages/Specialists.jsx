@@ -58,7 +58,7 @@ const Specialists = () => {
           <input
             className="text-[14px]"
             type="text"
-            placeholder="search hospital"
+            placeholder="search specialists"
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
