@@ -1,8 +1,8 @@
 // import React from "react";
 import './styles/jobscompleted.css';
-import hos1 from './../assets/hos-img.png';
+// import hos1 from './../assets/hos-img.png';
 import hos2 from './../assets/hospitalAvatar.png';
-import stars from './../assets/stars.png';
+// import stars from './../assets/stars.png';
 import { Rating } from 'react-simple-star-rating';
 const JobInstanceCard = ({ data }) => {
   return (

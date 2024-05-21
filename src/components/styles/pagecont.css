@@ -74,8 +74,8 @@
     .page-cont{
         display: flex;
         align-items: flex-start;
-        height:100vh;
-        /* overflow: hidden; */
+        height: 100vh;
+        overflow: auto;
     }
 
     .vertical-nav{
@@ -133,17 +133,19 @@
         cursor: pointer;
     }
 
-    .page-cont-2{
+    .page-cont-2 {
         display: flex;
         flex-direction: column;
-        width: 75%;
+        width: 85%;
         height: 100%;
-        overflow: hidden;
+        /* width: 75%;
+        min-height: 600px; */
+        /* overflow: hidden; */
     }
     .page-cont-outlet{
         width: 90%;
-        margin: 25px auto;
-        height: 100%;
+        margin: 25px auto 0 auto;
+        /* height: 100%; */
         overflow-y: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;

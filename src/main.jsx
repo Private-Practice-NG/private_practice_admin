@@ -10,7 +10,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <React.StrictMode>
       <main className="nunito-sans text-[13px]" style={{ fontFamily: '12px' }}>
-        <Toaster />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            className: 'text-[14px] sm:text-[16px]'
+          }}
+        />
         <App />
       </main>
     </React.StrictMode>

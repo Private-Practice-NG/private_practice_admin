@@ -1,21 +1,21 @@
-import React from "react";
-import "./styles/adminlistcard.css";
-import avatar from "./../assets/user-settings-icon.png";
-import { useSelector, useDispatch } from "react-redux";
-import { useActivateAdminMutation } from "../slices/usersApiSlice";
-import { toast } from "react-toastify";
-import { useState } from "react";
-const AdminListCard = ({ id, name, email, profileImg, activated }) => {
+// import React from "react";
+import './styles/adminlistcard.css';
+import avatar from './../assets/user-settings-icon.png';
+// import { useSelector, useDispatch } from "react-redux";
+// import { useActivateAdminMutation } from "../slices/usersApiSlice";
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+const AdminListCard = ({ name, email, activated }) => {
   const [active, setActivate] = useState(activated);
-  const [activateAdminApi, { isLoading }] = useActivateAdminMutation();
+  // const [activateAdminApi, { isLoading }] = useActivateAdminMutation();
 
-  const handleActivate = async (e) => {
+  const handleActivate = async () => {
     try {
       const nActivated = !active;
-      const data = { id, activated: nActivated };
-      const res = await activateAdminApi(data).unwrap();
+      // const data = { id, activated: nActivated };
+      // const res = await activateAdminApi(data).unwrap();
       setActivate(nActivated);
-      const text = nActivated ? "Activated" : "Deactivated ";
+      const text = nActivated ? 'Activated' : 'Deactivated ';
       toast.success(`User ${text}`);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -52,7 +52,7 @@ const AdminListCard = ({ id, name, email, profileImg, activated }) => {
               stroke="#ECECEC"
               strokeWidth="3"
             />
-          </svg>{" "}
+          </svg>{' '}
           Activated
         </button>
       ) : (
@@ -77,7 +77,7 @@ const AdminListCard = ({ id, name, email, profileImg, activated }) => {
               stroke="#ECECEC"
               strokeWidth="3"
             />
-          </svg>{" "}
+          </svg>{' '}
           Deactivated
         </button>
       )}

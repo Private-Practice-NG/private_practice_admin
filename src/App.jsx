@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CreateAdmin from './pages/Admins/components/CreateAdmin';
 import JobsPage from './pages/Jobs';
 import HospitalsEnrolment from './pages/HospitalsEnrolment';
+import UpdateAdmin from './pages/Admins/components/UpdateAdmin';
 function App() {
   return (
     <>
@@ -37,6 +38,10 @@ function App() {
               <Route
                 path="/admins/create-admin-account"
                 element={<CreateAdmin />}
+              />
+              <Route
+                path="/admins/update-admin-account"
+                element={<UpdateAdmin />}
               />
               <Route path="/hospitals" element={<Hospitals />} />
               <Route

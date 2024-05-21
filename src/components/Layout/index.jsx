@@ -4,7 +4,7 @@ import '../styles/pagecont.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import mockAvatar from '../../assets/img-2.png';
+// import mockAvatar from '../../assets/img-2.png';
 import { HiHome } from 'react-icons/hi2';
 import { HiUsers } from 'react-icons/hi2';
 import { HiHomeModern } from 'react-icons/hi2';
@@ -41,6 +41,7 @@ const Layout = () => {
   };
 
   const { userInfo } = useSelector((state) => state.auth);
+  // console.log(userInfo.name);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,17 +68,21 @@ const Layout = () => {
       </div>
       <div className="page-cont relative">
         <nav
-          className={`min-h-screen mobile-side-nav  ${
+          className={`mobile-side-nav min-h-screen  ${
             closeMobileNav ? 'nav--slide-out' : 'nav--slide-in'
           } bg-[#F0F0F0] fixed top-0 right-0 left-0 lg:hidden h-screen w-[85%] sm:w-[400px] z-50 flex flex-col gap-[30px]`}
         >
           <div className="flex p-8 bg-[#10ACF5] items-center justify-between">
             <section className="flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full">
-                <img src={mockAvatar} alt="profile-image" />
+                <img
+                  src={userInfo?.response?.profileImg}
+                  alt="profile-image"
+                  className="w-[45px] rounded-[100%]"
+                />
               </div>
               <div className="flex flex-col text-white">
-                <h3 className="poppins font-[600]">{`${userInfo?.name}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.response?.fullName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </section>
@@ -221,7 +226,8 @@ const Layout = () => {
                 onClick={(event) => handleNav(event, { nav: 'Home', to: '/' })}
                 className={nav == 'Home' ? 'nav-link active' : 'nav-link'}
               >
-                <HiHome className="text-[25px]" /> Home
+                <HiHome className="text-[25px]" />
+                <span className="poppins">Home</span>
               </div>
               <div
                 onClick={(event) =>
@@ -229,7 +235,8 @@ const Layout = () => {
                 }
                 className={nav == 'Admin' ? 'nav-link active' : 'nav-link'}
               >
-                <HiUsers className="text-[25px]" /> Admins
+                <HiUsers className="text-[25px]" />{' '}
+                <span className="poppins">Admins</span>
               </div>
               <div
                 onClick={(event) =>
@@ -255,7 +262,7 @@ const Layout = () => {
                   className="text-[25px]"
                   // style={{ color: 'gray' }}
                 />
-                Specialists
+                <span className="poppins">Specialists</span>
               </div>
               <div
                 onClick={(event) =>
@@ -263,7 +270,8 @@ const Layout = () => {
                 }
                 className={nav == 'Hospital' ? 'nav-link active' : 'nav-link'}
               >
-                <HiHomeModern className="text-[25px]" /> Hospitals
+                <HiHomeModern className="text-[25px]" />{' '}
+                <span className="poppins">Hospitals</span>
               </div>
               <div
                 onClick={(event) =>
@@ -271,25 +279,31 @@ const Layout = () => {
                 }
                 className={nav == 'Jobs' ? 'nav-link active' : 'nav-link'}
               >
-                <HiBriefcase className="text-[25px]" /> <span>Jobs</span>
+                <HiBriefcase className="text-[25px]" />{' '}
+                <span className="poppins">Jobs</span>
               </div>
             </div>
             <div
               onClick={logoutHandler}
               className={nav == 'Log Out' ? 'nav-link active' : 'nav-link'}
             >
-              <HiArrowLeftCircle className="text-[25px]" /> Log Out
+              <HiArrowLeftCircle className="text-[25px]" />{' '}
+              <span className="poppins">Log Out</span>
             </div>
           </div>
         </div>
-        <div className="page-cont-2">
+        <div className="page-cont-2 overflow-y-auto">
           <div className="top-nav-for-larger-screens top-hori-nav hidden lg:flex">
             <div className="top-hori-nav-pro">
-              <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full">
-                <img src={mockAvatar} alt="profile-image" />
+              <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
+                <img
+                  src={userInfo?.response?.profileImg}
+                  alt="profile-image"
+                  className="w-[45[px] rounded-[100%]"
+                />
               </div>
               <div className="top-hori-nav-pro-details">
-                <h3 className="poppins font-[600]">{`${userInfo?.name}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.response?.fullName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </div>
@@ -298,7 +312,7 @@ const Layout = () => {
               <p>3</p>
             </div>
           </div>
-          <div className="min-h-screen page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
+          <div className="page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
             <Outlet />
           </div>
         </div>

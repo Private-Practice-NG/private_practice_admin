@@ -1,20 +1,20 @@
-import React from "react";
-import "./styles/specialistdetails.css";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import React from "react";
+import './styles/specialistdetails.css';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useHospitalMutation,
-  useActivateHospitalMutation,
-} from "../slices/usersApiSlice";
-import { setHospital, setNav } from "../slices/usersSlice";
-import { Rating } from "react-simple-star-rating";
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import profile from "./../assets/hospitalAvatar.png";
-import stars from "./../assets/stars.png";
-import PersonalDetails from "./PersonalDetails";
-import { toast } from "react-toastify";
-import FadeLoader from "react-spinners/FadeLoader";
+  useActivateHospitalMutation
+} from '../slices/usersApiSlice';
+import { setHospital, setNav } from '../slices/usersSlice';
+import { Rating } from 'react-simple-star-rating';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+import profile from './../assets/hospitalAvatar.png';
+// import stars from "./../assets/stars.png";
+import PersonalDetails from './PersonalDetails';
+import { toast } from 'react-toastify';
+import FadeLoader from 'react-spinners/FadeLoader';
 
 const Hospital = () => {
   const { userId } = useParams();
@@ -23,32 +23,33 @@ const Hospital = () => {
 
   const [hospitalApiCall, { isLoading }] = useHospitalMutation();
 
-  const [activateHospital,{isLoading:activateLoading}] = useActivateHospitalMutation();
+  const [activateHospital, { isLoading: activateLoading }] =
+    useActivateHospitalMutation();
 
   useEffect(() => {
-    dispatch(setNav("Hospital"));
+    dispatch(setNav('Hospital'));
     async function fetchData() {
       try {
         const res = await hospitalApiCall(userId).unwrap();
         dispatch(setHospital(res.data));
       } catch (error) {
-        toast.error(error?.data?.message || "Something went wrong");
+        toast.error(error?.data?.message || 'Something went wrong');
       }
     }
     fetchData();
-  }, []);
+  });
 
-  const handleActivate = async (e) => {
+  const handleActivate = async () => {
     try {
       const nActivated = !hospital?.activated;
       const data = { id: hospital?._id, activated: nActivated };
       const res = await activateHospital(data).unwrap();
       console.log(res);
       dispatch(setHospital(res.data));
-      const text = nActivated ? "Activated" : "Deactivated ";
+      const text = nActivated ? 'Activated' : 'Deactivated ';
       toast.success(`Hospital Account ${text}`);
     } catch (error) {
-      toast.error(error?.data?.message || "Something went wrong");
+      toast.error(error?.data?.message || 'Something went wrong');
     }
   };
   const { hospital } = useSelector((state) => state.users);
@@ -59,7 +60,7 @@ const Hospital = () => {
         <>
           <div className="spinner-details">
             <FadeLoader
-              color={"#10ACF5"}
+              color={'#10ACF5'}
               loading={isLoading}
               // cssOverride={override}
               size={300}
@@ -90,8 +91,8 @@ const Hospital = () => {
                       fill="none"
                     >
                       <circle cx="8.5" cy="8.5" r="8.5" fill="#19BE3E" />
-                    </svg>{" "}
-                    <span>Verified</span>{" "}
+                    </svg>{' '}
+                    <span>Verified</span>{' '}
                   </div>
                 ) : (
                   <div>
@@ -103,21 +104,37 @@ const Hospital = () => {
                       fill="none"
                     >
                       <circle cx="7.5" cy="7.5" r="7.5" fill="#9CA09D" />
-                    </svg>{" "}
+                    </svg>{' '}
                     <span>Unverified</span>
                   </div>
                 )}
                 {hospital?.activated ? (
                   <>
-                    {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<><button className="warn" onClick={handleActivate}>
-                      Deactivate
-                    </button></>)}
+                    {activateLoading ? (
+                      <>
+                        <FadeLoader color="#10ACF5" />
+                      </>
+                    ) : (
+                      <>
+                        <button className="warn" onClick={handleActivate}>
+                          Deactivate
+                        </button>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>
-                    {activateLoading ? (<><FadeLoader color="#10ACF5" /></>) : (<><button className="sucess" onClick={handleActivate}>
-                      Activate
-                    </button></>)}
+                    {activateLoading ? (
+                      <>
+                        <FadeLoader color="#10ACF5" />
+                      </>
+                    ) : (
+                      <>
+                        <button className="sucess" onClick={handleActivate}>
+                          Activate
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
                 <Link>Reset Password</Link>
@@ -135,7 +152,7 @@ const Hospital = () => {
                     <h1>{hospital?.hospitalName}</h1>
                     <p>HOSPITAL</p>
                     <Rating
-                      size={"25px"}
+                      size={'25px'}
                       readonly={true}
                       initialValue={hospital?.rating ? hospital?.rating : 5}
                     />
@@ -168,7 +185,7 @@ const Hospital = () => {
             </section>
           </header>
           <div className="specialist-details-details">
-            <PersonalDetails user={"hospital"} data={hospital} />
+            <PersonalDetails user={'hospital'} data={hospital} />
           </div>
         </>
       )}

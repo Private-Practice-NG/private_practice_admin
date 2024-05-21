@@ -10,15 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import FadeLoader from 'react-spinners/FadeLoader';
 
-const override = {
-  margin: '0 auto',
-  width: '100%',
-  top: '50%',
-  left: '50%'
-};
+// const override = {
+//   margin: '0 auto',
+//   width: '100%',
+//   top: '50%',
+//   left: '50%'
+// };
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -42,10 +42,21 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      const toastId = toast.loading('logging in...');
+
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate('/');
-      toast.success('Login Successful');
+      toast.success('logged in successfully', {
+        id: toastId,
+        duration: 4000
+        // position: 'bottom-left',
+
+        // Styling
+        // style: {
+        //   fontSize: '14px'
+        // }
+      });
     } catch (error) {
       toast.error(error?.data?.message || 'Something Went Wrong');
     }
@@ -54,22 +65,20 @@ const Login = () => {
   return (
     <div className="auth auth-body flex items-center justify-center">
       {isLoading && (
-        <>
-          <div className="spinner">
-            <FadeLoader
-              color={'#10ACF5'}
-              loading={isLoading}
-              cssOverride={override}
-              size={300}
-              height={50}
-              width={5}
-              radius={10}
-              margin={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        </>
+        <div className="spinner flex justify-center items-center w-[100%] min-h-screen bg-[#ffffff79]">
+          <FadeLoader
+            color={'#10ACF5'}
+            loading={isLoading}
+            // cssOverride={override}
+            // size={300}
+            height={40}
+            width={2}
+            radius={10}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       )}
 
       <div className="hidden lg:block login-page-aside-img-wrapper">

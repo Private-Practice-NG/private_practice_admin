@@ -1,8 +1,11 @@
 .home {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    /* gap: 30px; */
     position: relative;
+    min-height: 150px;
 }
 
 .home-metrics {

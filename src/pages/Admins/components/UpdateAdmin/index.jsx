@@ -10,11 +10,11 @@ import { setNav } from '../../../../slices/usersSlice';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-function CreateAdmin() {
+function UpdateAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [createAdminForm, setCreateAdminForm] = useState({
+  const [updateAdminForm, setUpdateAdminForm] = useState({
     fullName: '',
     email: '',
     password: '',
@@ -28,16 +28,16 @@ function CreateAdmin() {
     e.preventDefault();
 
     if (
-      createAdminForm.fullName === '' ||
-      createAdminForm.email === '' ||
-      createAdminForm.password === '' ||
-      createAdminForm.confirmPassword === ''
+      updateAdminForm.fullName === '' ||
+      updateAdminForm.email === '' ||
+      updateAdminForm.password === '' ||
+      updateAdminForm.confirmPassword === ''
     ) {
       toast.error('please fill in all fields', { duration: 3000 });
       return;
     }
 
-    if (createAdminForm.password !== createAdminForm.confirmPassword) {
+    if (updateAdminForm.password !== updateAdminForm.confirmPassword) {
       toast.error(`'password' and 'confirmPassword' do not match`, {
         duration: 3000
       });
@@ -45,8 +45,8 @@ function CreateAdmin() {
     }
 
     if (
-      createAdminForm.password.length < 6 ||
-      createAdminForm.confirmPassword.length < 6
+      updateAdminForm.password.length < 6 ||
+      updateAdminForm.confirmPassword.length < 6
     ) {
       toast.error('passwords must be at least 6 characters', {
         duration: 3000
@@ -54,7 +54,7 @@ function CreateAdmin() {
       return;
     }
 
-    if (!isFilePicked || createAdminForm.selectedImageFile === null) {
+    if (!isFilePicked || updateAdminForm.selectedImageFile === null) {
       toast.error(
         'you have not selected a profile picture, please select one',
         {
@@ -64,24 +64,24 @@ function CreateAdmin() {
       return;
     }
 
-    console.log(createAdminForm);
+    console.log(updateAdminForm);
 
     const formData = new FormData();
-    formData.append('profileImage', createAdminForm.profileImage);
+    formData.append('profileImage', updateAdminForm.profileImage);
 
     // console.log(formData);
-    console.log(createAdminForm.profileImage);
+    console.log(updateAdminForm.profileImage);
 
     const toastId = toast.loading('creating admin account...');
 
     try {
-      const newUser = await axios.post(
+      const updatedUser = await axios.post(
         'http://localhost:5000/api/admins/register-admin', // this is the endpoint for creating a new user
         {
-          fullName: createAdminForm.fullName,
-          email: createAdminForm.email,
-          password: createAdminForm.password,
-          profileImage: createAdminForm.profileImage
+          fullName: updateAdminForm.fullName,
+          email: updateAdminForm.email,
+          password: updateAdminForm.password,
+          profileImage: updateAdminForm.profileImage
         },
         {
           withCredentials: true,
@@ -93,12 +93,12 @@ function CreateAdmin() {
         }
       );
 
-      console.log(newUser);
+      console.log(updatedUser);
 
       if (
-        newUser
+        updatedUser
         // &&
-        // newUser.data.requestStatus === 'admin account created successfully'
+        // updatedUser.data.requestStatus === 'admin account created successfully'
       ) {
         toast.success('admin account created successfully', {
           id: toastId,
@@ -106,7 +106,7 @@ function CreateAdmin() {
         });
       }
 
-      setCreateAdminForm({
+      setUpdateAdminForm({
         fullName: '',
         email: '',
         password: '',
@@ -114,12 +114,12 @@ function CreateAdmin() {
         profileImage: null
       });
 
-      // localStorage.setItem('userToken', `${newUser.data.token}`);
-      // localStorage.setItem('userEmail', `${newUser.data.user.email}`);
+      // localStorage.setItem('userToken', `${updatedUser.data.token}`);
+      // localStorage.setItem('userEmail', `${updatedUser.data.user.email}`);
       // const userToken = localStorage.getItem('userToken');
       // const userEmail = localStorage.getItem('userEmail');
       // console.log(userToken, userEmail);
-      // const userName = newUser.data.user.fullName;
+      // const userName = updatedUser.data.user.fullName;
       // console.log(userName);
       // localStorage.setItem('userName', `${userName}`);
 
@@ -147,7 +147,7 @@ function CreateAdmin() {
       </div>
       <section className="mt-16 mx-auto">
         <h2 className="text-2xl sm:text-3xl poppins text-center font-[500]">
-          Create an admin account
+          Update admin account
         </h2>
         <form
           //   onSubmit={submitHandler}
@@ -176,10 +176,10 @@ function CreateAdmin() {
                   className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                   type="text"
                   placeholder="enter full name"
-                  value={createAdminForm.fullName}
+                  value={updateAdminForm.fullName}
                   onChange={(e) => {
-                    setCreateAdminForm({
-                      ...createAdminForm,
+                    setUpdateAdminForm({
+                      ...updateAdminForm,
                       fullName: e.target.value
                     });
                   }}
@@ -206,10 +206,10 @@ function CreateAdmin() {
                   type="email"
                   placeholder="youremail@email.com"
                   required
-                  value={createAdminForm.email}
+                  value={updateAdminForm.email}
                   onChange={(e) => {
-                    setCreateAdminForm({
-                      ...createAdminForm,
+                    setUpdateAdminForm({
+                      ...updateAdminForm,
                       email: e.target.value
                     });
                   }}
@@ -238,10 +238,10 @@ function CreateAdmin() {
                   className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                   type="password"
                   placeholder="Password"
-                  value={createAdminForm.password}
+                  value={updateAdminForm.password}
                   onChange={(e) => {
-                    setCreateAdminForm({
-                      ...createAdminForm,
+                    setUpdateAdminForm({
+                      ...updateAdminForm,
                       password: e.target.value
                     });
                   }}
@@ -271,10 +271,10 @@ function CreateAdmin() {
                   className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                   type="password"
                   placeholder="confirm password"
-                  value={createAdminForm.confirmPassword}
+                  value={updateAdminForm.confirmPassword}
                   onChange={(e) => {
-                    setCreateAdminForm({
-                      ...createAdminForm,
+                    setUpdateAdminForm({
+                      ...updateAdminForm,
                       confirmPassword: e.target.value
                     });
                   }}
@@ -295,8 +295,8 @@ function CreateAdmin() {
                 id="profileImage"
                 multiple
                 onChange={(e) => {
-                  setCreateAdminForm({
-                    ...createAdminForm,
+                  setUpdateAdminForm({
+                    ...updateAdminForm,
                     profileImage: e.target.files[0]
                   });
                   setIsFilePicked(true);
@@ -324,4 +324,4 @@ function CreateAdmin() {
   );
 }
 
-export default CreateAdmin;
+export default UpdateAdmin;
