@@ -2,7 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      // fontSize: {
+      //   heading: ['48px', '64px', '36px', '24px', '18px', '16px'] // h1 to h6
+      // }
+    },
     screens: {
       xsm: '450px',
       // => @media (min-width: 450px) { ... }
@@ -19,9 +23,9 @@ export default {
       xl: '1280px',
       // => @media (min-width: 1280px) { ... }
 
-      '2xl': '1536px',
+      '2xl': '1536px'
       // => @media (min-width: 1536px) { ... }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 };
