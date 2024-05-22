@@ -11,6 +11,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import SpecialistProfileCard from './Specialists/components/SpecialistProfileCard';
 
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
 // const override = {
 //   backgroundColor: 'transparent', // no background color for this spinner
 //   width: '300px!important' // width of the spinner
@@ -43,7 +45,7 @@ const Specialists = () => {
         const toastId = toast.loading('fetching specialists profiles...');
 
         const specialistsProfiles = await axios.get(
-          'http://localhost:5000/api/admins/specialists',
+          `${serverBaseUrl}/api/admins/specialists`,
           {
             withCredentials: true
             // headers: {

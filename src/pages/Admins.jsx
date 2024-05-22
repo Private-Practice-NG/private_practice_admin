@@ -15,6 +15,7 @@ import AdminProfileCard from './Admins/components/AdminProfileCard';
 //   backgroundColor: 'transparent', // no background color for this spinner
 //   width: '300px!important' // width of the spinner
 // };
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const Admins = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Admins = () => {
         const toastId = toast.loading('fetching admin profiles...');
 
         const adminProfiles = await axios.get(
-          'http://localhost:5000/api/admins/admins',
+          `${serverBaseUrl}/api/admins/admins`,
           {
             withCredentials: true
             // headers: {

@@ -20,6 +20,8 @@ import toast from 'react-hot-toast';
 //   width: '300px!important' // width of the spinner
 // };
 
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
 const Home = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +49,7 @@ const Home = () => {
     async function fetchData() {
       try {
         const adminUser = await axios.get(
-          'http://localhost:5000/api/admins/dashboard',
+          `${serverBaseUrl}/api/admins/dashboard`,
           {
             withCredentials: true
             // headers: {

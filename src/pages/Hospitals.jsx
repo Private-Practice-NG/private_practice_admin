@@ -15,6 +15,7 @@ import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 //   backgroundColor: 'transparent', // no background color for this spinner
 //   width: '300px!important' // width of the spinner
 // };
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const Hospitals = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,7 @@ const Hospitals = () => {
         const toastId = toast.loading('fetching hospitals data...');
 
         const hospitalsData = await axios.get(
-          'http://localhost:5000/api/admins/hospitals',
+          `${serverBaseUrl}/api/admins/hospitals`,
           {
             withCredentials: true
             // headers: {

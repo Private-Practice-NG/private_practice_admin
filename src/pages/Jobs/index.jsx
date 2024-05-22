@@ -7,6 +7,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { FadeLoader } from 'react-spinners';
 
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
 function JobsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [jobsData, setJobsData] = useState([]);
@@ -21,12 +23,10 @@ function JobsPage() {
     dispatch(setNav('Jobs'));
     async function fetchData() {
       try {
-        const toastId = toast.loading(
-          'fetching hospital enrolment dashboard data...'
-        );
+        const toastId = toast.loading('fetching jobs data...');
 
         const serverResponse = await axios.get(
-          'http://localhost:5000/api/jobs/get-all-jobs',
+          `${serverBaseUrl}/api/jobs/get-all-jobs`,
           {
             withCredentials: true
             // headers: {
@@ -41,13 +41,10 @@ function JobsPage() {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success(
-            'hospital enrolment dashboard data fetched successfully',
-            {
-              id: toastId,
-              duration: 4000
-            }
-          );
+          toast.success('jobs data fetched successfully', {
+            id: toastId,
+            duration: 4000
+          });
 
           console.log(serverResponse.data.response);
 

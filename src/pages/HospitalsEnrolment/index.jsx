@@ -6,6 +6,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { FadeLoader } from 'react-spinners';
 
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
 function HospitalsEnrolment() {
   const [isLoading, setIsLoading] = useState(true);
   const [hospitalEnrolmentDashboardData, setHospitalEnrolmentDashboardData] =
@@ -26,7 +28,7 @@ function HospitalsEnrolment() {
         );
 
         const hospitalEnrolmentData = await axios.get(
-          'http://localhost:5000/api/admins/hospitalEnrolls/dashboard',
+          `${serverBaseUrl}/api/admins/hospitalEnrolls/dashboard`,
           {
             withCredentials: true
             // headers: {
