@@ -26,7 +26,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [adminHomeData, setAdminHomeData] = useState([]);
-  const [user, setUser] = useState(null);
 
   // const [dashboardApiCall, { isLoading }] = useDashboardMutation();
   // const isLoading = true;
@@ -48,47 +47,10 @@ const Home = () => {
     dispatch(setNav('Home'));
     async function fetchData() {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
-
-        const adminUser = await axios.get(
-          `${serverBaseUrl}/api/admins/dashboard`,
-          {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
-          }
-        );
-
-        if (
-          adminUser
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // console.log('adminUser data fetched successfully');
-
-          // console.log(dashboardData.data.response);
-
-          setUser(adminUser);
-          // setIsLoading(false);
-        }
-        // dispatch(setAdmins(adminProfiles.data));
-      } catch (error) {
-        console.log(error?.data?.message || error.error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    dispatch(setNav('Home'));
-    async function fetchData() {
-      try {
         const toastId = toast.loading('fetching dashboard data...');
 
         const dashboardData = await axios.get(
-          'http://localhost:5000/api/admins/dashboard',
+          `${serverBaseUrl}/api/admins/dashboard`,
           {
             withCredentials: true
             // headers: {

@@ -1,17 +1,20 @@
-// import React from "react";
+import { useState} from 'react';
 import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
 import { TfiEmail } from 'react-icons/tfi';
 import { SlLock } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLoginMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useLoginMutation } from '../slices/usersApiSlice';
+// import { setCredentials } from '../slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 import FadeLoader from 'react-spinners/FadeLoader';
+
+const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
 
 // const override = {
 //   margin: '0 auto',
@@ -20,47 +23,116 @@ import FadeLoader from 'react-spinners/FadeLoader';
 //   left: '50%'
 // };
 
+
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // const [color, setColor] = useState('#10ACF5');
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+  });
 
-  const { userInfo } = useSelector((state) => state.auth);
+  // const [user, setUser] = useState({})
+  //  const submitHandler = async (e) => {
+  //   e.preventDefault();
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
+  //   try {
+  //     const toastId = toast.loading('logging in...');
 
-  const submitHandler = async (e) => {
+  //     const res = await login({ email, password }).unwrap();
+  //     dispatch(setCredentials({ ...res }));
+  //     navigate('/');
+  //     toast.success('logged in successfully', {
+  //       id: toastId,
+  //       duration: 4000
+  //       // position: 'bottom-left',
+
+  //       // Styling
+  //       // style: {
+  //       //   fontSize: '14px'
+  //       // }
+  //     });
+  //   } catch (error) {
+  //     toast.error(error?.data?.message || 'Something Went Wrong');
+  //   }
+  // };
+
+      // userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) :null
+
+
+  async function loginHandler(e) {
     e.preventDefault();
 
-    try {
-      const toastId = toast.loading('logging in...');
-
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate('/');
-      toast.success('logged in successfully', {
-        id: toastId,
-        duration: 4000
-        // position: 'bottom-left',
-
-        // Styling
-        // style: {
-        //   fontSize: '14px'
-        // }
-      });
-    } catch (error) {
-      toast.error(error?.data?.message || 'Something Went Wrong');
+    const toastId = toast.loading('signin you in...');
+    setIsLoading(true)
+    
+    console.log(loginForm);
+    
+    if (loginForm.email === '' || loginForm.password === '') {
+      return toast.error('please fill in all fields', { duration: 3000 });
     }
-  };
+
+    // async function fetchData() {
+    try {
+      console.log('serverBaseUrl', serverBaseUrl);
+
+
+      const loggedInUser = await axios.post(
+        `${serverBaseUrl}/api/admins/auth`,
+        loginForm,
+        {
+          withCredentials: true
+          // headers: {
+          //   Authorization: `Bearer ${userAccessToken}`,
+          //   Email: `${userEmail}`,
+          // },
+        }
+      );
+
+      if (
+          loggedInUser
+        // &&
+        // loggedInUser.data.requestStatus === 'login successful'
+      ) {
+        // console.log('adminUser data fetched successfully');
+
+        console.log(loggedInUser.data.response);
+
+        // setUser(adminUser);
+      toast.success('login successful.', {
+        id: toastId,
+        // duration: 4000,
+      });
+        
+      localStorage.setItem('userInfo', JSON.stringify(loggedInUser.data.response));
+
+      setIsLoading(false);
+      
+      navigate("/")
+      }
+      // dispatch(setAdmins(adminProfiles.data));
+    } catch (error) {
+      console.log(error?.data?.message || error.error);
+    }
+  }
+  
+
+  // const [color, setColor] = useState('#10ACF5');
+
+  // const dispatch = useDispatch();
+
+  // const [login, { isLoading }] = useLoginMutation();
+
+  // const { userInfo } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate('/');
+  //   }
+  // }, [navigate, userInfo]);
+
+ 
 
   return (
     <div className="auth auth-body flex items-center justify-center">
@@ -99,7 +171,7 @@ const Login = () => {
         </div>
 
         <form
-          onSubmit={submitHandler}
+          // onSubmit={submitHandler}
           className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
         >
           <section className="flex flex-col gap-8">
@@ -115,8 +187,14 @@ const Login = () => {
                 className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type="email"
                 placeholder="youremail@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                 value={loginForm.email}
+                onChange={(e) => {
+                  setLoginForm({
+                    ...loginForm,
+                    email: e.target.value,
+                  });
+                }}
+                id='email'
                 required
               />
             </div>
@@ -132,8 +210,14 @@ const Login = () => {
                 className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginForm.password}
+                onChange={(e) => {
+                  setLoginForm({
+                    ...loginForm,
+                    password: e.target.value,
+                  });
+                }}
+                id='password'
                 required
               />
             </div>
@@ -147,7 +231,7 @@ const Login = () => {
 
           <button
             className="mt-5 btn auth-submit-btn poppins py-4"
-            type="submit"
+            onClick={ loginHandler}
           >
             Login
           </button>

@@ -15,10 +15,10 @@ import { HiBriefcase } from 'react-icons/hi2';
 import { HiArrowLeftCircle } from 'react-icons/hi2';
 import { Outlet } from 'react-router-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLogoutMutation } from '../../slices/usersApiSlice';
-import { logout } from '../../slices/authSlice';
-import { removeDashboard } from '../../slices/dashboardSlice';
+import { useSelector } from 'react-redux';
+// import { useLogoutMutation } from '../../slices/usersApiSlice';
+// import { logout } from '../../slices/authSlice';
+// import { removeDashboard } from '../../slices/dashboardSlice';
 
 const Layout = () => {
   const [closeMobileNav, setCloseMobileNav] = useState(true);
@@ -40,19 +40,17 @@ const Layout = () => {
     hideMobileNav();
   };
 
-  const { userInfo } = useSelector((state) => state.auth);
-  // console.log(userInfo.name);
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  console.log(userInfo);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const [logoutApiCall] = useLogoutMutation();
+  // const [logoutApiCall] = useLogoutMutation();
 
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap();
-      dispatch(logout());
-      dispatch(removeDashboard());
+      localStorage.clear()
       navigate('/login');
     } catch (error) {
       console.log(error);
@@ -76,13 +74,13 @@ const Layout = () => {
             <section className="flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full">
                 <img
-                  src={userInfo?.response?.profileImg}
+                  src={userInfo?.profileImg}
                   alt="profile-image"
                   className="w-[45px] rounded-[100%]"
                 />
               </div>
               <div className="flex flex-col text-white">
-                <h3 className="poppins font-[600]">{`${userInfo?.response?.fullName}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </section>
@@ -297,13 +295,13 @@ const Layout = () => {
             <div className="top-hori-nav-pro">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
                 <img
-                  src={userInfo?.response?.profileImg}
+                  src={userInfo?.profileImg}
                   alt="profile-image"
                   className="w-[45[px] rounded-[100%]"
                 />
               </div>
               <div className="top-hori-nav-pro-details">
-                <h3 className="poppins font-[600]">{`${userInfo?.response?.fullName}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </div>
