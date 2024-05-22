@@ -40,6 +40,8 @@ const Specialists = () => {
 
   useEffect(() => {
     dispatch(setNav('Specialist'));
+    console.log('serverBaseUrl', serverBaseUrl);
+
     async function fetchData() {
       try {
         const toastId = toast.loading('fetching specialists profiles...');

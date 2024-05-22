@@ -21,6 +21,8 @@ function JobsPage() {
 
   useEffect(() => {
     dispatch(setNav('Jobs'));
+    console.log('serverBaseUrl', serverBaseUrl);
+
     async function fetchData() {
       try {
         const toastId = toast.loading('fetching jobs data...');

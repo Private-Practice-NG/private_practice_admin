@@ -25,6 +25,8 @@ const Admins = () => {
 
   useEffect(() => {
     dispatch(setNav('Admin'));
+    console.log('serverBaseUrl', serverBaseUrl);
+
     async function fetchData() {
       try {
         const toastId = toast.loading('fetching admin profiles...');

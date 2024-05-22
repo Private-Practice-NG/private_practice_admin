@@ -22,6 +22,8 @@ const Hospitals = () => {
 
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const dispatch = useDispatch();
+  console.log('serverBaseUrl', serverBaseUrl);
+
   // const [users, { isLoading }] = useHospitalsMutation();
   useEffect(() => {
     dispatch(setNav('Hospital'));
