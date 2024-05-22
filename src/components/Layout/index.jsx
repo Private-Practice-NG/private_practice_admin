@@ -93,7 +93,7 @@ const Layout = () => {
               <HiOutlineXMark className="text-3xl text-white" />
             </div>
           </div>
-          <section className="px-3 pt-4 pb-8" style={{ height: '100%' }}>
+          <section className="px-3 pt-4 pb-24" style={{ height: '100%' }}>
             <div className="vertical-nav h-full">
               <section className="vertical-nav-links-wrapper">
                 <div
