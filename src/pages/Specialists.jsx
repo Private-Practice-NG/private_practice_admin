@@ -40,10 +40,10 @@ const Specialists = () => {
 
   useEffect(() => {
     dispatch(setNav('Specialist'));
-    console.log('serverBaseUrl', serverBaseUrl);
 
     async function fetchData() {
       try {
+        console.log('serverBaseUrl', serverBaseUrl);
         const toastId = toast.loading('fetching specialists profiles...');
 
         const specialistsProfiles = await axios.get(

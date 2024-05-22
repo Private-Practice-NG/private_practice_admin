@@ -22,7 +22,6 @@ const Hospitals = () => {
 
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const dispatch = useDispatch();
-  console.log('serverBaseUrl', serverBaseUrl);
 
   // const [users, { isLoading }] = useHospitalsMutation();
   useEffect(() => {
@@ -39,6 +38,8 @@ const Hospitals = () => {
 
     async function fetchData() {
       try {
+        console.log('serverBaseUrl', serverBaseUrl);
+
         const toastId = toast.loading('fetching hospitals data...');
 
         const hospitalsData = await axios.get(

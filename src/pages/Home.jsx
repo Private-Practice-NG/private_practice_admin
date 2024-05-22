@@ -46,9 +46,10 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setNav('Home'));
-    console.log('serverBaseUrl', serverBaseUrl);
     async function fetchData() {
       try {
+        console.log('serverBaseUrl', serverBaseUrl);
+
         const adminUser = await axios.get(
           `${serverBaseUrl}/api/admins/dashboard`,
           {

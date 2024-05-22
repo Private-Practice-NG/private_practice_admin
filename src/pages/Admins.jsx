@@ -25,10 +25,10 @@ const Admins = () => {
 
   useEffect(() => {
     dispatch(setNav('Admin'));
-    console.log('serverBaseUrl', serverBaseUrl);
 
     async function fetchData() {
       try {
+        console.log('serverBaseUrl', serverBaseUrl);
         const toastId = toast.loading('fetching admin profiles...');
 
         const adminProfiles = await axios.get(

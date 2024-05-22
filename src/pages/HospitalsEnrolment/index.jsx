@@ -21,10 +21,10 @@ function HospitalsEnrolment() {
 
   useEffect(() => {
     dispatch(setNav('Hospitals Enrolment'));
-    console.log('serverBaseUrl', serverBaseUrl);
 
     async function fetchData() {
       try {
+        console.log('serverBaseUrl', serverBaseUrl);
         const toastId = toast.loading(
           'fetching hospital enrolment dashboard data...'
         );
