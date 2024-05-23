@@ -320,7 +320,7 @@ const Layout = ({ children }) => {
               <p>3</p>
             </div>
           </div>
-          <div className="page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
+          <div className="page-cont-outlet mt-[75px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
             {children}
             {/* <Outlet /> */}
           </div>

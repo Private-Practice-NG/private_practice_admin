@@ -85,7 +85,7 @@ function JobsPage() {
         ) : (
           <>
             <div className="poppins font-[500] flex items-center gap-2">
-              <h2 className="text-2xl sm:text-3xl ">Jobs</h2>
+              <h2 className="text-2xl">Jobs</h2>
               <div className="text-[14px]">({jobsData.jobsCount})</div>
             </div>
             <section className="mt-6 flex justify-between w-full items-center">
@@ -99,10 +99,10 @@ function JobsPage() {
                 />
               </div>
               <div className="filter-button w-2/12">
-                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-2.5 px-2 rounded-[7px]">
-                  <span className="poppins font-[400] sm:text-[14px] text-[10px]">
+                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
+                  {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
                     filter by
-                  </span>
+                  </span> */}
                   <svg
                     className="w-[14px]"
                     viewBox="0 0 31 20"
@@ -144,25 +144,23 @@ function JobsPage() {
                 return (
                   <div
                     key={job._id}
-                    className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center"
+                    className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex gap-8 items-center"
                   >
-                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
+                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] w-6/12">
                       <div className="poppins font-[500]">{job.userName}</div>
                       <div className="text-[12px] xsm:text-[14px]">
                         {job.title}
                       </div>
                     </div>
-                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
+                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] w-4/12">
                       <div className="poppins font-[500]">Date posted</div>
                       <div className="text-[12px] xsm:text-[14px]">
                         {job.createdAt.slice(0, 10)}
                       </div>
                     </div>
-                    <div>
-                      <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px]">
-                        View job
-                      </button>
-                    </div>
+                    <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px] w-2/12">
+                      View job
+                    </button>
                   </div>
                 );
               })}

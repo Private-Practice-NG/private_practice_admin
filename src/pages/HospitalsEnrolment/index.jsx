@@ -142,10 +142,10 @@ function HospitalsEnrolment() {
                 />
               </div>
               <div className="filter-button w-2/12">
-                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-2.5 px-2 rounded-[7px]">
-                  <span className="poppins font-[400] sm:text-[14px] text-[10px]">
+                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
+                  {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
                     filter by
-                  </span>
+                  </span> */}
                   <svg
                     className="w-[14px]"
                     viewBox="0 0 31 20"

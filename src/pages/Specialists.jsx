@@ -125,51 +125,55 @@ const Specialists = () => {
           </>
         ) : (
           <div className="users-tab px-3 sm:px-[20px]">
-            <header className="users-tab-header px-3 sm:px-[20px]">
-              <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
-                Specialists
-              </h1>
-              <div className="users-tab-input w-[40%]">
-                <CiSearch />
-                <input
-                  className="text-[14px]"
-                  type="text"
-                  placeholder="search specialists"
-                  //  onChange={(e) => handleSearch(e.target.value)}
-                />
+            <header className="flex flex-col mt-[15px]">
+              <div className="poppins flex items-center gap-2">
+                <h2 className="text-2xl">Specialists</h2>
               </div>
-              <div className="users-tab-sort">
-                <svg
-                  className="w-[20px]"
-                  viewBox="0 0 31 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0 2H29.2582"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
+              <section className="mt-6 flex justify-between w-full items-center">
+                <div className="users-tab-input w-9/12">
+                  <CiSearch />
+                  <input
+                    className="text-[14px]"
+                    type="text"
+                    placeholder="search jobs"
+                    //   onChange={(e) => handleSearch(e.target.value)}
                   />
-                  <path
-                    d="M4.87646 10.1273H24.382"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M11.3782 18.2546H17.88"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <p className="poppins font-[500] text-[14px] sm:text-[16px]">
-                  Sort
-                </p>
-              </div>
+                </div>
+                <div className="filter-button w-2/12">
+                  <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
+                    {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
+                    filter by
+                  </span> */}
+                    <svg
+                      className="w-[14px]"
+                      viewBox="0 0 31 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 2H29.2582"
+                        stroke="#292D32"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M4.87646 10.1273H24.382"
+                        stroke="#292D32"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M11.3782 18.2546H17.88"
+                        stroke="#292D32"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </section>
             </header>
-            <section className="specialists-profiles-wrapper px-3 sm:px-[20px] grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-6 mt-[50px]">
+            <section className="specialists-profiles-wrapper grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-6 mt-[30px]">
               {specialistsProfilesData.map((specialistProfile) => {
                 return (
                   <SpecialistProfileCard
