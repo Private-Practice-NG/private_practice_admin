@@ -13,14 +13,14 @@ import { HiSquaresPlus } from 'react-icons/hi2';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { HiBriefcase } from 'react-icons/hi2';
 import { HiArrowLeftCircle } from 'react-icons/hi2';
-import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import { useSelector } from 'react-redux';
 // import { useLogoutMutation } from '../../slices/usersApiSlice';
 // import { logout } from '../../slices/authSlice';
 // import { removeDashboard } from '../../slices/dashboardSlice';
 
-const Layout = () => {
+const Layout = ({ children }) => {
   const [closeMobileNav, setCloseMobileNav] = useState(true);
 
   // const [setActive] = useState('Home');
@@ -50,7 +50,7 @@ const Layout = () => {
 
   const logoutHandler = async () => {
     try {
-      localStorage.clear()
+      localStorage.clear();
       navigate('/login');
     } catch (error) {
       console.log(error);
@@ -311,7 +311,8 @@ const Layout = () => {
             </div>
           </div>
           <div className="page-cont-outlet mt-[100px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
-            <Outlet />
+            {children}
+            {/* <Outlet /> */}
           </div>
         </div>
       </div>

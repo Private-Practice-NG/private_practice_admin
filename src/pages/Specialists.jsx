@@ -10,6 +10,7 @@ import FadeLoader from 'react-spinners/FadeLoader';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import SpecialistProfileCard from './Specialists/components/SpecialistProfileCard';
+import Layout from '../components/Layout';
 
 const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -103,83 +104,85 @@ const Specialists = () => {
   //   setSearchData(searchResults);
   // };
   return (
-    <main className="w-full flex justify-center items-center">
-      {isLoading ? (
-        <>
-          <div className="spinner flex justify-center items-center pt-[100px]">
-            <FadeLoader
-              color={'#10ACF5'}
-              loading={true}
-              // cssOverride={override}
-              // size={300}
-              height={40}
-              width={2}
-              radius={10}
-              margin={10}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        </>
-      ) : (
-        <div className="users-tab px-3 sm:px-[20px]">
-          <header className="users-tab-header px-3 sm:px-[20px]">
-            <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
-              Specialists
-            </h1>
-            <div className="users-tab-input w-[40%]">
-              <CiSearch />
-              <input
-                className="text-[14px]"
-                type="text"
-                placeholder="search specialists"
-                //  onChange={(e) => handleSearch(e.target.value)}
+    <Layout>
+      <main className="w-full flex justify-center items-center">
+        {isLoading ? (
+          <>
+            <div className="spinner flex justify-center items-center pt-[100px]">
+              <FadeLoader
+                color={'#10ACF5'}
+                loading={true}
+                // cssOverride={override}
+                // size={300}
+                height={40}
+                width={2}
+                radius={10}
+                margin={10}
+                aria-label="Loading Spinner"
+                data-testid="loader"
               />
             </div>
-            <div className="users-tab-sort">
-              <svg
-                className="w-[20px]"
-                viewBox="0 0 31 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 2H29.2582"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
+          </>
+        ) : (
+          <div className="users-tab px-3 sm:px-[20px]">
+            <header className="users-tab-header px-3 sm:px-[20px]">
+              <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
+                Specialists
+              </h1>
+              <div className="users-tab-input w-[40%]">
+                <CiSearch />
+                <input
+                  className="text-[14px]"
+                  type="text"
+                  placeholder="search specialists"
+                  //  onChange={(e) => handleSearch(e.target.value)}
                 />
-                <path
-                  d="M4.87646 10.1273H24.382"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11.3782 18.2546H17.88"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <p className="poppins font-[500] text-[14px] sm:text-[16px]">
-                Sort
-              </p>
-            </div>
-          </header>
-          <section className="specialists-profiles-wrapper px-3 sm:px-[20px] grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-6 mt-[50px]">
-            {specialistsProfilesData.map((specialistProfile) => {
-              return (
-                <SpecialistProfileCard
-                  key={specialistProfile._id}
-                  specialistProfile={specialistProfile}
-                />
-              );
-            })}
-          </section>
-        </div>
-      )}
-    </main>
+              </div>
+              <div className="users-tab-sort">
+                <svg
+                  className="w-[20px]"
+                  viewBox="0 0 31 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 2H29.2582"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M4.87646 10.1273H24.382"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M11.3782 18.2546H17.88"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <p className="poppins font-[500] text-[14px] sm:text-[16px]">
+                  Sort
+                </p>
+              </div>
+            </header>
+            <section className="specialists-profiles-wrapper px-3 sm:px-[20px] grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-6 mt-[50px]">
+              {specialistsProfilesData.map((specialistProfile) => {
+                return (
+                  <SpecialistProfileCard
+                    key={specialistProfile._id}
+                    specialistProfile={specialistProfile}
+                  />
+                );
+              })}
+            </section>
+          </div>
+        )}
+      </main>
+    </Layout>
   );
 };
 

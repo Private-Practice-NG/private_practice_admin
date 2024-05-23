@@ -10,6 +10,7 @@ import FadeLoader from 'react-spinners/FadeLoader';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
+import Layout from '../components/Layout';
 
 // const override = {
 //   backgroundColor: 'transparent', // no background color for this spinner
@@ -100,83 +101,87 @@ const Hospitals = () => {
   // };
 
   return (
-    <main className="w-full flex justify-center items-center">
-      {isLoading ? (
-        <>
-          <div className="spinner flex justify-center items-center pt-[100px]">
-            <FadeLoader
-              color={'#10ACF5'}
-              loading={true}
-              // cssOverride={override}
-              // size={300}
-              height={40}
-              width={2}
-              radius={10}
-              margin={10}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        </>
-      ) : (
-        <div className="users-tab">
-          <header className="users-tab-header">
-            <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
-              Hospitals
-            </h1>
-            <div className="users-tab-input w-[40%]">
-              <CiSearch />
-              <input
-                className="text-[14px]"
-                type="text"
-                placeholder="search hospitals"
-                // onChange={(e) => handleSearch(e.target.value)}
+    <Layout>
+      <main className="w-full flex justify-center items-center">
+        {isLoading ? (
+          <>
+            <div className="spinner flex justify-center items-center pt-[100px]">
+              <FadeLoader
+                color={'#10ACF5'}
+                loading={true}
+                // cssOverride={override}
+                // size={300}
+                height={40}
+                width={2}
+                radius={10}
+                margin={10}
+                aria-label="Loading Spinner"
+                data-testid="loader"
               />
             </div>
-            <div className="users-tab-sort">
-              <svg
-                className="w-[20px]"
-                viewBox="0 0 31 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 2H29.2582"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
+          </>
+        ) : (
+          <div className="users-tab">
+            <header className="users-tab-header">
+              <h1 className="poppins font-[500] text-[14px] sm:text-[16px]">
+                Hospitals
+              </h1>
+              <div className="users-tab-input w-[40%]">
+                <CiSearch />
+                <input
+                  className="text-[14px]"
+                  type="text"
+                  placeholder="search hospitals"
+                  // onChange={(e) => handleSearch(e.target.value)}
                 />
-                <path
-                  d="M4.87646 10.1273H24.382"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11.3782 18.2546H17.88"
-                  stroke="#292D32"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="poppins font-[500] text-[14px] sm:text-[16px]">
-                Sort
-              </span>
-            </div>
-          </header>
-          {/* <section className="flex flex-col gap-8">
+              </div>
+              <div className="users-tab-sort">
+                <svg
+                  className="w-[20px]"
+                  viewBox="0 0 31 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 2H29.2582"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M4.87646 10.1273H24.382"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M11.3782 18.2546H17.88"
+                    stroke="#292D32"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span className="poppins font-[500] text-[14px] sm:text-[16px]">
+                  Sort
+                </span>
+              </div>
+            </header>
+            {/* <section className="flex flex-col gap-8">
             <HospitalProfileCard
               hospitalsProfilesData={hospitalsProfilesData}
             />
           </section> */}
-          <section className="flex flex-col gap-8">
-            {hospitalsProfilesData.hospitalsProfiles.map((each) => {
-              return <HospitalProfileCard key={each._id} profileData={each} />;
-            })}
-          </section>
-        </div>
-      )}
-    </main>
+            <section className="flex flex-col gap-8">
+              {hospitalsProfilesData.hospitalsProfiles.map((each) => {
+                return (
+                  <HospitalProfileCard key={each._id} profileData={each} />
+                );
+              })}
+            </section>
+          </div>
+        )}
+      </main>
+    </Layout>
   );
 };
 

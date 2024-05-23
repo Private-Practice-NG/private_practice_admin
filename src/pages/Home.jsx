@@ -8,6 +8,7 @@ import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Layout from '../components/Layout';
 
 // const override = {
 //   margin: '0 auto',
@@ -87,25 +88,26 @@ const Home = () => {
   // console.log('dI', dashboardInfo);
 
   return (
-    <div className="home">
-      {isLoading ? (
-        <div className="spinner flex justify-center items-center">
-          <FadeLoader
-            color={'#10ACF5'}
-            loading={true}
-            // cssOverride={override}
-            // size={300}
-            height={40}
-            width={2}
-            radius={10}
-            margin={10}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-      ) : (
-        <section className="flex flex-col w-full gap-[30px]">
-          {/* <div className="home-metrics">
+    <Layout>
+      <div className="home">
+        {isLoading ? (
+          <div className="spinner flex justify-center items-center">
+            <FadeLoader
+              color={'#10ACF5'}
+              loading={true}
+              // cssOverride={override}
+              // size={300}
+              height={40}
+              width={2}
+              radius={10}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        ) : (
+          <section className="flex flex-col w-full gap-[30px]">
+            {/* <div className="home-metrics">
             <div className="metric full-metric">
               <h3>Total job Posted</h3>
               <h1>{dashboardInfo?.stats?.totalJob}</h1>
@@ -129,11 +131,12 @@ const Home = () => {
               <h1>{dashboardInfo?.stats?.specialist}</h1>
             </div>
           </div> */}
-          <HomeUsers adminHomeData={adminHomeData} />
-          <HomeAdmins home={true} adminHomeData={adminHomeData} />
-        </section>
-      )}
-    </div>
+            <HomeUsers adminHomeData={adminHomeData} />
+            <HomeAdmins home={true} adminHomeData={adminHomeData} />
+          </section>
+        )}
+      </div>
+    </Layout>
   );
 };
 

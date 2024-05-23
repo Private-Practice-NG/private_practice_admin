@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import AdminProfileCard from './Admins/components/AdminProfileCard';
+import Layout from '../components/Layout';
 
 // const override = {
 //   backgroundColor: 'transparent', // no background color for this spinner
@@ -65,43 +66,45 @@ const Admins = () => {
 
   // const { admins } = useSelector((state) => state.users);
   return (
-    <main className="w-full flex justify-center items-center">
-      {isLoading ? (
-        <div className="spinner flex justify-center items-center pt-[100px]">
-          <FadeLoader
-            color={'#10ACF5'}
-            loading={true}
-            // cssOverride={override}
-            // size={300}
-            height={40}
-            width={2}
-            radius={10}
-            margin={10}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-      ) : (
-        <section className="bg-[#ececec] w-full rounded-[7px] px-3 py-[16px] sm:px-[20px] pb-[60px]">
-          <header className="flex justify-between items-center mb-[25px]">
-            <h1 className="home-admins-title poppins font-[500] text-[14px] sm:text-[16px]">
-              Admins
-            </h1>
-            <Link
-              to="/admins/create-admin-account"
-              className="px-6 py-3 rounded-[7px] bg-[#19BE3E] text-white poppins text-[12px] sm:text-[14px]"
-            >
-              Add Admin
-            </Link>
-          </header>
-          <section className="flex flex-col gap-8">
-            {adminProfilesData.map((each) => {
-              return <AdminProfileCard key={each._id} profileData={each} />;
-            })}
+    <Layout>
+      <main className="w-full flex justify-center items-center">
+        {isLoading ? (
+          <div className="spinner flex justify-center items-center pt-[100px]">
+            <FadeLoader
+              color={'#10ACF5'}
+              loading={true}
+              // cssOverride={override}
+              // size={300}
+              height={40}
+              width={2}
+              radius={10}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        ) : (
+          <section className="bg-[#ececec] w-full rounded-[7px] px-3 py-[16px] sm:px-[20px] pb-[60px]">
+            <header className="flex justify-between items-center mb-[25px]">
+              <h1 className="home-admins-title poppins font-[500] text-[14px] sm:text-[16px]">
+                Admins
+              </h1>
+              <Link
+                to="/admins/create-admin-account"
+                className="px-6 py-3 rounded-[7px] bg-[#19BE3E] text-white poppins text-[12px] sm:text-[14px]"
+              >
+                Add Admin
+              </Link>
+            </header>
+            <section className="flex flex-col gap-8">
+              {adminProfilesData.map((each) => {
+                return <AdminProfileCard key={each._id} profileData={each} />;
+              })}
+            </section>
           </section>
-        </section>
-      )}
-    </main>
+        )}
+      </main>
+    </Layout>
   );
 };
 

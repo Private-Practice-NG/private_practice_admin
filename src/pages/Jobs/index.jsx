@@ -6,6 +6,7 @@ import '../styles/userstab.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { FadeLoader } from 'react-spinners';
+import Layout from '../../components/Layout';
 
 const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -62,112 +63,114 @@ function JobsPage() {
   }, []);
 
   return (
-    <main>
-      {isLoading ? (
-        <div className="w-full flex justify-center items-center">
-          <div className="spinner flex justify-center items-center pt-[100px]">
-            <FadeLoader
-              color={'#10ACF5'}
-              loading={true}
-              // cssOverride={override}
-              // size={300}
-              height={40}
-              width={2}
-              radius={10}
-              margin={10}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="poppins font-[500] flex items-center gap-2">
-            <h2 className="text-2xl sm:text-3xl ">Jobs</h2>
-            <div className="text-[14px]">({jobsData.jobsCount})</div>
-          </div>
-          <section className="mt-6 flex justify-between w-full items-center">
-            <div className="users-tab-input w-9/12">
-              <CiSearch />
-              <input
-                className="text-[14px]"
-                type="text"
-                placeholder="search jobs"
-                //   onChange={(e) => handleSearch(e.target.value)}
+    <Layout>
+      <main>
+        {isLoading ? (
+          <div className="w-full flex justify-center items-center">
+            <div className="spinner flex justify-center items-center pt-[100px]">
+              <FadeLoader
+                color={'#10ACF5'}
+                loading={true}
+                // cssOverride={override}
+                // size={300}
+                height={40}
+                width={2}
+                radius={10}
+                margin={10}
+                aria-label="Loading Spinner"
+                data-testid="loader"
               />
             </div>
-            <div className="filter-button w-2/12">
-              <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-2.5 px-2 rounded-[7px]">
-                <span className="poppins font-[400] sm:text-[14px] text-[10px]">
-                  filter by
-                </span>
-                <svg
-                  className="w-[14px]"
-                  viewBox="0 0 31 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0 2H29.2582"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M4.87646 10.1273H24.382"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M11.3782 18.2546H17.88"
-                    stroke="#292D32"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
+          </div>
+        ) : (
+          <>
+            <div className="poppins font-[500] flex items-center gap-2">
+              <h2 className="text-2xl sm:text-3xl ">Jobs</h2>
+              <div className="text-[14px]">({jobsData.jobsCount})</div>
             </div>
-          </section>
-          <section className="mt-10 flex gap-6">
-            <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
-              All jobs
-            </button>
-            <button className="py-2.5 px-4 bg-[#ececec] rounded-[7px]">
-              Active jobs
-            </button>
-          </section>
-          <section className="jobs-list-wrappper flex gap-8 flex-col mt-10">
-            {jobsData.allJobs.map((job) => {
-              return (
-                <div
-                  key={job._id}
-                  className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center"
-                >
-                  <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
-                    <div className="poppins font-[500]">{job.userName}</div>
-                    <div className="text-[12px] xsm:text-[14px]">
-                      {job.title}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
-                    <div className="poppins font-[500]">Date posted</div>
-                    <div className="text-[12px] xsm:text-[14px]">
-                      {job.createdAt.slice(0, 10)}
-                    </div>
-                  </div>
-                  <div>
-                    <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px]">
-                      View job
-                    </button>
-                  </div>
+            <section className="mt-6 flex justify-between w-full items-center">
+              <div className="users-tab-input w-9/12">
+                <CiSearch />
+                <input
+                  className="text-[14px]"
+                  type="text"
+                  placeholder="search jobs"
+                  //   onChange={(e) => handleSearch(e.target.value)}
+                />
+              </div>
+              <div className="filter-button w-2/12">
+                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-2.5 px-2 rounded-[7px]">
+                  <span className="poppins font-[400] sm:text-[14px] text-[10px]">
+                    filter by
+                  </span>
+                  <svg
+                    className="w-[14px]"
+                    viewBox="0 0 31 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 2H29.2582"
+                      stroke="#292D32"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M4.87646 10.1273H24.382"
+                      stroke="#292D32"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M11.3782 18.2546H17.88"
+                      stroke="#292D32"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </div>
-              );
-            })}
-          </section>
-        </>
-      )}
-    </main>
+              </div>
+            </section>
+            <section className="mt-10 flex gap-6">
+              <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
+                All jobs
+              </button>
+              <button className="py-2.5 px-4 bg-[#ececec] rounded-[7px]">
+                Active jobs
+              </button>
+            </section>
+            <section className="jobs-list-wrappper flex gap-8 flex-col mt-10">
+              {jobsData.allJobs.map((job) => {
+                return (
+                  <div
+                    key={job._id}
+                    className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex justify-between items-center"
+                  >
+                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
+                      <div className="poppins font-[500]">{job.userName}</div>
+                      <div className="text-[12px] xsm:text-[14px]">
+                        {job.title}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px]">
+                      <div className="poppins font-[500]">Date posted</div>
+                      <div className="text-[12px] xsm:text-[14px]">
+                        {job.createdAt.slice(0, 10)}
+                      </div>
+                    </div>
+                    <div>
+                      <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px]">
+                        View job
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </section>
+          </>
+        )}
+      </main>
+    </Layout>
   );
 }
 
