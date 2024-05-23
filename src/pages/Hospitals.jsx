@@ -127,12 +127,16 @@ const Hospitals = () => {
                 <h2 className="text-2xl">Hospitals</h2>
               </div>
               <section className="mt-6 flex justify-between w-full items-center">
-                <div className="users-tab-input w-9/12">
+                <div
+                  className="users-tab-input w-9/12"
+                  style={{ backgroundColor: '#d9d9d9' }}
+                >
                   <CiSearch />
                   <input
                     className="text-[14px]"
                     type="text"
                     placeholder="search hospitals"
+                    style={{ backgroundColor: '#d9d9d9' }}
                     //   onChange={(e) => handleSearch(e.target.value)}
                   />
                 </div>
