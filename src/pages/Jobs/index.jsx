@@ -131,7 +131,7 @@ function JobsPage() {
                 </div>
               </div>
             </section>
-            <section className="mt-10 flex gap-6">
+            <section className="mt-6 sm:mt-8 flex gap-6">
               <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
                 All jobs
               </button>
@@ -139,7 +139,7 @@ function JobsPage() {
                 Active jobs
               </button>
             </section>
-            <section className="jobs-list-wrappper flex gap-8 flex-col mt-10">
+            <section className="jobs-list-wrappper flex gap-8 flex-col mt-6 sm:mt-8">
               {jobsData.allJobs.map((job) => {
                 return (
                   <div
