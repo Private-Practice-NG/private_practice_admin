@@ -132,7 +132,7 @@ const Hospitals = () => {
                   <input
                     className="text-[14px]"
                     type="text"
-                    placeholder="search jobs"
+                    placeholder="search hospitals"
                     //   onChange={(e) => handleSearch(e.target.value)}
                   />
                 </div>

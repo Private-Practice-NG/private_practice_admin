@@ -137,7 +137,7 @@ function HospitalsEnrolment() {
                 <input
                   className="text-[14px]"
                   type="text"
-                  placeholder="search jobs"
+                  placeholder="search applications"
                   //   onChange={(e) => handleSearch(e.target.value)}
                 />
               </div>
