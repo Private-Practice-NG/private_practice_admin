@@ -4,7 +4,7 @@ import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
 import '../styles/userstab.css';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
 
@@ -26,7 +26,7 @@ function JobsPage() {
     async function fetchData() {
       try {
         console.log('serverBaseUrl', serverBaseUrl);
-        const toastId = toast.loading('fetching jobs data...');
+        // const toastId = toast.loading('fetching jobs data...');
 
         const serverResponse = await axios.get(
           `${serverBaseUrl}/api/jobs/get-all-jobs`,
@@ -44,10 +44,10 @@ function JobsPage() {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success('jobs data fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('jobs data fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
 
           console.log(serverResponse.data.response);
 

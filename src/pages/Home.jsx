@@ -7,7 +7,7 @@ import HomeAdmins from '../components/HomeAdmins';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 
 // const override = {
@@ -48,7 +48,7 @@ const Home = () => {
     dispatch(setNav('Home'));
     async function fetchData() {
       try {
-        const toastId = toast.loading('fetching dashboard data...');
+        // const toastId = toast.loading('fetching dashboard data...');
 
         const dashboardData = await axios.get(
           `${serverBaseUrl}/api/admins/dashboard`,
@@ -66,10 +66,10 @@ const Home = () => {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success('dashboard data fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('dashboard data fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
 
           // console.log(dashboardData.data.response);
 

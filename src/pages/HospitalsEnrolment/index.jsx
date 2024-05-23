@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import axios from 'axios';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
@@ -26,9 +26,9 @@ function HospitalsEnrolment() {
     async function fetchData() {
       try {
         console.log('serverBaseUrl', serverBaseUrl);
-        const toastId = toast.loading(
-          'fetching hospital enrolment dashboard data...'
-        );
+        // const toastId = toast.loading(
+        //   'fetching hospital enrolment dashboard data...'
+        // );
 
         const hospitalEnrolmentData = await axios.get(
           `${serverBaseUrl}/api/admins/hospitalEnrolls/dashboard`,
@@ -46,13 +46,13 @@ function HospitalsEnrolment() {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success(
-            'hospital enrolment dashboard data fetched successfully',
-            {
-              id: toastId,
-              duration: 4000
-            }
-          );
+          // toast.success(
+          //   'hospital enrolment dashboard data fetched successfully',
+          //   {
+          //     id: toastId,
+          //     duration: 4000
+          //   }
+          // );
 
           console.log(hospitalEnrolmentData.data.response);
 

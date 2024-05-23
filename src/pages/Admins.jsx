@@ -1,7 +1,7 @@
 import { useState } from 'react';
 // import HomeAdmins from "../components/HomeAdmins";
 import axios from 'axios';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -30,7 +30,7 @@ const Admins = () => {
     async function fetchData() {
       try {
         console.log('serverBaseUrl', serverBaseUrl);
-        const toastId = toast.loading('fetching admin profiles...');
+        // const toastId = toast.loading('fetching admin profiles...');
 
         const adminProfiles = await axios.get(
           `${serverBaseUrl}/api/admins/admins`,
@@ -48,10 +48,10 @@ const Admins = () => {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success('admin profiles fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('admin profiles fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
 
           setAdminProfilesData(adminProfiles.data.response.adminUsers);
           setIsLoading(false);

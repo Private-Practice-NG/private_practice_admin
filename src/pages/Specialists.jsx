@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 // import { useSpecialistsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import axios from 'axios';
 import SpecialistProfileCard from './Specialists/components/SpecialistProfileCard';
 import Layout from '../components/Layout';
@@ -45,7 +45,7 @@ const Specialists = () => {
     async function fetchData() {
       try {
         console.log('serverBaseUrl', serverBaseUrl);
-        const toastId = toast.loading('fetching specialists profiles...');
+        // const toastId = toast.loading('fetching specialists profiles...');
 
         const specialistsProfiles = await axios.get(
           `${serverBaseUrl}/api/admins/specialists`,
@@ -63,10 +63,10 @@ const Specialists = () => {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success('specialists profiles fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('specialists profiles fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
 
           console.log(specialistsProfilesData);
 

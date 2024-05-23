@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 // import { useHospitalsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import axios from 'axios';
 import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 import Layout from '../components/Layout';
@@ -41,7 +41,7 @@ const Hospitals = () => {
       try {
         console.log('serverBaseUrl', serverBaseUrl);
 
-        const toastId = toast.loading('fetching hospitals data...');
+        // const toastId = toast.loading('fetching hospitals data...');
 
         const hospitalsData = await axios.get(
           `${serverBaseUrl}/api/admins/hospitals`,
@@ -59,10 +59,10 @@ const Hospitals = () => {
           // &&
           // loggedInUser.data.requestStatus === 'login successful'
         ) {
-          toast.success('hospitals data fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('hospitals data fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
 
           // console.log(hospitalsData.data.response);
 
