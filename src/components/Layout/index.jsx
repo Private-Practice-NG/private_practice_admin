@@ -1,7 +1,7 @@
 // import React from 'react';
 import '../styles/pagecont.css';
 // import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 // import mockAvatar from '../../assets/img-2.png';
@@ -56,6 +56,16 @@ const Layout = ({ children }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    try {
+      if (!userInfo) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
