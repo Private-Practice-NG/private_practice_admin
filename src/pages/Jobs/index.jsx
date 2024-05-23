@@ -84,7 +84,7 @@ function JobsPage() {
           </div>
         ) : (
           <>
-            <div className="poppins font-[500] flex items-center gap-2">
+            <div className="poppins flex items-center gap-2">
               <h2 className="text-2xl">Jobs</h2>
               <div className="text-[14px]">({jobsData.jobsCount})</div>
             </div>

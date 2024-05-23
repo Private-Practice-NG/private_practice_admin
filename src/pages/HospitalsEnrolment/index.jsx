@@ -92,7 +92,7 @@ function HospitalsEnrolment() {
         ) : (
           <>
             <div className="poppins mb-8">
-              <h2 className="page-title text-2xl sm:text-3xl font-[500]">
+              <h2 className="page-title text-2xl sm:text-3xl">
                 Hospitals Enrolment
               </h2>
               {/* <div className="text-[14px]">(1250)</div> */}
