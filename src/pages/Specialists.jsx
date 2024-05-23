@@ -127,7 +127,7 @@ const Specialists = () => {
           <div className="users-tab px-3 sm:px-[20px]">
             <header className="flex flex-col mt-[15px]">
               <div className="poppins flex items-center gap-2">
-                <h2 className="text-2xl">Specialists</h2>
+                <h2 className="text-xl sm:text-2xl">Specialists</h2>
               </div>
               <section className="mt-6 flex justify-between w-full items-center">
                 <div

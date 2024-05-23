@@ -124,7 +124,7 @@ const Hospitals = () => {
           <div className="users-tab sm:px-[20px]">
             <header className="flex flex-col mt-[15px] mb-[30px]">
               <div className="poppins flex items-center gap-2">
-                <h2 className="text-2xl">Hospitals</h2>
+                <h2 className="text-xl sm:text-2xl">Hospitals</h2>
               </div>
               <section className="mt-6 flex justify-between w-full items-center">
                 <div
