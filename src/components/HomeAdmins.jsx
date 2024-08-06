@@ -1,13 +1,10 @@
-// import React from "react";
 import AdminProfileCard from '../pages/Admins/components/AdminProfileCard';
 import './styles/homeadmins.css';
-// import AdminListCard from './AdminListCard';
 import { Link } from 'react-router-dom';
 
-const HomeAdmins = ({ adminHomeData }) => {
+const HomeAdmins = ({ adminHomeData = { adminsData: [] } }) => {
   console.log(adminHomeData);
   const adminProfilesData = adminHomeData.adminsData.slice(0, 5);
-  // console.log(adminProfilesData);
 
   return (
     <div className="home-admins">
@@ -23,9 +20,9 @@ const HomeAdmins = ({ adminHomeData }) => {
         </Link>
       </header>
       <section className="flex flex-col gap-8">
-        {adminProfilesData.map((each) => {
-          return <AdminProfileCard key={each._id} profileData={each} />;
-        })}
+        {adminProfilesData.map((each) => (
+          <AdminProfileCard key={each._id} profileData={each} />
+        ))}
       </section>
     </div>
   );
