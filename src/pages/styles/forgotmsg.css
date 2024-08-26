@@ -1,4 +1,4 @@
-.forgot-msg{
+.forgot-msg {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -7,26 +7,33 @@
     align-items: center;
     gap: 25px;
 }
-.forgot-msg-details{
+
+.forgot-msg-details {
     text-align: center;
 }
-.forgot-msg-details h1{
+
+/* .forgot-msg-details h1 {
     font-weight: bolder;
-}
-.forgot-msg-btn{
+} */
+
+.forgot-msg-btn {
     width: 350px;
     text-align: center;
 }
-.not-found h1{
+
+.not-found h1 {
     text-transform: uppercase;
-    font-weight: bolder;
+    /* font-weight: bolder; */
 } 
-.not-found p{
+
+.not-found p {
     padding: 0 20%;
 }
-.not-found .back:hover{
+
+.not-found .back:hover {
     cursor: pointer;
 }
-.not-found .back svg{
+
+.not-found .back svg {
     width: 150px;
 }

@@ -1,59 +1,102 @@
-import React from "react";
-import "./styles/homeusers.css";
-import hos1 from "./../assets/hospitalAvatar.png";
-import hos2 from "./../assets/hos2.png";
-import stars from "./../assets/stars.png";
-import avatar from "./../assets/avatar-icon.png";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { Rating } from "react-simple-star-rating";
-const HomeUsers = () => {
+// // import React from "react";
+// import './styles/homeusers.css';
+// // import hos1 from './../assets/hospitalAvatar.png';
+// import HospitalProfileCard from '../pages/Hospitals/components/HospitalProfileCard';
+// // import hos2 from "./../assets/hos2.png";
+// // import stars from './../assets/stars.png';
+// import { Link } from 'react-router-dom';
+// // import { useSelector } from 'react-redux';
+// import SpecialistProfileCard from '../pages/Specialists/components/SpecialistProfileCard';
 
-  const {dashboardInfo} = useSelector((state)=> state.dashboard);
+// const HomeUsers = ({ adminHomeData }) => {
+//   console.log(adminHomeData);
+//   // const { dashboardInfo } = useSelector((state) => state.dashboard);
+
+//   return (
+//     <div className="home-users">
+//       {/* hospital section */}
+//       <div className="home-user-hos">
+//         <h1 className="poppins mb-4">Hospitals</h1>
+//         <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
+//           <section className="flex flex-col gap-8">
+//             {adminHomeData.hospitalsData.map((each) => {
+//               return <HospitalProfileCard key={each._id} profileData={each} />;
+//             })}
+//           </section>
+
+//           <Link to="/hospitals" className="btn-view-all poppins mt-8">
+//             View All
+//           </Link>
+//         </section>
+//       </div>
+
+//       {/* specialist section */}
+//       <div className="home-user-spec">
+//         <h1 className="poppins">Specialists</h1>
+//         <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
+//           <section className="grid grid-cols-2 gap-4">
+//             {adminHomeData.specialistsData.slice(0, 2).map((each) => {
+//               return (
+//                 <SpecialistProfileCard
+//                   key={each._id}
+//                   specialistProfile={each}
+//                 />
+//               );
+//             })}
+//           </section>
+
+//           <Link to="/specialists" className="btn-view-all poppins">
+//             View All
+//           </Link>
+//         </section>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default HomeUsers;
+
+// import React from "react";
+import './styles/homeusers.css';
+import HospitalProfileCard from '../pages/Hospitals/components/HospitalProfileCard';
+import { Link } from 'react-router-dom';
+import SpecialistProfileCard from '../pages/Specialists/components/SpecialistProfileCard';
+
+const HomeUsers = ({
+  adminHomeData = { hospitalsData: [], specialistsData: [] }
+}) => {
+  console.log(adminHomeData);
 
   return (
     <div className="home-users">
       {/* hospital section */}
       <div className="home-user-hos">
-        <h1>Hospitals</h1>
-        {dashboardInfo?.hospital.map((user, index) => (
-          <div key={index} className="home-user-hos-pro">
-            <div className="home-img-title">
-                <div className="home-profile-img">
-                    <img src={hos1} alt="hospital 1" />
-                </div>
-                <div className="hospital-title">
-                    <p>{user?.hospitalName}</p>
-                    {/* <img src={stars} alt="rank" /> */}
-                    <Rating size={"25px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
-                </div>
-            </div>
-            <Link to={`/hospital/${user?._id}`} className="btn-view-profile">View Profile</Link>
-          </div>
-        ))}
-        <Link to="/hospitals" className="btn-view-all">View All</Link>
+        <h1 className="poppins mb-4">Hospitals</h1>
+        <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
+          <section className="flex flex-col gap-8">
+            {adminHomeData.hospitalsData.map((each) => (
+              <HospitalProfileCard key={each._id} profileData={each} />
+            ))}
+          </section>
+          <Link to="/hospitals" className="btn-view-all poppins mt-8">
+            View All
+          </Link>
+        </section>
       </div>
 
       {/* specialist section */}
       <div className="home-user-spec">
-        <h1>Specialist</h1>
-        <div className="home-user-spec-pros">
-            {dashboardInfo?.specialist.map((user,index) =>(
-              <div key={index} className="home-user-spec-pro">
-                  <div className="home-avatar">
-                      <img src={avatar} alt="avatar" />
-                     
-                  </div>
-                  <p>{user?.firstName}</p>
-                  {/* <img src={stars} alt="stars" className="spec-stars"/> */}
-                  <Rating size={"20px"} readonly={true} initialValue={user?.rating ? user?.rating : 5} />
-                  <Link to={`/specialist/${user?._id}`} className="btn-view-profile">View Profile</Link>
-              </div>
-               
+        <h1 className="poppins">Specialists</h1>
+        <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
+          <section className="grid grid-cols-2 gap-4">
+            {adminHomeData.specialistsData.slice(0, 2).map((each) => (
+              <SpecialistProfileCard key={each._id} specialistProfile={each} />
             ))}
-        </div>
-
-        <Link to="/specialists" className="btn-view-all">View All</Link>
+          </section>
+          <Link to="/specialists" className="btn-view-all poppins">
+            View All
+          </Link>
+        </section>
       </div>
     </div>
   );
