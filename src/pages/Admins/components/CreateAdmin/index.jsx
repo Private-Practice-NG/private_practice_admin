@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { HiOutlineChevronLeft } from 'react-icons/hi2';
-// import { Link } from 'react-router-dom';
+import {
+  HiOutlineChevronLeft,
+  HiOutlineEye,
+  HiOutlineEyeSlash
+} from 'react-icons/hi2';
 import { TfiEmail } from 'react-icons/tfi';
 import { SlLock } from 'react-icons/sl';
 import { HiOutlineUser } from 'react-icons/hi2';
@@ -10,10 +13,22 @@ import { setNav } from '../../../../slices/usersSlice';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import Layout from '../../../../components/Layout';
+import { getAccessToken } from '../../../../utils/tokenUtils';
 
 function CreateAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
+
+  function toggleShowConfirmPassword() {
+    setShowConfirmPassword(!showConfirmPassword);
+  }
 
   const [createAdminForm, setCreateAdminForm] = useState({
     fullName: '',
@@ -23,7 +38,7 @@ function CreateAdmin() {
     profileImage: null
   });
 
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  // const [isFilePicked, setIsFilePicked] = useState(false);
 
   async function createAdminUser(e) {
     e.preventDefault();
@@ -55,20 +70,25 @@ function CreateAdmin() {
       return;
     }
 
-    if (!isFilePicked || createAdminForm.selectedImageFile === null) {
-      toast.error(
-        'you have not selected a profile picture, please select one',
-        {
-          duration: 3000
-        }
-      );
-      return;
-    }
+    // if (!isFilePicked || createAdminForm.selectedImageFile === null) {
+    //   toast.error(
+    //     'you have not selected a profile picture, please select one',
+    //     {
+    //       duration: 3000
+    //     }
+    //   );
+    //   return;
+    // }
 
     console.log(createAdminForm);
 
     const formData = new FormData();
     formData.append('profileImage', createAdminForm.profileImage);
+    formData.append('fullName', createAdminForm.fullName);
+    formData.append('email', createAdminForm.email);
+    formData.append('password', createAdminForm.password);
+
+    // formData.append('profileImage', createAdminForm.profileImage);
 
     // console.log(formData);
     console.log(createAdminForm.profileImage);
@@ -76,31 +96,22 @@ function CreateAdmin() {
     const toastId = toast.loading('creating admin account...');
 
     try {
+      const accessToken = getAccessToken();
       const newUser = await axios.post(
-        'http://localhost:5000/api/admins/register-admin', // this is the endpoint for creating a new user
-        {
-          fullName: createAdminForm.fullName,
-          email: createAdminForm.email,
-          password: createAdminForm.password,
-          profileImage: createAdminForm.profileImage
-        },
+        'http://localhost:3001/api/v1/admin/register-admin', // this is the endpoint for creating a new user
+        formData,
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'multipart/form-data'
-            // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg3YTI4NjJiNmE3NTgyZDQwNTQ1YzUiLCJ1c2VyRW1haWwiOiJva3BhaW5tb2FuZHJld0BnbWFpbC5jb20iLCJpYXQiOjE3MDM3NDA1MDgsImV4cCI6MTcwMzc0NDEwOH0.ZciIvPr5tpRTyUk20cgeSrweqYQhZja6P1rPO7c0Ylk`,
-            // Email: `okpainmoandrew@gmail.com`
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`
           }
         }
       );
 
       console.log(newUser);
 
-      if (
-        newUser
-        // &&
-        // newUser.data.requestStatus === 'admin account created successfully'
-      ) {
+      if (newUser) {
         toast.success('admin account created successfully', {
           id: toastId,
           duration: 4000
@@ -114,16 +125,6 @@ function CreateAdmin() {
         confirmPassword: '',
         profileImage: null
       });
-
-      // localStorage.setItem('userToken', `${newUser.data.token}`);
-      // localStorage.setItem('userEmail', `${newUser.data.user.email}`);
-      // const userToken = localStorage.getItem('userToken');
-      // const userEmail = localStorage.getItem('userEmail');
-      // console.log(userToken, userEmail);
-      // const userName = newUser.data.user.fullName;
-      // console.log(userName);
-      // localStorage.setItem('userName', `${userName}`);
-
       setTimeout(() => {
         navigate('/admins');
       }, 2000);
@@ -241,7 +242,7 @@ function CreateAdmin() {
                   </div>
                   <input
                     className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
                     value={createAdminForm.password}
                     onChange={(e) => {
@@ -252,6 +253,14 @@ function CreateAdmin() {
                     }}
                     id="password"
                     required
+                  />
+                  <HiOutlineEye
+                    className={`${showPassword ? 'hidden' : 'inline-block'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                    onClick={toggleShowPassword}
+                  />
+                  <HiOutlineEyeSlash
+                    className={`${showPassword ? 'inline-block' : 'hidden'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                    onClick={toggleShowPassword}
                   />
                 </section>
               </div>
@@ -274,7 +283,7 @@ function CreateAdmin() {
                   </div>
                   <input
                     className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="confirm password"
                     value={createAdminForm.confirmPassword}
                     onChange={(e) => {
@@ -285,6 +294,14 @@ function CreateAdmin() {
                     }}
                     id="confirmPassword"
                     required
+                  />
+                  <HiOutlineEye
+                    className={`${showConfirmPassword ? 'hidden' : 'inline-block'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                    onClick={toggleShowConfirmPassword}
+                  />
+                  <HiOutlineEyeSlash
+                    className={`${showConfirmPassword ? 'inline-block' : 'hidden'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                    onClick={toggleShowConfirmPassword}
                   />
                 </section>
               </div>
@@ -304,7 +321,7 @@ function CreateAdmin() {
                       ...createAdminForm,
                       profileImage: e.target.files[0]
                     });
-                    setIsFilePicked(true);
+                    // setIsFilePicked(true);
                   }}
                 />
               </div>
