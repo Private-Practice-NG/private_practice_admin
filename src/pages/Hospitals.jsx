@@ -7,98 +7,67 @@ import { useEffect, useState } from 'react';
 // import { useHospitalsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 import Layout from '../components/Layout';
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 
-// const override = {
-//   backgroundColor: 'transparent', // no background color for this spinner
-//   width: '300px!important' // width of the spinner
-// };
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+// const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
-const Hospitals = () => {
+const Hospitals = ({ hospitalsProfilesData }) => {
+  const profiles = hospitalsProfilesData || [];
   const [isLoading, setIsLoading] = useState(true);
 
-  const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
+  // const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const dispatch = useDispatch();
 
-  // const [users, { isLoading }] = useHospitalsMutation();
   useEffect(() => {
     dispatch(setNav('Hospital'));
-    // async function fetchData() {
-    //   try {
-    //     const res = await users().unwrap();
-    //     dispatch(setHospitals(res.data));
-    //   } catch (error) {
-    //     console.log(error?.data?.message || 'something went wrong');
-    //   }
-    // }
-    // fetchData();
-
+    const toastId = toast.loading('signin you in...');
     async function fetchData() {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
 
-        // const toastId = toast.loading('fetching hospitals data...');
+        console.log('Access Token:', token);
+        console.log('User Info:', userInfo);
+        console.log('User Email:', userEmail);
+
+        if (!token || !userEmail) {
+          console.warn('Missing token or user email');
+          setIsLoading(false);
+          return;
+        }
 
         const hospitalsData = await axios.get(
-          `${serverBaseUrl}/api/admins/hospitals`,
+          `http://localhost:3001/api/v1/hospitals/get-all-hospitals`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: userInfo.email
+            }
           }
         );
 
-        if (
-          hospitalsData
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('hospitals data fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
-
-          // console.log(hospitalsData.data.response);
-
-          setHospitalsProfilesData(hospitalsData.data.response);
+        if (hospitalsData) {
           setIsLoading(false);
 
-          console.log(hospitalsData.data.response);
-          // dispatch(setAdmins(adminProfiles.data));
+          const hospitals = hospitalsData.data.response.hospitals;
+          console.log('Hospitals:', hospitals);
         }
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        console.log(error);
+        toast.error(error?.response?.data?.message || 'Something went wrong.', {
+          id: toastId
+        });
+        setIsLoading(false);
       }
     }
     fetchData();
-  }, []);
-
-  // const { hospitals } = useSelector((state) => state.users);
-
-  // Function to perform the search
-  // function search(query) {
-  //   // Convert the query to lowercase for a case-insensitive search
-  //   const searchTerm = query.toLowerCase();
-
-  //   // Filter the hospitals array based on the search term
-  //   const results = hospitals.filter(
-  //     (item) => item.hospitalName.toLowerCase().includes(searchTerm) // search in 'hospitalname' property
-  //   );
-
-  //   return results;
-  // }
-
-  //function to handle the search query
-  // const handleSearch = (searchQuery) => {
-  //   const searchResults = search(searchQuery);
-  //   setSearchData(searchResults);
-  // };
+  }, [dispatch]);
 
   return (
     <Layout>
@@ -180,11 +149,14 @@ const Hospitals = () => {
             />
           </section> */}
             <section className="flex flex-col gap-8">
-              {hospitalsProfilesData.hospitalsProfiles.map((each) => {
-                return (
+              {/* Conditional rendering: Render only if profiles is a valid array */}
+              {Array.isArray(profiles) && profiles.length > 0 ? (
+                profiles.map((each) => (
                   <HospitalProfileCard key={each._id} profileData={each} />
-                );
-              })}
+                ))
+              ) : (
+                <p>No hospital profiles available.</p> // Fallback content
+              )}
             </section>
           </div>
         )}

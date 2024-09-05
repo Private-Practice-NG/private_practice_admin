@@ -11,15 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { storeAccessToken } from '../utils/tokenUtils';
+import { storeAccessToken, storeUserInfo } from '../utils/tokenUtils';
 
-// const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
-// const override = {
-//   margin: '0 auto',
-//   width: '100%',
-//   top: '50%',
-//   left: '50%'
+// const storeUserInfo = (userInfo) => {
+//   try {
+//     localStorage.setItem('userInfo', JSON.stringify(userInfo));
+//   } catch (error) {
+//     console.error('Error storing user info:', error);
+//   }
 // };
 
 const Login = () => {
@@ -58,16 +57,23 @@ const Login = () => {
           withCredentials: true
         }
       );
-      console.log('Server response:', response);
+      console.log('Server response:', response.data);
       const accessToken = response.data.response?.accessToken;
+      const { _id: userId, email: userEmail } = response.data.response.user;
 
       if (accessToken) {
         // Use the utility function to store the access token
         storeAccessToken(accessToken);
 
+        const userInfo = { userId, email: userEmail };
+        storeUserInfo(userInfo);
+
+        console.log(userInfo);
+
         toast.success('Login successful.', { id: toastId });
 
         setIsLoading(false);
+        console.log('Navigating to home...');
         navigate('/');
       } else {
         throw new Error('Failed to obtain access token');

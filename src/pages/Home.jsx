@@ -24,6 +24,7 @@ import Layout from '../components/Layout';
 const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const Home = () => {
+  console.log('Home component loaded');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [adminHomeData, setAdminHomeData] = useState([]);
