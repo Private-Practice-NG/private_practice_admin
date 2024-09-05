@@ -2,7 +2,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useState } from 'react';
 
 export default function MyModal() {
-  const [isOpen, setIsOpen] = useState(true); // Set the initial state to true if you want the modal to open immediately
+  const [isOpen, setIsOpen] = useState(false);
 
   function close() {
     setIsOpen(false);
