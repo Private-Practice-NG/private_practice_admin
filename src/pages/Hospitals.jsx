@@ -1,10 +1,7 @@
-// import React from "react";
+import { useEffect, useState } from 'react';
 import './styles/userstab.css';
 import { CiSearch } from 'react-icons/ci';
-// import UserProfileCard from '../components/UserProfileCard';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-// import { useHospitalsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import toast from 'react-hot-toast';
@@ -13,18 +10,15 @@ import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 import Layout from '../components/Layout';
 import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 
-// const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
-const Hospitals = ({ hospitalsProfilesData }) => {
-  const profiles = hospitalsProfilesData || [];
+const Hospitals = () => {
+  const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setNav('Hospital'));
-    const toastId = toast.loading('signin you in...');
+    const toastId = toast.loading('Fetching hospitals data...');
+
     async function fetchData() {
       try {
         const token = getAccessToken();
@@ -52,12 +46,11 @@ const Hospitals = ({ hospitalsProfilesData }) => {
           }
         );
 
-        if (hospitalsData) {
-          setIsLoading(false);
-
-          const hospitals = hospitalsData.data.response.hospitals;
-          console.log('Hospitals:', hospitals);
-        }
+        const hospitals = hospitalsData.data.response.hospitals;
+        console.log('Hospitals:', hospitals);
+        setHospitalsProfilesData(hospitals);
+        setIsLoading(false);
+        toast.dismiss(toastId);
       } catch (error) {
         console.log(error);
         toast.error(error?.response?.data?.message || 'Something went wrong.', {
@@ -66,6 +59,7 @@ const Hospitals = ({ hospitalsProfilesData }) => {
         setIsLoading(false);
       }
     }
+
     fetchData();
   }, [dispatch]);
 
@@ -73,22 +67,18 @@ const Hospitals = ({ hospitalsProfilesData }) => {
     <Layout>
       <main className="w-full flex justify-center items-center">
         {isLoading ? (
-          <>
-            <div className="spinner flex justify-center items-center pt-[100px]">
-              <FadeLoader
-                color={'#10ACF5'}
-                loading={true}
-                // cssOverride={override}
-                // size={300}
-                height={40}
-                width={2}
-                radius={10}
-                margin={10}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </div>
-          </>
+          <div className="spinner flex justify-center items-center pt-[100px]">
+            <FadeLoader
+              color={'#10ACF5'}
+              loading={true}
+              height={40}
+              width={2}
+              radius={10}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
         ) : (
           <div className="users-tab sm:px-[20px]">
             <header className="flex flex-col mt-[15px] mb-[30px]">
@@ -106,14 +96,10 @@ const Hospitals = ({ hospitalsProfilesData }) => {
                     type="text"
                     placeholder="search hospitals"
                     style={{ backgroundColor: '#d9d9d9' }}
-                    //   onChange={(e) => handleSearch(e.target.value)}
                   />
                 </div>
                 <div className="filter-button w-2/12">
                   <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
-                    {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
-                    filter by
-                  </span> */}
                     <svg
                       className="w-[14px]"
                       viewBox="0 0 31 20"
@@ -143,19 +129,14 @@ const Hospitals = ({ hospitalsProfilesData }) => {
                 </div>
               </section>
             </header>
-            {/* <section className="flex flex-col gap-8">
-            <HospitalProfileCard
-              hospitalsProfilesData={hospitalsProfilesData}
-            />
-          </section> */}
+
             <section className="flex flex-col gap-8">
-              {/* Conditional rendering: Render only if profiles is a valid array */}
-              {Array.isArray(profiles) && profiles.length > 0 ? (
-                profiles.map((each) => (
+              {hospitalsProfilesData.length > 0 ? (
+                hospitalsProfilesData.map((each) => (
                   <HospitalProfileCard key={each._id} profileData={each} />
                 ))
               ) : (
-                <p>No hospital profiles available.</p> // Fallback content
+                <p>No hospital profiles available.</p>
               )}
             </section>
           </div>

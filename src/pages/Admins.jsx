@@ -46,16 +46,15 @@ const Admins = () => {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${token}`,
-              Email: userInfo.email
+              Email: userEmail
             }
           }
         );
-
-        if (adminProfiles) {
-          setAdminProfilesData(adminProfiles.data.response.adminUsers);
-          setIsLoading(false);
-          // dispatch(setAdmins(adminProfiles.data));
-        }
+        const adminUsers = adminProfiles.data.response.allAdminData;
+        console.log('specialists', adminUsers);
+        setAdminProfilesData(adminUsers);
+        setIsLoading(false);
+        toast.dismiss(toastId);
       } catch (error) {
         console.log(error);
         toast.error(error?.response?.data?.message || 'Something went wrong.', {
@@ -100,9 +99,13 @@ const Admins = () => {
               </Link>
             </header>
             <section className="flex flex-col gap-8">
-              {adminProfilesData.map((each) => {
-                return <AdminProfileCard key={each._id} profileData={each} />;
-              })}
+              {adminProfilesData.length > 0 ? (
+                adminProfilesData.map((each) => (
+                  <AdminProfileCard key={each._id} profileData={each} />
+                ))
+              ) : (
+                <p>No admin profiles available.</p>
+              )}
             </section>
           </section>
         )}

@@ -31,6 +31,7 @@ const Layout = ({ children }) => {
   const { nav } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const userInfo = getUserInfo();
+  const userEmail = userInfo?.email;
   // const toastId = toast.loading('signin you out...');
 
   const hideMobileNav = () => {
@@ -46,11 +47,14 @@ const Layout = ({ children }) => {
     hideMobileNav();
   };
 
+  console.log('User Email:', userEmail);
+  // const toastId = toast.loading('Fetching specialists data...');
   const logoutHandler = async () => {
     try {
       await axios.post('http://localhost:3001/api/v1/admins/logout', null, {
         headers: {
-          Authorization: `Bearer ${getAccessToken()}`
+          Authorization: `Bearer ${getAccessToken()}`,
+          Email: userEmail
         }
       });
 
@@ -300,7 +304,7 @@ const Layout = ({ children }) => {
               </div>
             </div>
             <div
-              // onClick={logoutHandler}
+              onClick={logoutHandler}
               className={nav == 'Log Out' ? 'nav-link active' : 'nav-link'}
             >
               <HiArrowLeftCircle className="text-[25px]" />{' '}
