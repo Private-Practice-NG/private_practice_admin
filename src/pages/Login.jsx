@@ -1,122 +1,91 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
 import { TfiEmail } from 'react-icons/tfi';
 import { SlLock } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useLoginMutation } from '../slices/usersApiSlice';
-// import { setCredentials } from '../slices/authSlice';
+import { HiOutlineEye } from 'react-icons/hi2';
+import { HiOutlineEyeSlash } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import FadeLoader from 'react-spinners/FadeLoader';
+import { storeAccessToken, storeUserInfo } from '../utils/tokenUtils';
 
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
-
-// const override = {
-//   margin: '0 auto',
-//   width: '100%',
-//   top: '50%',
-//   left: '50%'
+// const storeUserInfo = (userInfo) => {
+//   try {
+//     localStorage.setItem('userInfo', JSON.stringify(userInfo));
+//   } catch (error) {
+//     console.error('Error storing user info:', error);
+//   }
 // };
-
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
+
   const [loginForm, setLoginForm] = useState({
     email: '',
-    password: '',
+    password: ''
   });
-
-  // const [user, setUser] = useState({})
-  //  const submitHandler = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const toastId = toast.loading('logging in...');
-
-  //     const res = await login({ email, password }).unwrap();
-  //     dispatch(setCredentials({ ...res }));
-  //     navigate('/');
-  //     toast.success('logged in successfully', {
-  //       id: toastId,
-  //       duration: 4000
-  //       // position: 'bottom-left',
-
-  //       // Styling
-  //       // style: {
-  //       //   fontSize: '14px'
-  //       // }
-  //     });
-  //   } catch (error) {
-  //     toast.error(error?.data?.message || 'Something Went Wrong');
-  //   }
-  // };
-
-      // userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) :null
-
 
   async function loginHandler(e) {
     e.preventDefault();
 
     const toastId = toast.loading('signin you in...');
-    setIsLoading(true)
-    
+    setIsLoading(true);
+
     console.log(loginForm);
-    
+
     if (loginForm.email === '' || loginForm.password === '') {
       return toast.error('please fill in all fields', { duration: 3000 });
     }
 
     // async function fetchData() {
     try {
-      console.log('serverBaseUrl', serverBaseUrl);
-
-
-      const loggedInUser = await axios.post(
-        `${serverBaseUrl}/api/admins/auth`,
+      const response = await axios.post(
+        `http://localhost:3001/api/v1/admin/admin-log-in`,
         loginForm,
         {
           withCredentials: true
-          // headers: {
-          //   Authorization: `Bearer ${userAccessToken}`,
-          //   Email: `${userEmail}`,
-          // },
         }
       );
+      console.log('Server response:', response.data);
+      const accessToken = response.data.response?.accessToken;
+      const { _id: userId, email: userEmail } = response.data.response.user;
 
-      if (
-          loggedInUser
-        // &&
-        // loggedInUser.data.requestStatus === 'login successful'
-      ) {
-        // console.log('adminUser data fetched successfully');
+      if (accessToken) {
+        // Use the utility function to store the access token
+        storeAccessToken(accessToken);
 
-        console.log(loggedInUser.data.response);
+        const userInfo = { userId, email: userEmail };
+        storeUserInfo(userInfo);
 
-        // setUser(adminUser);
-      toast.success('login successful.', {
-        id: toastId,
-        // duration: 4000,
-      });
-        
-      localStorage.setItem('userInfo', JSON.stringify(loggedInUser.data.response));
+        console.log(userInfo);
 
-      setIsLoading(false);
-      
-      navigate("/")
+        toast.success('Login successful.', { id: toastId });
+
+        setIsLoading(false);
+        console.log('Navigating to home...');
+        navigate('/');
+      } else {
+        throw new Error('Failed to obtain access token');
       }
-      // dispatch(setAdmins(adminProfiles.data));
     } catch (error) {
-      console.log(error?.data?.message || error.error);
+      console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong.', {
+        id: toastId
+      });
+      setIsLoading(false);
     }
   }
-  
 
   // const [color, setColor] = useState('#10ACF5');
 
@@ -131,8 +100,6 @@ const Login = () => {
   //     navigate('/');
   //   }
   // }, [navigate, userInfo]);
-
- 
 
   return (
     <div className="auth auth-body flex items-center justify-center">
@@ -187,14 +154,14 @@ const Login = () => {
                 className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type="email"
                 placeholder="youremail@email.com"
-                 value={loginForm.email}
+                value={loginForm.email}
                 onChange={(e) => {
                   setLoginForm({
                     ...loginForm,
-                    email: e.target.value,
+                    email: e.target.value
                   });
                 }}
-                id='email'
+                id="email"
                 required
               />
             </div>
@@ -208,17 +175,25 @@ const Login = () => {
               </div>
               <input
                 className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={loginForm.password}
                 onChange={(e) => {
                   setLoginForm({
                     ...loginForm,
-                    password: e.target.value,
+                    password: e.target.value
                   });
                 }}
-                id='password'
+                id="password"
                 required
+              />
+              <HiOutlineEye
+                className={`${showPassword ? 'hidden' : 'inline-block'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                onClick={toggleShowPassword}
+              />
+              <HiOutlineEyeSlash
+                className={`${showPassword ? 'inline-block' : 'hidden'} text-[20px] cursor-pointer absolute top-[15px] right-4`}
+                onClick={toggleShowPassword}
               />
             </div>
           </section>
@@ -231,7 +206,7 @@ const Login = () => {
 
           <button
             className="mt-5 btn auth-submit-btn poppins py-4"
-            onClick={ loginHandler}
+            onClick={loginHandler}
           >
             Login
           </button>

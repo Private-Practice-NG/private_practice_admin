@@ -1,125 +1,84 @@
-// import React from "react";
+import { useEffect, useState } from 'react';
 import './styles/userstab.css';
 import { CiSearch } from 'react-icons/ci';
-// import UserProfileCard from '../components/UserProfileCard';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-// import { useHospitalsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 import Layout from '../components/Layout';
-
-// const override = {
-//   backgroundColor: 'transparent', // no background color for this spinner
-//   width: '300px!important' // width of the spinner
-// };
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 
 const Hospitals = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
-  // const [users, { isLoading }] = useHospitalsMutation();
   useEffect(() => {
     dispatch(setNav('Hospital'));
-    // async function fetchData() {
-    //   try {
-    //     const res = await users().unwrap();
-    //     dispatch(setHospitals(res.data));
-    //   } catch (error) {
-    //     console.log(error?.data?.message || 'something went wrong');
-    //   }
-    // }
-    // fetchData();
+    const toastId = toast.loading('Fetching hospitals data...');
 
     async function fetchData() {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
 
-        // const toastId = toast.loading('fetching hospitals data...');
+        console.log('Access Token:', token);
+        console.log('User Info:', userInfo);
+        console.log('User Email:', userEmail);
+
+        if (!token || !userEmail) {
+          console.warn('Missing token or user email');
+          setIsLoading(false);
+          return;
+        }
 
         const hospitalsData = await axios.get(
-          `${serverBaseUrl}/api/admins/hospitals`,
+          `http://localhost:3001/api/v1/hospitals/get-all-hospitals`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: userInfo.email
+            }
           }
         );
 
-        if (
-          hospitalsData
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('hospitals data fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
-
-          // console.log(hospitalsData.data.response);
-
-          setHospitalsProfilesData(hospitalsData.data.response);
-          setIsLoading(false);
-
-          console.log(hospitalsData.data.response);
-          // dispatch(setAdmins(adminProfiles.data));
-        }
+        const hospitals = hospitalsData.data.response.hospitals;
+        console.log('Hospitals:', hospitals);
+        setHospitalsProfilesData(hospitals);
+        setIsLoading(false);
+        toast.dismiss(toastId);
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        console.log(error);
+        toast.error(error?.response?.data?.message || 'Something went wrong.', {
+          id: toastId
+        });
+        setIsLoading(false);
       }
     }
+
     fetchData();
-  }, []);
-
-  // const { hospitals } = useSelector((state) => state.users);
-
-  // Function to perform the search
-  // function search(query) {
-  //   // Convert the query to lowercase for a case-insensitive search
-  //   const searchTerm = query.toLowerCase();
-
-  //   // Filter the hospitals array based on the search term
-  //   const results = hospitals.filter(
-  //     (item) => item.hospitalName.toLowerCase().includes(searchTerm) // search in 'hospitalname' property
-  //   );
-
-  //   return results;
-  // }
-
-  //function to handle the search query
-  // const handleSearch = (searchQuery) => {
-  //   const searchResults = search(searchQuery);
-  //   setSearchData(searchResults);
-  // };
+  }, [dispatch]);
 
   return (
     <Layout>
       <main className="w-full flex justify-center items-center">
         {isLoading ? (
-          <>
-            <div className="spinner flex justify-center items-center pt-[100px]">
-              <FadeLoader
-                color={'#10ACF5'}
-                loading={true}
-                // cssOverride={override}
-                // size={300}
-                height={40}
-                width={2}
-                radius={10}
-                margin={10}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </div>
-          </>
+          <div className="spinner flex justify-center items-center pt-[100px]">
+            <FadeLoader
+              color={'#10ACF5'}
+              loading={true}
+              height={40}
+              width={2}
+              radius={10}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
         ) : (
           <div className="users-tab sm:px-[20px]">
             <header className="flex flex-col mt-[15px] mb-[30px]">
@@ -137,14 +96,10 @@ const Hospitals = () => {
                     type="text"
                     placeholder="search hospitals"
                     style={{ backgroundColor: '#d9d9d9' }}
-                    //   onChange={(e) => handleSearch(e.target.value)}
                   />
                 </div>
                 <div className="filter-button w-2/12">
                   <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
-                    {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
-                    filter by
-                  </span> */}
                     <svg
                       className="w-[14px]"
                       viewBox="0 0 31 20"
@@ -174,17 +129,15 @@ const Hospitals = () => {
                 </div>
               </section>
             </header>
-            {/* <section className="flex flex-col gap-8">
-            <HospitalProfileCard
-              hospitalsProfilesData={hospitalsProfilesData}
-            />
-          </section> */}
+
             <section className="flex flex-col gap-8">
-              {hospitalsProfilesData.hospitalsProfiles.map((each) => {
-                return (
+              {hospitalsProfilesData.length > 0 ? (
+                hospitalsProfilesData.map((each) => (
                   <HospitalProfileCard key={each._id} profileData={each} />
-                );
-              })}
+                ))
+              ) : (
+                <p>No hospital profiles available.</p>
+              )}
             </section>
           </div>
         )}

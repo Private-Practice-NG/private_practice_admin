@@ -1,9 +1,11 @@
 // import React from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/pagecont.css';
 // import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import toast from 'react-hot-toast';
 // import mockAvatar from '../../assets/img-2.png';
 import { HiHome } from 'react-icons/hi2';
 import { HiUsers } from 'react-icons/hi2';
@@ -16,15 +18,21 @@ import { HiArrowLeftCircle } from 'react-icons/hi2';
 // import { Outlet } from 'react-router-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import { useSelector } from 'react-redux';
-// import { useLogoutMutation } from '../../slices/usersApiSlice';
-// import { logout } from '../../slices/authSlice';
-// import { removeDashboard } from '../../slices/dashboardSlice';
+import {
+  getUserInfo,
+  clearStoredAccessToken,
+  clearStoredUserInfo,
+  getAccessToken
+} from '../../utils/tokenUtils';
 
 const Layout = ({ children }) => {
   const [closeMobileNav, setCloseMobileNav] = useState(true);
-
-  // const [setActive] = useState('Home');
+  // const [isLoading, setIsLoading] = useState(true);
   const { nav } = useSelector((state) => state.users);
+  const navigate = useNavigate();
+  const userInfo = getUserInfo();
+  const userEmail = userInfo?.email;
+  // const toastId = toast.loading('signin you out...');
 
   const hideMobileNav = () => {
     setCloseMobileNav(true);
@@ -34,38 +42,42 @@ const Layout = ({ children }) => {
     setCloseMobileNav(false);
   };
 
-  const handleNav = (event, { /* nav,*/ to }) => {
-    // setActive(nav);
+  const handleNav = (event, { to }) => {
     navigate(to);
     hideMobileNav();
   };
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  console.log(userInfo);
-
-  const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const [logoutApiCall] = useLogoutMutation();
-
+  console.log('User Email:', userEmail);
+  // const toastId = toast.loading('Fetching specialists data...');
   const logoutHandler = async () => {
     try {
-      localStorage.clear();
+      await axios.post('http://localhost:3001/api/v1/admins/logout', null, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          Email: userEmail
+        }
+      });
+
+      // Clear tokens and user info
+      clearStoredAccessToken();
+      clearStoredUserInfo();
+
+      // Redirect to login
       navigate('/login');
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong.', {
+        // id: toastId
+      });
+      // setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    try {
-      if (!userInfo) {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.log(error);
+    if (!userInfo) {
+      navigate('/login');
     }
-  }, []);
+  }, [userInfo, navigate]);
 
   return (
     <>
