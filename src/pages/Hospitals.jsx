@@ -9,6 +9,7 @@ import axios from 'axios';
 import HospitalProfileCard from './Hospitals/components/HospitalProfileCard';
 import Layout from '../components/Layout';
 import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
+import { showModal } from '../slices/modalSlice';
 
 const Hospitals = () => {
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
@@ -30,7 +31,13 @@ const Hospitals = () => {
         console.log('User Email:', userEmail);
 
         if (!token || !userEmail) {
-          console.warn('Missing token or user email');
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
           setIsLoading(false);
           return;
         }
@@ -41,7 +48,7 @@ const Hospitals = () => {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${token}`,
-              Email: userInfo.email
+              Email: userEmail
             }
           }
         );
@@ -52,11 +59,17 @@ const Hospitals = () => {
         setIsLoading(false);
         toast.dismiss(toastId);
       } catch (error) {
-        console.log(error);
-        toast.error(error?.response?.data?.message || 'Something went wrong.', {
-          id: toastId
-        });
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
         setIsLoading(false);
+        toast.dismiss(toastId);
       }
     }
 

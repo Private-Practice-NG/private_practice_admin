@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import SpecialistProfileCard from './Specialists/components/SpecialistProfileCard';
 import Layout from '../components/Layout';
 import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
+import { showModal } from '../slices/modalSlice';
 
 const Specialists = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +30,18 @@ const Specialists = () => {
         console.log('User Info:', userInfo);
         console.log('User Email:', userEmail);
 
+        if (!token || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
+
         const specialistsProfiles = await axios.get(
           `http://localhost:3001/api/v1/specialists/get-all-specialists`,
           {
@@ -40,18 +53,24 @@ const Specialists = () => {
           }
         );
 
-        const specialists = specialistsProfiles.data.response.specialistsData; // Ensure this path is correct
+        const specialists = specialistsProfiles.data.response.specialistsData;
         console.log('specialists', specialists);
 
-        setSpecialistProfilesData(specialists); // Update state once
+        setSpecialistProfilesData(specialists);
         setIsLoading(false);
         toast.dismiss(toastId);
       } catch (error) {
-        console.error('API Error:', error);
-        toast.error(error?.response?.data?.message || 'Something went wrong.', {
-          id: toastId
-        });
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
         setIsLoading(false);
+        toast.dismiss(toastId);
       }
     };
 

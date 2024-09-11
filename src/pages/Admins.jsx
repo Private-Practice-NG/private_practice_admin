@@ -1,28 +1,23 @@
-import { useState } from 'react';
-// import HomeAdmins from "../components/HomeAdmins";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-// import { useAdminsMutation } from '../slices/usersApiSlice';
-// import { setAdmins } from "../slices/usersSlice";
-import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import AdminProfileCard from './Admins/components/AdminProfileCard';
 import Layout from '../components/Layout';
 import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
+import { setNav } from '../slices/usersSlice';
+import { showModal } from '../slices/modalSlice';
 
 const Admins = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [adminProfilesData, setAdminProfilesData] = useState([]);
-  // const isLoading = true;
 
   useEffect(() => {
     dispatch(setNav('Admin'));
-    const toastId = toast.loading('signin you in...');
+    const toastId = toast.loading('Signing you in...');
 
     async function fetchData() {
       try {
@@ -30,12 +25,14 @@ const Admins = () => {
         const userInfo = getUserInfo();
         const userEmail = userInfo?.email;
 
-        console.log('Access Token:', token);
-        console.log('User Info:', userInfo);
-        console.log('User Email:', userEmail);
-
         if (!token || !userEmail) {
-          console.warn('Missing token or user email');
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
           setIsLoading(false);
           return;
         }
@@ -51,22 +48,27 @@ const Admins = () => {
           }
         );
         const adminUsers = adminProfiles.data.response.allAdminData;
-        console.log('specialists', adminUsers);
         setAdminProfilesData(adminUsers);
         setIsLoading(false);
         toast.dismiss(toastId);
       } catch (error) {
-        console.log(error);
-        toast.error(error?.response?.data?.message || 'Something went wrong.', {
-          id: toastId
-        });
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
         setIsLoading(false);
+        toast.dismiss(toastId);
       }
     }
-    fetchData();
-  }, []);
 
-  // const { admins } = useSelector((state) => state.users);
+    fetchData();
+  }, [dispatch]);
+
   return (
     <Layout>
       <main className="w-full flex justify-center items-center">
@@ -75,8 +77,6 @@ const Admins = () => {
             <FadeLoader
               color={'#10ACF5'}
               loading={true}
-              // cssOverride={override}
-              // size={300}
               height={40}
               width={2}
               radius={10}
