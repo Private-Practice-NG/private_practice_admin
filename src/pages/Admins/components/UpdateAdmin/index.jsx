@@ -10,10 +10,12 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import Layout from '../../../../components/Layout';
 import { getAccessToken, getUserInfo } from '../../../../utils/tokenUtils';
+import { showModal } from '../../../../slices/modalSlice';
 
 function UpdateAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(true);
 
   const [updateAdminForm, setUpdateAdminForm] = useState({
     fullName: '',
@@ -37,6 +39,18 @@ function UpdateAdmin() {
         console.log('User Info:', userInfo);
         console.log('User Email:', userEmail);
 
+        if (!accessToken || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          // setIsLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           'http://localhost:3001/api/v1/admin/get-admin-profile',
           {
@@ -58,8 +72,17 @@ function UpdateAdmin() {
         });
         console.log(profileData);
       } catch (error) {
-        // toast.error('error creating user', { id: toastId, duration: 3000 });
-        console.log(error);
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
+        // setIsLoading(false);
+        // toast.dismiss(toastId);
       }
     }
     fetchAdminProfile();
@@ -108,6 +131,18 @@ function UpdateAdmin() {
       console.log('User Info:', userInfo);
       console.log('User Email:', userEmail);
 
+      if (!accessToken || !userEmail) {
+        dispatch(
+          showModal({
+            title: 'Authentication Error',
+            message:
+              'Access token or user email is missing. Please log in again.'
+          })
+        );
+        // setIsLoading(false);
+        return;
+      }
+
       await axios.post(
         'http://localhost:3001/api/v1/admin/update-admin',
         formData,
@@ -126,8 +161,17 @@ function UpdateAdmin() {
       });
       navigate('/admins');
     } catch (error) {
-      toast.error('Error updating profile', { id: toastId, duration: 3000 });
-      console.error(error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        'Something went wrong. Please try again.';
+      dispatch(
+        showModal({
+          title: 'Error',
+          message: errorMessage
+        })
+      );
+      // setIsLoading(false);
+      // toast.dismiss(toastId);
     }
   }
 
