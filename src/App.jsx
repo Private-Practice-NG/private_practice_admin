@@ -39,7 +39,7 @@ function App() {
             element={<CreateAdmin />}
           />
           <Route
-            path="/admins/update-admin-account"
+            path="/admins/update-admin-account/:adminId"
             element={<UpdateAdmin />}
           />
           <Route path="/hospitals" element={<Hospitals />} />
