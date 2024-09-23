@@ -99,7 +99,7 @@ const Specialists = () => {
               <div className="poppins flex items-center gap-2">
                 <h2 className="text-xl sm:text-2xl">Specialists</h2>
               </div>
-              <section className="mt-6 flex justify-between w-full items-center">
+              <section className="mt-6 mb-10 flex justify-between w-full items-center">
                 <div
                   className="users-tab-input w-9/12"
                   style={{ backgroundColor: '#d9d9d9' }}
