@@ -1,11 +1,11 @@
 // import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../styles/pagecont.css';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 // import mockAvatar from '../../assets/img-2.png';
 import { HiHome } from 'react-icons/hi2';
 import { HiUsers } from 'react-icons/hi2';
@@ -17,23 +17,23 @@ import { HiBriefcase } from 'react-icons/hi2';
 import { HiArrowLeftCircle } from 'react-icons/hi2';
 // import { Outlet } from 'react-router-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getUserInfo,
   clearStoredAccessToken,
   clearStoredUserInfo,
   getAccessToken
 } from '../../utils/tokenUtils';
+import { showModal } from '../../slices/modalSlice';
 
 const Layout = ({ children }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [closeMobileNav, setCloseMobileNav] = useState(true);
   // const [isLoading, setIsLoading] = useState(true);
   const { nav } = useSelector((state) => state.users);
-  const navigate = useNavigate();
   const userInfo = getUserInfo();
-  const userEmail = userInfo?.email;
-  // const toastId = toast.loading('signin you out...');
-
   const hideMobileNav = () => {
     setCloseMobileNav(true);
   };
@@ -47,37 +47,54 @@ const Layout = ({ children }) => {
     hideMobileNav();
   };
 
-  console.log('User Email:', userEmail);
-  // const toastId = toast.loading('Fetching specialists data...');
   const logoutHandler = async () => {
     try {
-      await axios.post('http://localhost:3001/api/v1/admins/logout', null, {
+      const token = getAccessToken();
+      const userInfo = getUserInfo();
+      const userEmail = userInfo?.email;
+
+      const bodyData = {
+        email: userEmail
+      };
+
+      if (!token || !userEmail) {
+        dispatch(
+          showModal({
+            title: 'Authentication Error',
+            message:
+              'Access token or user email is missing. Please log in again.'
+          })
+        );
+        // setIsLoading(false);
+        return;
+      }
+
+      await axios.post('http://localhost:3001/api/v1/admin/log-out', bodyData, {
         headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
+          Authorization: `Bearer ${token}`,
           Email: userEmail
         }
       });
 
-      // Clear tokens and user info
+      console.log('Logout successful, clearing tokens...');
+
       clearStoredAccessToken();
       clearStoredUserInfo();
 
-      // Redirect to login
       navigate('/login');
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || 'Something went wrong.', {
-        // id: toastId
-      });
+      const errorMessage =
+        error?.response?.data?.message ||
+        'Something went wrong. Please try again.';
+      dispatch(
+        showModal({
+          title: 'Error',
+          message: errorMessage
+        })
+      );
       // setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!userInfo) {
-      navigate('/login');
-    }
-  }, [userInfo, navigate]);
 
   return (
     <>
