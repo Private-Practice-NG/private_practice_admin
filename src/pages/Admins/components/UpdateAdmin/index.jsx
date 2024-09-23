@@ -6,16 +6,19 @@ import { HiOutlineUser } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../../../slices/usersSlice';
+import FadeLoader from 'react-spinners/FadeLoader';
 import { toast } from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../../../../components/Layout';
 import { getAccessToken, getUserInfo } from '../../../../utils/tokenUtils';
 import { showModal } from '../../../../slices/modalSlice';
 
 function UpdateAdmin() {
+  const { adminId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [updateAdminForm, setUpdateAdminForm] = useState({
     fullName: '',
@@ -29,17 +32,14 @@ function UpdateAdmin() {
   // const toastId = toast.loading('creating admin account...');
   // Fetch admin profile data on mount
   useEffect(() => {
+    const toastId = toast.loading('Signing you in...');
+
     async function fetchAdminProfile() {
       try {
         const accessToken = getAccessToken();
         const userInfo = getUserInfo();
-        const userEmail = userInfo?.email;
 
-        console.log('Access Token:', accessToken);
-        console.log('User Info:', userInfo);
-        console.log('User Email:', userEmail);
-
-        if (!accessToken || !userEmail) {
+        if (!accessToken || !adminId) {
           dispatch(
             showModal({
               title: 'Authentication Error',
@@ -47,47 +47,48 @@ function UpdateAdmin() {
                 'Access token or user email is missing. Please log in again.'
             })
           );
-          // setIsLoading(false);
+          setIsLoading(false);
           return;
         }
 
+        console.log('Fetching profile for adminId: ', adminId);
+
         const response = await axios.get(
-          'http://localhost:3001/api/v1/admin/get-admin-profile',
+          `http://localhost:3001/api/v1/admin/get-admin-profile/${adminId}`,
           {
             withCredentials: true,
             headers: {
-              'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${accessToken}`,
-              Email: userEmail
+              email: userInfo.email,
+              'Content-Type': 'application/json'
             }
           }
         );
-        const profileData = response.data;
+
+        const profileData = response.data.response.adminProfile;
+
         setUpdateAdminForm({
           fullName: profileData.fullName,
           email: profileData.email,
           password: '',
           confirmPassword: ''
-          // profileImage: null
         });
-        console.log(profileData);
+
+        toast.success('Profile fetched successfully', { id: toastId });
       } catch (error) {
-        const errorMessage =
-          error?.response?.data?.message ||
-          'Something went wrong. Please try again.';
-        dispatch(
-          showModal({
-            title: 'Error',
-            message: errorMessage
-          })
-        );
-        // setIsLoading(false);
-        // toast.dismiss(toastId);
+        console.error('Error fetching admin profile: ', error);
+        toast.error(error?.response?.data?.message || 'Something went wrong.', {
+          id: toastId
+        });
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     }
+
     fetchAdminProfile();
     dispatch(setNav('/admins'));
-  }, [dispatch]);
+  }, [dispatch, adminId]);
 
   async function updateAdminProfile(e) {
     e.preventDefault();
@@ -131,7 +132,7 @@ function UpdateAdmin() {
       console.log('User Info:', userInfo);
       console.log('User Email:', userEmail);
 
-      if (!accessToken || !userEmail) {
+      if (!accessToken || !adminId) {
         dispatch(
           showModal({
             title: 'Authentication Error',
@@ -170,9 +171,27 @@ function UpdateAdmin() {
           message: errorMessage
         })
       );
-      // setIsLoading(false);
-      // toast.dismiss(toastId);
+      toast.dismiss(toastId);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="spinner flex justify-center items-center pt-[100px]">
+          <FadeLoader
+            color={'#10ACF5'}
+            loading={true}
+            height={40}
+            width={2}
+            radius={10}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </Layout>
+    );
   }
 
   return (
