@@ -63,7 +63,7 @@ const Layout = ({ children }) => {
       clearStoredUserInfo();
 
       // Redirect to login
-      navigate('/login');
+      navigate('/log-in');
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message || 'Something went wrong.', {
@@ -74,8 +74,12 @@ const Layout = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate('/login');
+    try {
+      if (!userInfo) {
+        navigate('/log-in');
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [userInfo, navigate]);
 

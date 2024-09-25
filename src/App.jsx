@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
+// import { Provider } from 'react-redux';
+// import store from './store';
 import GlobalModal from './components/GlobalModal';
 
 import Login from './pages/Login';
@@ -22,37 +22,31 @@ import UpdateAdmin from './pages/Admins/components/UpdateAdmin';
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route
-            path="/forgot-password-message"
-            element={<ForgotPasswordMessage />}
-          />
-          <Route path="/" element={<Home />} />
-          <Route path="/admins" element={<Admins />} />
-          <Route path="/jobs" element={<JobsPage />} />
-          <Route
-            path="/admins/create-admin-account"
-            element={<CreateAdmin />}
-          />
-          <Route
-            path="/admins/update-admin-account"
-            element={<UpdateAdmin />}
-          />
-          <Route path="/hospitals" element={<Hospitals />} />
-          <Route path="/hospitals-enrolment" element={<HospitalsEnrolment />} />
-          <Route path="/specialists" element={<Specialists />} />
-          <Route path="/specialist/:userId" element={<SpecialistDetails />} />
-          <Route path="/hospital/:userId" element={<Hospital />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <GlobalModal />
-        {/* <ToastContainer /> */}
-      </BrowserRouter>
-    </Provider>
+    // <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/log-in" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/forgot-password-message"
+          element={<ForgotPasswordMessage />}
+        />
+        <Route path="/" element={<Home />} />
+        <Route path="/admins" element={<Admins />} />
+        <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/admins/create-admin-account" element={<CreateAdmin />} />
+        <Route path="/admins/update-admin-account" element={<UpdateAdmin />} />
+        <Route path="/hospitals" element={<Hospitals />} />
+        <Route path="/hospitals-enrolment" element={<HospitalsEnrolment />} />
+        <Route path="/specialists" element={<Specialists />} />
+        <Route path="/specialist/:userId" element={<SpecialistDetails />} />
+        <Route path="/hospital/:userId" element={<Hospital />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <GlobalModal />
+      {/* <ToastContainer /> */}
+    </BrowserRouter>
+    // </Provider>
   );
 }
 
