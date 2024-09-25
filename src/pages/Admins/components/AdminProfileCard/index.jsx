@@ -94,7 +94,7 @@ const AdminProfileCard = ({ profileData }) => {
           </button>
         )}
         <Link
-          to="/admins/update-admin-account"
+          to={`/admins/update-admin-account/${profileData._id}`}
           className="py-[10px] px-4 rounded-[7px] bg-[#d9d9d9]"
         >
           Update profile
