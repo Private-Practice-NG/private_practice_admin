@@ -26,7 +26,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/forgot-password/:adminId"
+            element={<ForgotPassword />}
+          />
           <Route
             path="/forgot-password-message"
             element={<ForgotPasswordMessage />}
