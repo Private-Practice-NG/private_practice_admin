@@ -17,7 +17,7 @@ const Admins = () => {
 
   useEffect(() => {
     dispatch(setNav('Admin'));
-    const toastId = toast.loading('Signing you in...');
+    const toastId = toast.loading('fetching admins data...');
 
     async function fetchData() {
       try {
