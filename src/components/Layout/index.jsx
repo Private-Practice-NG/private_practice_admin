@@ -81,7 +81,7 @@ const Layout = ({ children }) => {
       clearStoredAccessToken();
       clearStoredUserInfo();
 
-      navigate('/login');
+      navigate('/log-in');
     } catch (error) {
       const errorMessage =
         error?.response?.data?.message ||

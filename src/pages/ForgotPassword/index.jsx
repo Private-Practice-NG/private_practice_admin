@@ -1,12 +1,70 @@
-// import React from 'react'
 import '../styles/auth.css';
-// import './styles/auth.css';
 import authImg from '../../assets/forgotImg.png';
 import logo from '../../assets/logo.png';
-import { TfiEmail } from 'react-icons/tfi';
-// import { SlLock } from "react-icons/sl"
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { getAccessToken, getUserInfo } from '../../utils/tokenUtils';
+import { showModal } from '../../slices/modalSlice';
 
 const ForgetPassword = () => {
+  const { adminId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const toastId = toast.loading('Sending reset request...');
+      const accessToken = getAccessToken();
+      const userInfo = getUserInfo();
+
+      if (!accessToken || !adminId) {
+        dispatch(
+          showModal({
+            title: 'Authentication Error',
+            message: 'Access token or admin ID is missing. Please log in again.'
+          })
+        );
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.patch(
+        `http://localhost:3001/api/v1/admin/reset-admin-password/?id=${adminId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            email: userInfo.email,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const resetPasswordMessage = response.data.responseMessage;
+      setMessage(resetPasswordMessage);
+      toast.success(resetPasswordMessage, { id: toastId });
+      navigate('/forgot-password-message', {
+        state: { message: resetPasswordMessage }
+      });
+    } catch (error) {
+      console.error('Error resetting password: ', error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        'Something went wrong. Please try again.';
+      console.log(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth auth-body">
       <div className="hidden lg:block auth-img">
@@ -26,30 +84,20 @@ const ForgetPassword = () => {
           </p>
         </div>
 
-        <form className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form">
-          <div className="auth-form-input auth-form-email relative">
-            <div
-              className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px]
-               text-gray-500"
-              style={{ boxShadow: 'rgba(0, 0, 0, 0.1) -1px -1px 12px 1px' }}
-            >
-              <TfiEmail />
-            </div>
-            <input
-              className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
-              type="email"
-              placeholder="youremail@email.com"
-              required
-            />
-          </div>
-
+        <form
+          className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
+          onSubmit={handleSubmit}
+        >
           <button
             className="btn auth-submit-btn poppins mt-8 py-4"
             type="submit"
+            disabled={loading}
           >
-            Reset Password
+            {loading ? 'Sending...' : 'Reset Password'}
           </button>
         </form>
+
+        {message && <p className="text-center text-red-500 mt-4">{message}</p>}
       </div>
     </div>
   );

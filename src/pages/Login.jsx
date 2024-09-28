@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
@@ -11,19 +11,24 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { storeAccessToken, storeUserInfo } from '../utils/tokenUtils';
-
-// const storeUserInfo = (userInfo) => {
-//   try {
-//     localStorage.setItem('userInfo', JSON.stringify(userInfo));
-//   } catch (error) {
-//     console.error('Error storing user info:', error);
-//   }
-// };
+import {
+  storeAccessToken,
+  storeUserInfo,
+  getUserInfo
+} from '../utils/tokenUtils';
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const userInfo = getUserInfo();
+    console.log('id stuff', userInfo);
+    if (userInfo) {
+      setUserId(userInfo.userId);
+    }
+  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,7 +53,6 @@ const Login = () => {
       return toast.error('please fill in all fields', { duration: 3000 });
     }
 
-    // async function fetchData() {
     try {
       const response = await axios.post(
         `http://localhost:3001/api/v1/admin/admin-log-in`,
@@ -62,14 +66,12 @@ const Login = () => {
       const { _id: userId, email: userEmail } = response.data.response.user;
 
       if (accessToken) {
-        // Use the utility function to store the access token
         storeAccessToken(accessToken);
 
         const userInfo = { userId, email: userEmail };
         storeUserInfo(userInfo);
 
         console.log(userInfo);
-
         toast.success('Login successful.', { id: toastId });
 
         setIsLoading(false);
@@ -197,13 +199,7 @@ const Login = () => {
               />
             </div>
           </section>
-          <Link
-            className="mt-3 text-right underline text-[12px]"
-            to="/forgot-password"
-          >
-            Forgot Password
-          </Link>
-
+          <Link to={`/forgot-password/${userId}`}>Forgot Password</Link>
           <button
             className="mt-5 btn auth-submit-btn poppins py-4"
             onClick={loginHandler}
