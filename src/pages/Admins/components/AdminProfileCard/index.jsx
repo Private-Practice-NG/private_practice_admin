@@ -28,7 +28,7 @@ const AdminProfileCard = ({ profileData }) => {
       <div className="w-full md:w-4/12 flex gap-4 items-center">
         <div className="w-[45px] h-[45px] rounded-[100%] bg-gray-400">
           <img
-            src={profileData.profileImg}
+            src={profileData.profileImage.imageUrl || 'default-image-path.jpg'}
             alt="profile-image"
             className="w-[45px] rounded-[100%]"
           />

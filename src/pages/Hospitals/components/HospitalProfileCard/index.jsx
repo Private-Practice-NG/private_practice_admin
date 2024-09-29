@@ -6,7 +6,7 @@ const HospitalProfileCard = ({ profileData }) => {
   console.log('Profile Data:', profileData);
   if (!profileData) return null;
 
-  const { hospitalName, rating, activated, avatar } = profileData;
+  const { hospitalName, rating, approvalStatus, avatar } = profileData;
 
   return (
     <div className="hospital-profile-card border-t-[1px] border-b-[1px] py-3 border-gray-300 flex flex-col gap-x-[40px] gap-y-[30px] sm:flex-row sm:justify-between sm:items-center">
@@ -29,17 +29,7 @@ const HospitalProfileCard = ({ profileData }) => {
         </div>
       </div>
       <section className="w-full md:w-8/12 flex justify-between items-center flex-row">
-        {activated ? (
-          <button className="flex gap-3 items-center">
-            {/* Activated SVG */}
-            Activated
-          </button>
-        ) : (
-          <button className="flex gap-3 items-center">
-            {/* Deactivated SVG */}
-            Deactivated
-          </button>
-        )}
+        <button className="flex gap-3 items-center">{approvalStatus}</button>
         <Link
           to="/"
           className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white"
@@ -52,3 +42,14 @@ const HospitalProfileCard = ({ profileData }) => {
 };
 
 export default HospitalProfileCard;
+// {activated ? (
+//   <button className="flex gap-3 items-center">
+//     {/* Activated SVG */}
+//     Activated
+//   </button>
+// ) : (
+//   <button className="flex gap-3 items-center">
+//     {/* Deactivated SVG */}
+//     Deactivated
+//   </button>
+// )}

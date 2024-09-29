@@ -38,7 +38,7 @@ const ForgotPassMsg = () => {
           new password.
         </p>
       </div>
-      <Link to="/login" className="btn forgot-msg-btn poppins mt-10">
+      <Link to="/log-in" className="btn forgot-msg-btn poppins mt-10">
         Login
       </Link>
     </main>
