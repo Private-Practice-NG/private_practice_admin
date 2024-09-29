@@ -43,7 +43,7 @@ const Hospitals = () => {
         }
 
         const hospitalsData = await axios.get(
-          `http://localhost:3001/api/v1/hospitals/get-all-hospitals`,
+          `http://localhost:3001/api/v1/hospitals/get-approved-hospitals`,
           {
             withCredentials: true,
             headers: {

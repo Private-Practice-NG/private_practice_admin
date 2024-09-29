@@ -4,63 +4,78 @@ import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
 import '../styles/userstab.css';
 import axios from 'axios';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import { showModal } from '../../slices/modalSlice';
+import { getAccessToken, getUserInfo } from '../../utils/tokenUtils';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
-
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 function JobsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [jobsData, setJobsData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
-
-  // const override = {
-  //   backgroundColor: 'transparent', // no background color for this spinner
-  //   width: '300px!important' // width of the spinner
-  // };
 
   useEffect(() => {
     dispatch(setNav('Jobs'));
+    const toastId = toast.loading('Fetching jobs data...');
 
     async function fetchData() {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
-        // const toastId = toast.loading('fetching jobs data...');
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
+
+        if (!token || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
 
         const serverResponse = await axios.get(
-          `${serverBaseUrl}/api/jobs/get-all-jobs`,
+          `http://localhost:3001/api/v1/jobs/get-all-jobs`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: `${userEmail}`
+            }
           }
         );
 
-        if (
-          serverResponse
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('jobs data fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
-
-          console.log(serverResponse.data.response);
-
-          setJobsData(serverResponse.data.response);
+        if (serverResponse) {
+          toast.success('Jobs data fetched successfully', {
+            id: toastId,
+            duration: 4000
+          });
+          const jobsArray = serverResponse.data.response.jobs.allJobs.allJobs;
+          setJobsData(jobsArray);
           setIsLoading(false);
-          // dispatch(setAdmins(adminProfiles.data));
         }
       } catch (error) {
         console.log(error?.data?.message || error.error);
+        toast.error('Failed to fetch jobs data. Please try again.', {
+          id: toastId,
+          duration: 4000
+        });
+        setIsLoading(false);
       }
     }
+
     fetchData();
-  }, []);
+  }, [dispatch]);
+
+  const filteredJobs = jobsData
+    ? jobsData.filter((job) =>
+        job.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   return (
     <Layout>
@@ -71,8 +86,6 @@ function JobsPage() {
               <FadeLoader
                 color={'#10ACF5'}
                 loading={true}
-                // cssOverride={override}
-                // size={300}
                 height={40}
                 width={2}
                 radius={10}
@@ -86,7 +99,7 @@ function JobsPage() {
           <>
             <div className="poppins flex items-center gap-2">
               <h2 className="text-2xl">Jobs</h2>
-              <div className="text-[14px]">({jobsData.jobsCount})</div>
+              <div className="text-[14px]">({filteredJobs.length})</div>
             </div>
             <section className="mt-6 flex justify-between w-full items-center">
               <div className="users-tab-input w-9/12">
@@ -95,14 +108,11 @@ function JobsPage() {
                   className="text-[14px]"
                   type="text"
                   placeholder="search jobs"
-                  //   onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="filter-button w-2/12">
                 <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#ececec] py-[15px] px-2 rounded-[7px]">
-                  {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
-                    filter by
-                  </span> */}
                   <svg
                     className="w-[14px]"
                     viewBox="0 0 31 20"
@@ -139,9 +149,11 @@ function JobsPage() {
                 Active jobs
               </button>
             </section>
-            <section className="jobs-list-wrappper flex gap-8 flex-col mt-6 sm:mt-8">
-              {jobsData.allJobs.map((job) => {
-                return (
+            <section className="jobs-list-wrapper flex gap-8 flex-col mt-6 sm:mt-8">
+              {filteredJobs.length === 0 ? (
+                <div>No jobs available at the moment.</div>
+              ) : (
+                filteredJobs.map((job) => (
                   <div
                     key={job._id}
                     className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex gap-8 items-center"
@@ -162,8 +174,8 @@ function JobsPage() {
                       View job
                     </button>
                   </div>
-                );
-              })}
+                ))
+              )}
             </section>
           </>
         )}
