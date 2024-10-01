@@ -34,6 +34,7 @@ const Layout = ({ children }) => {
   // const [isLoading, setIsLoading] = useState(true);
   const { nav } = useSelector((state) => state.users);
   const userInfo = getUserInfo();
+  // console.log('userInfo', userInfo);
   const hideMobileNav = () => {
     setCloseMobileNav(true);
   };
@@ -113,13 +114,13 @@ const Layout = ({ children }) => {
             <section className="flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full">
                 <img
-                  src={userInfo?.profileImg}
+                  src={userInfo?.profileImageData.imageUrl}
                   alt="profile-image"
                   className="w-[45px] rounded-[100%]"
                 />
               </div>
               <div className="flex flex-col text-white">
-                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.userName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </section>
@@ -329,24 +330,29 @@ const Layout = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="page-cont-2 overflow-y-auto">
+        <div className="top-nav-for-larger-screens_wrapper page-cont-2 overflow-y-auto">
           <div className="top-nav-for-larger-screens top-hori-nav hidden lg:flex">
-            <div className="top-hori-nav-pro">
+            <div className="w-full flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
                 <img
-                  src={userInfo?.profileImg}
+                  src={userInfo?.profileImageData.imageUrl}
                   alt="profile-image"
                   className="w-[45[px] rounded-[100%]"
                 />
               </div>
-              <div className="top-hori-nav-pro-details">
-                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
+              <div className="flex flex-col">
+                <h3 className="poppins font-[600]">{`${userInfo?.userName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </div>
-            <div className="top-hori-nav-pro-noti">
-              <IoIosNotificationsOutline />
-              <p>3</p>
+            <div className="relative">
+              <IoIosNotificationsOutline className="text-[30px]" />
+              <div
+                className="absolute top-[-13px] right-[-10px] bg-white w-[25px] h-[25px] rounded-full 
+              text-gray-800 text-center font-bold pt-[4px]"
+              >
+                25
+              </div>
             </div>
           </div>
           <div className="page-cont-outlet mt-[75px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">

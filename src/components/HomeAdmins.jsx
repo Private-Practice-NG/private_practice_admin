@@ -22,9 +22,11 @@ const HomeAdmins = ({ adminHomeData = { allAdmins: [] } }) => {
       </header>
       <section className="flex flex-col gap-8">
         {adminProfilesData.length > 0 ? (
-          adminProfilesData.map((each) => (
-            <AdminProfileCard key={each._id} profileData={each} />
-          ))
+          adminProfilesData
+            .slice(0, 5)
+            .map((each) => (
+              <AdminProfileCard key={each._id} profileData={each} />
+            ))
         ) : (
           <p>No admins available</p>
         )}
