@@ -1,11 +1,11 @@
 // import React from "react";
 // import './styles/forgotmsg.css';
-import './styles/auth.css';
+import '../styles/auth.css';
 import { Link } from 'react-router-dom';
 
 const ForgotPassMsg = () => {
   return (
-    <main className="flex flex-col mt-[150px] px-3 sm:px-5 text-center xsm:w-[500px] xsm:mx-auto">
+    <main className="flex flex-col items-center mt-[150px] px-3 sm:px-5 text-center xsm:w-[500px] xsm:mx-auto">
       <div className="svg-wrapper mx-auto">
         <svg
           className="w-[90px] md:w-[150px]"
@@ -29,16 +29,20 @@ const ForgotPassMsg = () => {
           />
         </svg>
       </div>
-      <div className="forgot-msg-details">
+      <div className="forgot-msg-details font-semibold">
         <h1 className="text-2xl sm:text-3xl poppins mt-8 font-bold text-[#10ACF5]">
-          Reset Link Sent{' '}
+          New Password Sent!{' '}
         </h1>
         <p className="text-[14px] mt-6">
-          A reset link has been to your email. Click the link to create <br />a
-          new password.
+          Congratulations! Your password has been reset successfully. Kindly
+          check your email for the new password.
+          <br /> Feel free to use the update profile section to update the new
+          password as you wish.
+          <br />
+          Cheers!!!
         </p>
       </div>
-      <Link to="/" className="btn forgot-msg-btn poppins mt-10">
+      <Link to="/log-in" className="btn forgot-msg-btn poppins mt-10">
         Login
       </Link>
     </main>

@@ -1,91 +1,81 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles/home.css';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import HomeUsers from '../components/HomeUsers';
 import HomeAdmins from '../components/HomeAdmins';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 import axios from 'axios';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import { showModal } from '../slices/modalSlice';
 import Layout from '../components/Layout';
 
-// const override = {
-//   margin: '0 auto',
-//   width: '100%',
-//   top: '35%',
-//   left: '35%'
-// };
-// const override = {
-//   backgroundColor: 'transparent', // no background color for this spinner
-//   width: '300px!important' // width of the spinner
-// };
-
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
 const Home = () => {
+  console.log('Home component loaded');
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [adminHomeData, setAdminHomeData] = useState([]);
-
-  // const [dashboardApiCall, { isLoading }] = useDashboardMutation();
-  // const isLoading = true;
-
-  // useEffect(() => {
-  //   dispatch(setNav('Home'));
-  //   async function fetchData() {
-  //     try {
-  //       const res = await dashboardApiCall().unwrap();
-  //       dispatch(setDashboard({ ...res.data }));
-  //     } catch (error) {
-  //       console.log(error?.data?.message || 'Reload the Page');
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
+  const [adminHomeData, setAdminHomeData] = useState({
+    hospitalsData: [],
+    specialistsData: [],
+    allAdmins: []
+  });
 
   useEffect(() => {
+    const toastId = toast.loading('Fetching dashboard data...');
     dispatch(setNav('Home'));
+
     async function fetchData() {
       try {
-        // const toastId = toast.loading('fetching dashboard data...');
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
+
+        if (!token || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
 
         const dashboardData = await axios.get(
-          `${serverBaseUrl}/api/admins/dashboard`,
+          `http://localhost:3001/api/v1/admin/get-admin-dashboard-home-data`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: userEmail
+            }
           }
         );
 
-        if (
-          dashboardData
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('dashboard data fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
-
-          // console.log(dashboardData.data.response);
-
+        if (dashboardData?.data?.response) {
+          toast.success('Dashboard data fetched successfully', {
+            id: toastId,
+            duration: 4000
+          });
           setAdminHomeData(dashboardData.data.response);
-          setIsLoading(false);
+        } else {
+          throw new Error('Invalid response structure');
         }
-        // dispatch(setAdmins(adminProfiles.data));
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        console.error('Error fetching admin profile: ', error);
+        toast.error(error?.response?.data?.message || 'Something went wrong.', {
+          id: toastId
+        });
+      } finally {
+        setIsLoading(false);
       }
     }
-    fetchData();
-  }, []);
 
-  // const { dashboardInfo } = useSelector((state) => state.dashboard);
-  // console.log('dI', dashboardInfo);
+    fetchData();
+  }, [dispatch]);
 
   return (
     <Layout>
@@ -95,8 +85,6 @@ const Home = () => {
             <FadeLoader
               color={'#10ACF5'}
               loading={true}
-              // cssOverride={override}
-              // size={300}
               height={40}
               width={2}
               radius={10}
@@ -107,30 +95,6 @@ const Home = () => {
           </div>
         ) : (
           <section className="flex flex-col w-full gap-[30px]">
-            {/* <div className="home-metrics">
-            <div className="metric full-metric">
-              <h3>Total job Posted</h3>
-              <h1>{dashboardInfo?.stats?.totalJob}</h1>
-            </div>
-            <div className="metric full-metric metric-hospital">
-              <h3>Hospital</h3>
-              <h1>{dashboardInfo?.stats?.hospital}</h1>
-            </div>
-            <div className="metric half-metric">
-              <div className="half-metric-first">
-                <h4>Pending Jobs</h4>
-                <h2>{dashboardInfo?.stats?.pendingJobs}</h2>
-              </div>
-              <div className="metric half-metric-sec">
-                <h4>Completed Jobs</h4>
-                <h2>{dashboardInfo?.stats?.completedJobs}</h2>
-              </div>
-            </div>
-            <div className="metric full-metric metric-specialist">
-              <h3>Specialist</h3>
-              <h1>{dashboardInfo?.stats?.specialist}</h1>
-            </div>
-          </div> */}
             <HomeUsers adminHomeData={adminHomeData} />
             <HomeAdmins home={true} adminHomeData={adminHomeData} />
           </section>

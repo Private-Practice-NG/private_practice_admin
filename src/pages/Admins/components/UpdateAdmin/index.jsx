@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
 import { HiOutlineChevronLeft } from 'react-icons/hi2';
-// import { Link } from 'react-router-dom';
 import { TfiEmail } from 'react-icons/tfi';
 import { SlLock } from 'react-icons/sl';
 import { HiOutlineUser } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../../../slices/usersSlice';
+import FadeLoader from 'react-spinners/FadeLoader';
 import { toast } from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../../../../components/Layout';
-
+import { getAccessToken, getUserInfo } from '../../../../utils/tokenUtils';
+import { showModal } from '../../../../slices/modalSlice';
 
 function UpdateAdmin() {
+  const { adminId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [updateAdminForm, setUpdateAdminForm] = useState({
     fullName: '',
@@ -24,9 +28,69 @@ function UpdateAdmin() {
     profileImage: null
   });
 
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  // const [isFilePicked, setIsFilePicked] = useState(false);
+  // const toastId = toast.loading('creating admin account...');
+  // Fetch admin profile data on mount
+  useEffect(() => {
+    const toastId = toast.loading('Signing you in...');
 
-  async function createAdminUser(e) {
+    async function fetchAdminProfile() {
+      try {
+        const accessToken = getAccessToken();
+        const userInfo = getUserInfo();
+
+        if (!accessToken || !adminId) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
+
+        console.log('Fetching profile for adminId: ', adminId);
+
+        const response = await axios.get(
+          `http://localhost:3001/api/v1/admin/get-admin-profile/${adminId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              email: userInfo.email,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        const profileData = response.data.response.adminProfile;
+
+        setUpdateAdminForm({
+          fullName: profileData.fullName,
+          email: profileData.email,
+          password: '',
+          confirmPassword: ''
+        });
+
+        toast.success('Profile fetched successfully', { id: toastId });
+      } catch (error) {
+        console.error('Error fetching admin profile: ', error);
+        toast.error(error?.response?.data?.message || 'Something went wrong.', {
+          id: toastId
+        });
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchAdminProfile();
+    dispatch(setNav('/admins'));
+  }, [dispatch, adminId]);
+
+  async function updateAdminProfile(e) {
     e.preventDefault();
 
     if (
@@ -35,108 +99,100 @@ function UpdateAdmin() {
       updateAdminForm.password === '' ||
       updateAdminForm.confirmPassword === ''
     ) {
-      toast.error('please fill in all fields', { duration: 3000 });
+      toast.error('Please fill in all fields', { duration: 3000 });
       return;
     }
 
     if (updateAdminForm.password !== updateAdminForm.confirmPassword) {
-      toast.error(`'password' and 'confirmPassword' do not match`, {
-        duration: 3000
-      });
+      toast.error(`Passwords don't match`, { duration: 3000 });
       return;
     }
 
-    if (
-      updateAdminForm.password.length < 6 ||
-      updateAdminForm.confirmPassword.length < 6
-    ) {
-      toast.error('passwords must be at least 6 characters', {
-        duration: 3000
-      });
+    if (updateAdminForm.password.length < 6) {
+      toast.error('Password must be at least 6 characters', { duration: 3000 });
       return;
     }
-
-    if (!isFilePicked || updateAdminForm.selectedImageFile === null) {
-      toast.error(
-        'you have not selected a profile picture, please select one',
-        {
-          duration: 3000
-        }
-      );
-      return;
-    }
-
-    console.log(updateAdminForm);
 
     const formData = new FormData();
-    formData.append('profileImage', updateAdminForm.profileImage);
+    formData.append('fullName', updateAdminForm.fullName);
+    formData.append('email', updateAdminForm.email);
+    formData.append('password', updateAdminForm.password);
+    if (updateAdminForm.profileImage) {
+      formData.append('profileImage', updateAdminForm.profileImage);
+    }
 
-    // console.log(formData);
-    console.log(updateAdminForm.profileImage);
-
-    const toastId = toast.loading('creating admin account...');
+    const toastId = toast.loading('Updating admin profile...');
 
     try {
-      const updatedUser = await axios.post(
-        'http://localhost:5000/api/admins/register-admin', // this is the endpoint for creating a new user
+      const accessToken = getAccessToken();
+      const userInfo = getUserInfo();
+      const userEmail = userInfo?.email;
+
+      console.log('Access Token:', accessToken);
+      console.log('User Info:', userInfo);
+      console.log('User Email:', userEmail);
+
+      if (!accessToken || !adminId) {
+        dispatch(
+          showModal({
+            title: 'Authentication Error',
+            message:
+              'Access token or user email is missing. Please log in again.'
+          })
+        );
+        // setIsLoading(false);
+        return;
+      }
+
+      await axios.post(
+        'http://localhost:3001/api/v1/admin/update-admin',
+        formData,
         {
-          fullName: updateAdminForm.fullName,
-          email: updateAdminForm.email,
-          password: updateAdminForm.password,
-          profileImage: updateAdminForm.profileImage
-        },
-        {
-          withCredentials: true,
           headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Email: userInfo.email,
             'Content-Type': 'multipart/form-data'
-            // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg3YTI4NjJiNmE3NTgyZDQwNTQ1YzUiLCJ1c2VyRW1haWwiOiJva3BhaW5tb2FuZHJld0BnbWFpbC5jb20iLCJpYXQiOjE3MDM3NDA1MDgsImV4cCI6MTcwMzc0NDEwOH0.ZciIvPr5tpRTyUk20cgeSrweqYQhZja6P1rPO7c0Ylk`,
-            // Email: `okpainmoandrew@gmail.com`
           }
         }
       );
 
-      console.log(updatedUser);
-
-      if (
-        updatedUser
-        // &&
-        // updatedUser.data.requestStatus === 'admin account created successfully'
-      ) {
-        toast.success('admin account created successfully', {
-          id: toastId,
-          duration: 4000
-        });
-      }
-
-      setUpdateAdminForm({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        profileImage: null
+      toast.success('Admin profile updated successfully', {
+        id: toastId,
+        duration: 4000
       });
-
-      // localStorage.setItem('userToken', `${updatedUser.data.token}`);
-      // localStorage.setItem('userEmail', `${updatedUser.data.user.email}`);
-      // const userToken = localStorage.getItem('userToken');
-      // const userEmail = localStorage.getItem('userEmail');
-      // console.log(userToken, userEmail);
-      // const userName = updatedUser.data.user.fullName;
-      // console.log(userName);
-      // localStorage.setItem('userName', `${userName}`);
-
-      setTimeout(() => {
-        navigate('/admins');
-      }, 2000);
+      navigate('/admins');
     } catch (error) {
-      toast.error('error creating user', { id: toastId, duration: 3000 });
-      console.log(error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        'Something went wrong. Please try again.';
+      dispatch(
+        showModal({
+          title: 'Error',
+          message: errorMessage
+        })
+      );
+      toast.dismiss(toastId);
     }
   }
 
-  useEffect(() => {
-    dispatch(setNav('Admin'));
-  }, []);
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="spinner flex justify-center items-center pt-[100px]">
+          <FadeLoader
+            color={'#10ACF5'}
+            loading={true}
+            height={40}
+            width={2}
+            radius={10}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -152,10 +208,7 @@ function UpdateAdmin() {
           <h2 className="text-2xl sm:text-3xl poppins text-center font-[500]">
             Update admin account
           </h2>
-          <form
-            //   onSubmit={submitHandler}
-            className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-10 auth-form"
-          >
+          <form className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-10 auth-form">
             <section className="flex flex-col gap-6">
               <div className="auth-form-input flex flex-col">
                 <label
@@ -166,8 +219,7 @@ function UpdateAdmin() {
                 </label>
                 <section className="w-full relative">
                   <div
-                    className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px]
-               text-gray-500"
+                    className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px] text-gray-500"
                     style={{
                       boxShadow: 'rgba(0, 0, 0, 0.1) -1px -1px 12px 1px'
                     }}
@@ -178,14 +230,14 @@ function UpdateAdmin() {
                     id="fullName"
                     className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                     type="text"
-                    placeholder="enter full name"
-                    value={updateAdminForm.fullName}
-                    onChange={(e) => {
+                    placeholder="Enter full name"
+                    value={updateAdminForm.fullName || ''}
+                    onChange={(e) =>
                       setUpdateAdminForm({
                         ...updateAdminForm,
                         fullName: e.target.value
-                      });
-                    }}
+                      })
+                    }
                     required
                   />
                 </section>
@@ -199,8 +251,7 @@ function UpdateAdmin() {
                 </label>
                 <section className="w-full relative">
                   <div
-                    className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px]
-               text-gray-500"
+                    className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px] text-gray-500"
                     style={{
                       boxShadow: 'rgba(0, 0, 0, 0.1) -1px -1px 12px 1px'
                     }}
@@ -212,13 +263,13 @@ function UpdateAdmin() {
                     type="email"
                     placeholder="youremail@email.com"
                     required
-                    value={updateAdminForm.email}
-                    onChange={(e) => {
+                    value={updateAdminForm.email || ''}
+                    onChange={(e) =>
                       setUpdateAdminForm({
                         ...updateAdminForm,
                         email: e.target.value
-                      });
-                    }}
+                      })
+                    }
                     id="email"
                   />
                 </section>
@@ -244,7 +295,7 @@ function UpdateAdmin() {
                     className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                     type="password"
                     placeholder="Password"
-                    value={updateAdminForm.password}
+                    value={updateAdminForm.password || ''}
                     onChange={(e) => {
                       setUpdateAdminForm({
                         ...updateAdminForm,
@@ -277,7 +328,7 @@ function UpdateAdmin() {
                     className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                     type="password"
                     placeholder="confirm password"
-                    value={updateAdminForm.confirmPassword}
+                    value={updateAdminForm.confirmPassword || ''}
                     onChange={(e) => {
                       setUpdateAdminForm({
                         ...updateAdminForm,
@@ -305,24 +356,17 @@ function UpdateAdmin() {
                       ...updateAdminForm,
                       profileImage: e.target.files[0]
                     });
-                    setIsFilePicked(true);
+                    // setIsFilePicked(true);
                   }}
                 />
               </div>
             </section>
-            {/* <Link
-            className="mt-3 text-right underline text-[12px]"
-            to="/forgot-password"
-          >
-            Forget Password
-          </Link> */}
-
             <button
               className="mt-10 btn auth-submit-btn poppins py-4"
               type="submit"
-              onClick={createAdminUser}
+              onClick={updateAdminProfile}
             >
-              Create admin
+              Update Admin
             </button>
           </form>
         </section>

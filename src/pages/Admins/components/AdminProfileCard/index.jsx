@@ -28,7 +28,7 @@ const AdminProfileCard = ({ profileData }) => {
       <div className="w-full md:w-4/12 flex gap-4 items-center">
         <div className="w-[45px] h-[45px] rounded-[100%] bg-gray-400">
           <img
-            src={profileData.profileImg}
+            src={profileData.profileImage.imageUrl || 'default-image-path.jpg'}
             alt="profile-image"
             className="w-[45px] rounded-[100%]"
           />
@@ -94,7 +94,7 @@ const AdminProfileCard = ({ profileData }) => {
           </button>
         )}
         <Link
-          to="/admins/update-admin-account"
+          to={`/admins/update-admin-account/${profileData._id}`}
           className="py-[10px] px-4 rounded-[7px] bg-[#d9d9d9]"
         >
           Update profile

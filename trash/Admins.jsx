@@ -1,70 +1,74 @@
-import { useState } from 'react';
-// import HomeAdmins from "../components/HomeAdmins";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-// import { useAdminsMutation } from '../slices/usersApiSlice';
-// import { setAdmins } from "../slices/usersSlice";
-import { setNav } from '../slices/usersSlice';
+import { toast } from 'react-hot-toast';
 import FadeLoader from 'react-spinners/FadeLoader';
 import AdminProfileCard from './Admins/components/AdminProfileCard';
 import Layout from '../components/Layout';
-
-// const override = {
-//   backgroundColor: 'transparent', // no background color for this spinner
-//   width: '300px!important' // width of the spinner
-// };
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
+import { setNav } from '../slices/usersSlice';
+import { showModal } from '../slices/modalSlice';
 
 const Admins = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [adminProfilesData, setAdminProfilesData] = useState([]);
-  // const isLoading = true;
 
   useEffect(() => {
     dispatch(setNav('Admin'));
+    const toastId = toast.loading('Loading admins data...');
 
     async function fetchData() {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
-        // const toastId = toast.loading('fetching admin profiles...');
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
+
+        if (!token || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
 
         const adminProfiles = await axios.get(
-          `${serverBaseUrl}/api/admins/admins`,
+          `http://localhost:3001/api/v1/admin/get-all-admins`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: userEmail
+            }
           }
         );
-
-        if (
-          adminProfiles
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('admin profiles fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
-
-          setAdminProfilesData(adminProfiles.data.response.adminUsers);
-          setIsLoading(false);
-          // dispatch(setAdmins(adminProfiles.data));
-        }
+        const adminUsers = adminProfiles.data.response.allAdminData;
+        setAdminProfilesData(adminUsers);
+        setIsLoading(false);
+        toast.dismiss(toastId);
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
+        setIsLoading(false);
+        toast.dismiss(toastId);
       }
     }
-    fetchData();
-  }, []);
 
-  // const { admins } = useSelector((state) => state.users);
+    fetchData();
+  }, [dispatch]);
+
   return (
     <Layout>
       <main className="w-full flex justify-center items-center">
@@ -73,8 +77,6 @@ const Admins = () => {
             <FadeLoader
               color={'#10ACF5'}
               loading={true}
-              // cssOverride={override}
-              // size={300}
               height={40}
               width={2}
               radius={10}
@@ -97,9 +99,13 @@ const Admins = () => {
               </Link>
             </header>
             <section className="flex flex-col gap-8">
-              {adminProfilesData.map((each) => {
-                return <AdminProfileCard key={each._id} profileData={each} />;
-              })}
+              {adminProfilesData.length > 0 ? (
+                adminProfilesData.map((each) => (
+                  <AdminProfileCard key={each._id} profileData={each} />
+                ))
+              ) : (
+                <p>No admin profiles available.</p>
+              )}
             </section>
           </section>
         )}

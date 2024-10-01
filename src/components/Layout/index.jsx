@@ -1,9 +1,11 @@
 // import React from 'react';
+import { useState } from 'react';
 import '../styles/pagecont.css';
 // import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+// import toast from 'react-hot-toast';
 // import mockAvatar from '../../assets/img-2.png';
 import { HiHome } from 'react-icons/hi2';
 import { HiUsers } from 'react-icons/hi2';
@@ -15,17 +17,24 @@ import { HiBriefcase } from 'react-icons/hi2';
 import { HiArrowLeftCircle } from 'react-icons/hi2';
 // import { Outlet } from 'react-router-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
-import { useSelector } from 'react-redux';
-// import { useLogoutMutation } from '../../slices/usersApiSlice';
-// import { logout } from '../../slices/authSlice';
-// import { removeDashboard } from '../../slices/dashboardSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getUserInfo,
+  clearStoredAccessToken,
+  clearStoredUserInfo,
+  getAccessToken
+} from '../../utils/tokenUtils';
+import { showModal } from '../../slices/modalSlice';
 
 const Layout = ({ children }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [closeMobileNav, setCloseMobileNav] = useState(true);
-
-  // const [setActive] = useState('Home');
+  // const [isLoading, setIsLoading] = useState(true);
   const { nav } = useSelector((state) => state.users);
-
+  const userInfo = getUserInfo();
+  // console.log('userInfo', userInfo);
   const hideMobileNav = () => {
     setCloseMobileNav(true);
   };
@@ -34,38 +43,72 @@ const Layout = ({ children }) => {
     setCloseMobileNav(false);
   };
 
-  const handleNav = (event, { /* nav,*/ to }) => {
-    // setActive(nav);
+  const handleNav = (event, { to }) => {
     navigate(to);
     hideMobileNav();
   };
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  console.log(userInfo);
-
-  const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const [logoutApiCall] = useLogoutMutation();
-
   const logoutHandler = async () => {
     try {
-      localStorage.clear();
-      navigate('/login');
+      const token = getAccessToken();
+      const userInfo = getUserInfo();
+      const userEmail = userInfo?.email;
+
+      const bodyData = {
+        email: userEmail
+      };
+
+      if (!token || !userEmail) {
+        dispatch(
+          showModal({
+            title: 'Authentication Error',
+            message:
+              'Access token or user email is missing. Please log in again.'
+          })
+        );
+        // setIsLoading(false);
+        return;
+      }
+
+      await axios.post('http://localhost:3001/api/v1/admin/log-out', bodyData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Email: userEmail
+        }
+      });
+
+      console.log('Logout successful, clearing tokens...');
+
+      clearStoredAccessToken();
+      clearStoredUserInfo();
+
+      navigate('/log-in');
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        'Something went wrong. Please try again.';
+      dispatch(
+        showModal({
+          title: 'Error',
+          message: errorMessage
+        })
+      );
+      // setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    try {
-      if (!userInfo) {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const confirmLogout = () => {
+    dispatch(
+      showModal({
+        title: 'Confirm Logout',
+        message: 'Are you sure you want to log out?',
+        onConfirm: logoutHandler,
+        onCancel: () => {
+          console.log('Logout canceled');
+        }
+      })
+    );
+  };
 
   return (
     <>
@@ -84,13 +127,13 @@ const Layout = ({ children }) => {
             <section className="flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full">
                 <img
-                  src={userInfo?.profileImg}
+                  src={userInfo?.profileImageData.imageUrl}
                   alt="profile-image"
                   className="w-[45px] rounded-[100%]"
                 />
               </div>
               <div className="flex flex-col text-white">
-                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
+                <h3 className="poppins font-[600]">{`${userInfo?.userName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </section>
@@ -172,7 +215,7 @@ const Layout = ({ children }) => {
                 </div>
               </section>
               <div
-                onClick={logoutHandler}
+                onClick={confirmLogout}
                 className={
                   nav == 'Log Out'
                     ? 'nav-link active mt-auto'
@@ -292,7 +335,7 @@ const Layout = ({ children }) => {
               </div>
             </div>
             <div
-              onClick={logoutHandler}
+              onClick={confirmLogout}
               className={nav == 'Log Out' ? 'nav-link active' : 'nav-link'}
             >
               <HiArrowLeftCircle className="text-[25px]" />{' '}
@@ -300,24 +343,29 @@ const Layout = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="page-cont-2 overflow-y-auto">
+        <div className="top-nav-for-larger-screens_wrapper page-cont-2 overflow-y-auto">
           <div className="top-nav-for-larger-screens top-hori-nav hidden lg:flex">
-            <div className="top-hori-nav-pro">
+            <div className="w-full flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
                 <img
-                  src={userInfo?.profileImg}
+                  src={userInfo?.profileImageData.imageUrl}
                   alt="profile-image"
                   className="w-[45[px] rounded-[100%]"
                 />
               </div>
-              <div className="top-hori-nav-pro-details">
-                <h3 className="poppins font-[600]">{`${userInfo?.fullName}`}</h3>
+              <div className="flex flex-col">
+                <h3 className="poppins font-[600]">{`${userInfo?.userName}`}</h3>
                 <p className="poppins">Admin</p>
               </div>
             </div>
-            <div className="top-hori-nav-pro-noti">
-              <IoIosNotificationsOutline />
-              <p>3</p>
+            <div className="relative">
+              <IoIosNotificationsOutline className="text-[30px]" />
+              <div
+                className="absolute top-[-13px] right-[-10px] bg-white w-[25px] h-[25px] rounded-full 
+              text-gray-800 text-center font-bold pt-[4px]"
+              >
+                25
+              </div>
             </div>
           </div>
           <div className="page-cont-outlet mt-[75px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">

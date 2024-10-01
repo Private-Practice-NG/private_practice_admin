@@ -1,135 +1,105 @@
-// import React from "react";
 import './styles/userstab.css';
 import { CiSearch } from 'react-icons/ci';
-// import UserProfileCard from '../components/UserProfileCard';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useSpecialistsMutation } from '../slices/usersApiSlice';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
-// import toast from 'react-hot-toast';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import SpecialistProfileCard from './Specialists/components/SpecialistProfileCard';
 import Layout from '../components/Layout';
-
-const serverBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
-// const override = {
-//   backgroundColor: 'transparent', // no background color for this spinner
-//   width: '300px!important' // width of the spinner
-// };
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
+import { showModal } from '../slices/modalSlice';
 
 const Specialists = () => {
-  // const [searchData, setSearchData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [specialistsProfilesData, setSpecialistProfilesData] = useState([]);
   const dispatch = useDispatch();
-  // const [users, { isLoading }] = useSpecialistsMutation();
-
-  // useEffect(() => {
-  //   dispatch(setNav('Specialist'));
-  //   async function fetchData() {
-  //     try {
-  //       const res = await users().unwrap();
-  //       dispatch(setSpecialists(res.data));
-  //     } catch (error) {
-  //       console.log(error?.data?.message || error.error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     dispatch(setNav('Specialist'));
+    const toastId = toast.loading('Fetching specialists data...');
 
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        console.log('serverBaseUrl', serverBaseUrl);
-        // const toastId = toast.loading('fetching specialists profiles...');
+        const token = getAccessToken();
+        const userInfo = getUserInfo();
+        const userEmail = userInfo?.email;
+
+        console.log('Access Token:', token);
+        console.log('User Info:', userInfo);
+        console.log('User Email:', userEmail);
+
+        if (!token || !userEmail) {
+          dispatch(
+            showModal({
+              title: 'Authentication Error',
+              message:
+                'Access token or user email is missing. Please log in again.'
+            })
+          );
+          setIsLoading(false);
+          return;
+        }
 
         const specialistsProfiles = await axios.get(
-          `${serverBaseUrl}/api/admins/specialists`,
+          `http://localhost:3001/api/v1/specialists/get-all-specialists`,
           {
-            withCredentials: true
-            // headers: {
-            //   Authorization: `Bearer ${userAccessToken}`,
-            //   Email: `${userEmail}`,
-            // },
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Email: userEmail
+            }
           }
         );
 
-        if (
-          specialistsProfiles
-          // &&
-          // loggedInUser.data.requestStatus === 'login successful'
-        ) {
-          // toast.success('specialists profiles fetched successfully', {
-          //   id: toastId,
-          //   duration: 4000
-          // });
+        const specialists = specialistsProfiles.data.response.specialistsData;
+        console.log('specialists', specialists);
 
-          console.log(specialistsProfilesData);
-
-          setSpecialistProfilesData(specialistsProfiles.data.response);
-          setIsLoading(false);
-          // dispatch(setAdmins(adminProfiles.data));
-        }
+        setSpecialistProfilesData(specialists);
+        setIsLoading(false);
+        toast.dismiss(toastId);
       } catch (error) {
-        console.log(error?.data?.message || error.error);
+        const errorMessage =
+          error?.response?.data?.message ||
+          'Something went wrong. Please try again.';
+        dispatch(
+          showModal({
+            title: 'Error',
+            message: errorMessage
+          })
+        );
+        setIsLoading(false);
+        toast.dismiss(toastId);
       }
-    }
+    };
+
     fetchData();
-  }, []);
+  }, [dispatch]);
 
-  // const { specialists } = useSelector((state) => state.users);
-
-  // Function to perform the search
-  // function search(query) {
-  //   // Convert the query to lowercase for a case-insensitive search
-  //   const searchTerm = query.toLowerCase();
-
-  //   // Filter the specialists array based on the search term
-  //   const results = specialists.filter(
-  //     (item) => item.firstName.toLowerCase().includes(searchTerm)
-  //     //|| // search in 'firstname' property
-  //     //item.lastName.toLowerCase().includes(searchTerm) // search in 'lastname' property
-  //   );
-
-  //   return results;
-  // }
-
-  //function to handle the search query
-  // const handleSearch = (searchQuery) => {
-  //   const searchResults = search(searchQuery);
-  //   setSearchData(searchResults);
-  // };
   return (
     <Layout>
       <main className="w-full flex justify-center items-center">
         {isLoading ? (
-          <>
-            <div className="spinner flex justify-center items-center pt-[100px]">
-              <FadeLoader
-                color={'#10ACF5'}
-                loading={true}
-                // cssOverride={override}
-                // size={300}
-                height={40}
-                width={2}
-                radius={10}
-                margin={10}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </div>
-          </>
+          <div className="spinner flex justify-center items-center pt-[100px]">
+            <FadeLoader
+              color={'#10ACF5'}
+              loading={true}
+              height={40}
+              width={2}
+              radius={10}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
         ) : (
           <div className="users-tab px-3 sm:px-[20px]">
             <header className="flex flex-col mt-[15px]">
               <div className="poppins flex items-center gap-2">
                 <h2 className="text-xl sm:text-2xl">Specialists</h2>
               </div>
-              <section className="mt-6 flex justify-between w-full items-center">
+              <section className="mt-6 mb-10 flex justify-between w-full items-center">
                 <div
                   className="users-tab-input w-9/12"
                   style={{ backgroundColor: '#d9d9d9' }}
@@ -140,15 +110,10 @@ const Specialists = () => {
                     type="text"
                     placeholder="search specialists"
                     style={{ backgroundColor: '#d9d9d9' }}
-
-                    //   onChange={(e) => handleSearch(e.target.value)}
                   />
                 </div>
                 <div className="filter-button w-2/12">
                   <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
-                    {/* <span className="poppins font-[400] sm:text-[14px] text-[10px]">
-                    filter by
-                  </span> */}
                     <svg
                       className="w-[14px]"
                       viewBox="0 0 31 20"
@@ -178,15 +143,17 @@ const Specialists = () => {
                 </div>
               </section>
             </header>
-            <section className="specialists-profiles-wrapper grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-6 mt-[30px]">
-              {specialistsProfilesData.map((specialistProfile) => {
-                return (
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {specialistsProfilesData.length > 0 ? (
+                specialistsProfilesData.map((each) => (
                   <SpecialistProfileCard
-                    key={specialistProfile._id}
-                    specialistProfile={specialistProfile}
+                    key={each._id}
+                    specialistProfile={each}
                   />
-                );
-              })}
+                ))
+              ) : (
+                <p>No hospital profiles available.</p>
+              )}
             </section>
           </div>
         )}

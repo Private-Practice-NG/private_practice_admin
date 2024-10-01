@@ -1,17 +1,20 @@
-import { configureStore} from "@reduxjs/toolkit";
-// import authReducer from './slices/authSlice'
-import dashboardReducer from './slices/dashboardSlice'
-import usersSliceReducer from './slices/usersSlice'
-import {apiSlice} from './slices/apiSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import dashboardReducer from './slices/dashboardSlice';
+import usersSliceReducer from './slices/usersSlice';
+import { apiSlice } from './slices/apiSlice';
+import modalReducer from './slices/modalSlice';
+import authSlice from './slices/authSlice';
+
 const store = configureStore({
   reducer: {
-    // auth: authReducer,
     dashboard: dashboardReducer,
-    users:usersSliceReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer
-  },
+    users: usersSliceReducer,
+    auth: authSlice,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    modal: modalReducer
+  }
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
   // devTools: true,
 });
 
-export default store
+export default store;
