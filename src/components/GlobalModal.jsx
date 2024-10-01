@@ -4,7 +4,9 @@ import { closeModal } from '../slices/modalSlice';
 
 export default function GlobalModal() {
   const dispatch = useDispatch();
-  const { isOpen, title, message } = useSelector((state) => state.modal);
+  const { isOpen, title, message, onConfirm, onCancel } = useSelector(
+    (state) => state.modal
+  );
 
   function handleClose() {
     dispatch(closeModal());
@@ -24,13 +26,29 @@ export default function GlobalModal() {
               {title}
             </DialogTitle>
             <p className="mt-2 text-sm text-white/50">{message}</p>
-            <div className="mt-4">
-              <button
-                className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm font-semibold text-white shadow-inner shadow-white/10 hover:bg-gray-600 focus:outline-none focus:outline-1 focus:outline-white"
-                onClick={handleClose}
-              >
-                Close
-              </button>
+            <div className="mt-4 flex justify-end gap-2">
+              {onCancel && (
+                <button
+                  className="inline-flex items-center gap-2 rounded-md bg-gray-500 py-1.5 px-3 text-sm font-semibold text-white hover:bg-gray-400 focus:outline-none"
+                  onClick={() => {
+                    onCancel();
+                    handleClose();
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
+              {onConfirm && (
+                <button
+                  className="inline-flex items-center gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm font-semibold text-white hover:bg-red-500 focus:outline-none"
+                  onClick={() => {
+                    onConfirm();
+                    handleClose();
+                  }}
+                >
+                  Confirm
+                </button>
+              )}
             </div>
           </DialogPanel>
         </div>

@@ -96,6 +96,19 @@ const Layout = ({ children }) => {
     }
   };
 
+  const confirmLogout = () => {
+    dispatch(
+      showModal({
+        title: 'Confirm Logout',
+        message: 'Are you sure you want to log out?',
+        onConfirm: logoutHandler,
+        onCancel: () => {
+          console.log('Logout canceled');
+        }
+      })
+    );
+  };
+
   return (
     <>
       <div
@@ -201,7 +214,7 @@ const Layout = ({ children }) => {
                 </div>
               </section>
               <div
-                onClick={logoutHandler}
+                onClick={confirmLogout}
                 className={
                   nav == 'Log Out'
                     ? 'nav-link active mt-auto'
@@ -321,7 +334,7 @@ const Layout = ({ children }) => {
               </div>
             </div>
             <div
-              onClick={logoutHandler}
+              onClick={confirmLogout}
               className={nav == 'Log Out' ? 'nav-link active' : 'nav-link'}
             >
               <HiArrowLeftCircle className="text-[25px]" />{' '}
