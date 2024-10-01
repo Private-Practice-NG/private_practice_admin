@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
@@ -11,24 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import FadeLoader from 'react-spinners/FadeLoader';
-import {
-  storeAccessToken,
-  storeUserInfo,
-  getUserInfo
-} from '../utils/tokenUtils';
+import { storeAccessToken, storeUserInfo } from '../utils/tokenUtils';
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    const userInfo = getUserInfo();
-    console.log('id stuff', userInfo);
-    if (userInfo) {
-      setUserId(userInfo.userId);
-    }
-  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,7 +31,7 @@ const Login = () => {
   async function loginHandler(e) {
     e.preventDefault();
 
-    const toastId = toast.loading('signin you in...');
+    const toastId = toast.loading('logging you in...');
     setIsLoading(true);
 
     console.log(loginForm);
@@ -63,12 +50,22 @@ const Login = () => {
       );
       console.log('Server response:', response.data);
       const accessToken = response.data.response?.accessToken;
-      const { _id: userId, email: userEmail } = response.data.response.user;
+      const {
+        _id: userId,
+        email: userEmail,
+        profileImage,
+        fullName
+      } = response.data.response.user;
 
       if (accessToken) {
         storeAccessToken(accessToken);
 
-        const userInfo = { userId, email: userEmail };
+        const userInfo = {
+          userId,
+          email: userEmail,
+          profileImageData: profileImage,
+          userName: fullName
+        };
         storeUserInfo(userInfo);
 
         console.log(userInfo);
@@ -167,7 +164,7 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="relative auth-form-input auth-form-password">
+            <div className="relative auth-form-input mb-[10px]">
               <div
                 className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px]
                text-gray-500"
@@ -199,7 +196,9 @@ const Login = () => {
               />
             </div>
           </section>
-          <Link to={`/forgot-password/${userId}`}>Forgot Password</Link>
+          <Link to={`/forgot-password`} className="text-right">
+            Forgot Password
+          </Link>
           <button
             className="mt-5 btn auth-submit-btn poppins py-4"
             onClick={loginHandler}

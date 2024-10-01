@@ -2,10 +2,13 @@ import AdminProfileCard from '../pages/Admins/components/AdminProfileCard';
 import './styles/homeadmins.css';
 import { Link } from 'react-router-dom';
 
-const HomeAdmins = ({ adminHomeData = { allAdmins: [] } }) => {
+const HomeAdmins = ({
+  adminHomeData = { dashboardData: { allAdmins: [] } }
+}) => {
   console.log('Admin Home Data:', adminHomeData);
+
   const adminProfilesData =
-    adminHomeData?.dashboardData.allAdmins?.slice(0, 5) || [];
+    adminHomeData?.dashboardData?.allAdmins?.slice(0, 5) || [];
 
   return (
     <div className="home-admins">
@@ -22,9 +25,11 @@ const HomeAdmins = ({ adminHomeData = { allAdmins: [] } }) => {
       </header>
       <section className="flex flex-col gap-8">
         {adminProfilesData.length > 0 ? (
-          adminProfilesData.map((each) => (
-            <AdminProfileCard key={each._id} profileData={each} />
-          ))
+          adminProfilesData
+            .slice(0, 5)
+            .map((each) => (
+              <AdminProfileCard key={each._id} profileData={each} />
+            ))
         ) : (
           <p>No admins available</p>
         )}

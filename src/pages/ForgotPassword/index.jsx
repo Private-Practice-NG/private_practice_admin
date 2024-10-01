@@ -3,16 +3,20 @@ import authImg from '../../assets/forgotImg.png';
 import logo from '../../assets/logo.png';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { getAccessToken, getUserInfo } from '../../utils/tokenUtils';
+import { getAccessToken } from '../../utils/tokenUtils';
 import { showModal } from '../../slices/modalSlice';
+import { TfiEmail } from 'react-icons/tfi';
 
 const ForgetPassword = () => {
-  const { adminId } = useParams();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [forgotPasswordForm, setForgotPasswordForm] = useState({
+    email: ''
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,13 +28,13 @@ const ForgetPassword = () => {
     try {
       const toastId = toast.loading('Sending reset request...');
       const accessToken = getAccessToken();
-      const userInfo = getUserInfo();
+      // const userInfo = getUserInfo();
 
-      if (!accessToken || !adminId) {
+      if (!forgotPasswordForm.email) {
         dispatch(
           showModal({
             title: 'Authentication Error',
-            message: 'Access token or admin ID is missing. Please log in again.'
+            message: 'User email is missing. Please provide a valid email.'
           })
         );
         setLoading(false);
@@ -38,22 +42,29 @@ const ForgetPassword = () => {
       }
 
       const response = await axios.patch(
-        `http://localhost:3001/api/v1/admin/reset-admin-password/?id=${adminId}`,
+        `http://localhost:3001/api/v1/admin/reset-admin-password/?email=${forgotPasswordForm.email}`,
         {
           withCredentials: true,
           headers: {
+            /* header data not actually necessary for the backend */
             Authorization: `Bearer ${accessToken}`,
-            email: userInfo.email,
+            email: forgotPasswordForm.email,
             'Content-Type': 'application/json'
           }
         }
       );
-      const resetPasswordMessage = response.data.responseMessage;
-      setMessage(resetPasswordMessage);
-      toast.success(resetPasswordMessage, { id: toastId });
-      navigate('/forgot-password-message', {
-        state: { message: resetPasswordMessage }
-      });
+
+      if (
+        response &&
+        response.data.responseMessage.startsWith(
+          'admin user password reset successfully'
+        )
+      ) {
+        const resetPasswordMessage = response.data.responseMessage;
+        setMessage(resetPasswordMessage);
+        toast.success(resetPasswordMessage, { id: toastId });
+        navigate('/password-reset-message');
+      }
     } catch (error) {
       console.error('Error resetting password: ', error);
       const errorMessage =
@@ -88,12 +99,38 @@ const ForgetPassword = () => {
           className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
           onSubmit={handleSubmit}
         >
+          <section className="flex flex-col gap-8">
+            <div className="relative auth-form-input auth-form-email">
+              <div
+                className="rounded-[5px] absolute shadow text-center w-[40px] sm:w-[45px] h-full flex items-center justify-center text-[18px]
+               text-gray-500"
+                style={{ boxShadow: 'rgba(0, 0, 0, 0.1) -1px -1px 12px 1px' }}
+              >
+                <TfiEmail />
+              </div>
+              <input
+                className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                type="email"
+                placeholder="youremail@email.com"
+                value={forgotPasswordForm.email}
+                onChange={(e) => {
+                  setForgotPasswordForm({
+                    ...forgotPasswordForm,
+                    email: e.target.value
+                  });
+                }}
+                id="email"
+                required
+              />
+            </div>
+          </section>
+
           <button
             className="btn auth-submit-btn poppins mt-8 py-4"
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Sending...' : 'Reset Password'}
+            {loading ? 'Processing...' : 'Reset Password'}
           </button>
         </form>
 

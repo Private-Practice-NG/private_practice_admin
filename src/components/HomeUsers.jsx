@@ -24,9 +24,11 @@ const HomeUsers = ({
         <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
           <section className="flex flex-col gap-8">
             {allHospitals.length > 0 ? (
-              allHospitals.map((each) => (
-                <HospitalProfileCard key={each._id} profileData={each} />
-              ))
+              allHospitals
+                .slice(0, 3)
+                .map((each) => (
+                  <HospitalProfileCard key={each._id} profileData={each} />
+                ))
             ) : (
               <p>No hospitals available</p>
             )}
@@ -41,7 +43,7 @@ const HomeUsers = ({
       <div className="home-user-spec">
         <h1 className="poppins">Specialists</h1>
         <section className="flex flex-col justify-between mt-6 min-h-[450px] lg:min-h-[410px]">
-          <section className="grid grid-cols-2 gap-4">
+          <section className="grid sm:grid-cols-2 gap-4">
             {allSpecialists.length > 0 ? (
               allSpecialists
                 .slice(0, 2)
@@ -55,7 +57,7 @@ const HomeUsers = ({
               <p>No specialists available</p>
             )}
           </section>
-          <Link to="/specialists" className="btn-view-all poppins">
+          <Link to="/specialists" className="btn-view-all poppins mt-4">
             View All
           </Link>
         </section>
