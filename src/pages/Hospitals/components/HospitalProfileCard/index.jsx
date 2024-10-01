@@ -28,13 +28,18 @@ const HospitalProfileCard = ({ profileData }) => {
           />
         </div>
       </div>
-      <section className="w-full md:w-8/12 flex justify-between items-center flex-row">
-        <button className="flex gap-3 items-center">{approvalStatus}</button>
+      <section className="w-full md:w-8/12 flex justify-between items-center flex-row-reverse md:flex-row">
+        <button className="flex gap-3 items-center">
+          Approval Status:{' '}
+          <span className="underline">
+            {approvalStatus ? approvalStatus : '-- -- --'}
+          </span>
+        </button>
         <Link
           to="/"
           className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white"
         >
-          View profile
+          View application
         </Link>
       </section>
     </div>
