@@ -1,4 +1,3 @@
-import '../styles/auth.css';
 import authImg from '../../assets/forgotImg.png';
 import logo from '../../assets/logo.png';
 import { useState } from 'react';
