@@ -215,7 +215,10 @@ const Layout = ({ children }) => {
                 </div>
               </section>
               <div
-                onClick={confirmLogout}
+                onClick={() => {
+                  hideMobileNav();
+                  confirmLogout();
+                }}
                 className={
                   nav == 'Log Out'
                     ? 'nav-link active mt-auto'
@@ -358,10 +361,10 @@ const Layout = ({ children }) => {
                 <p className="poppins">Admin</p>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative pr-4">
               <IoIosNotificationsOutline className="text-[30px]" />
               <div
-                className="absolute top-[-13px] right-[-10px] bg-white w-[25px] h-[25px] rounded-full 
+                className="absolute top-[-13px] right-[7px] bg-white w-[25px] h-[25px] rounded-full 
               text-gray-800 text-center font-bold pt-[4px]"
               >
                 25
