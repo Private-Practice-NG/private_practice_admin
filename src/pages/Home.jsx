@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './styles/home.css';
 import { useDispatch } from 'react-redux';
 import HomeUsers from '../components/HomeUsers';
 import HomeAdmins from '../components/HomeAdmins';
@@ -79,7 +78,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="home">
+      <div className="flex flex-col justify-center items-center relative min-h-[150px]">
         {isLoading ? (
           <div className="spinner flex justify-center items-center">
             <FadeLoader

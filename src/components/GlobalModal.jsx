@@ -40,7 +40,7 @@ export default function GlobalModal() {
               )}
               {onConfirm && (
                 <button
-                  className="inline-flex items-center gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm font-semibold text-white hover:bg-red-500 focus:outline-none"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#10acf5] py-1.5 px-3 text-sm font-semibold text-white hover:bg-red-500 focus:outline-none"
                   onClick={() => {
                     onConfirm();
                     handleClose();
