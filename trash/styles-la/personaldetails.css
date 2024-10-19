@@ -1,12 +1,12 @@
-.personal-details{
+/* .personal-details{
     display: flex;
     flex-direction: column;
     padding: 20px 0;
     width: 90%;
     margin: 0 auto;
     gap: 30px;
-}
-.personal-details-info-fields{
+} */
+/* .personal-details-info-fields{
     border-bottom: 1px solid rgb(33, 63, 125,0.1);
 }
 
@@ -15,15 +15,15 @@
     color: #1F2737;
     font-size: 1rem;
     margin-bottom: 30px;
-}
-.personal-details-info-fields{
+} */
+/* .personal-details-info-fields{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
-    /* gap: 3.33%; */
-}
-.personal-details-info-field{
+    gap: 3.33%;
+} */
+/* .personal-details-info-field{
     width: 30%;
     display: flex;
     flex-direction: column;
@@ -40,8 +40,8 @@
     font-size: 0.8rem;
     font-weight: bold;
     
-}
-.personal-details-info-field a.download-cert{
+} */
+/* .personal-details-info-field a.download-cert{
     font-size: 0.8rem;
     border: 2px solid var(--btn-form-background);
     background-color: var(--btn-form-background);
@@ -53,11 +53,10 @@
 }
 .personal-details-info-field .pName{
     text-transform: capitalize;
-}
+} */
 
-/* for the large view */
-@media screen and (min-width:1319px) {
+/* @media screen and (min-width:1319px) {
     .personal-details-info-field{
         width: 23%;
     }
-}
+}  */

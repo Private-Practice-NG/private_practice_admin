@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
-import '../styles/userstab.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { showModal } from '../../slices/modalSlice';
@@ -97,24 +96,24 @@ function JobsPage() {
           </div>
         ) : (
           <>
-            <div className="poppins flex items-center gap-2">
+            <div className="flex items-center gap-2 poppins">
               <h2 className="text-2xl">Jobs</h2>
-              <div className="text-[14px]">({filteredJobs.length})</div>
+              <div className="text-sm">({filteredJobs.length})</div>
             </div>
             <section className="mt-6 flex justify-between w-full items-center">
-              <div className="users-tab-input w-9/12">
+              <div className="flex items-center w-9/12 rounded-lg bg-[#ececec] p-2 gap-2">
                 <CiSearch />
                 <input
-                  className="text-[14px]"
+                  className="text-sm bg-transparent outline-none w-full"
                   type="text"
                   placeholder="search jobs"
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <div className="filter-button w-2/12">
-                <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#ececec] py-[15px] px-2 rounded-[7px]">
+              <div className="w-2/12">
+                <div className="flex gap-3 sm:gap-4 justify-center items-center bg-[#ececec] py-4 px-2 rounded-lg cursor-pointer">
                   <svg
-                    className="w-[14px]"
+                    className="w-3.5"
                     viewBox="0 0 31 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -142,35 +141,33 @@ function JobsPage() {
               </div>
             </section>
             <section className="mt-6 sm:mt-8 flex gap-6">
-              <button className="py-2.5 px-4 bg-[#10acf5] rounded-[7px] text-white">
+              <button className="py-2.5 px-4 bg-[#10acf5] rounded-lg text-white">
                 All jobs
               </button>
-              <button className="py-2.5 px-4 bg-[#ececec] rounded-[7px]">
+              <button className="py-2.5 px-4 bg-[#ececec] rounded-lg">
                 Active jobs
               </button>
             </section>
-            <section className="jobs-list-wrapper flex gap-8 flex-col mt-6 sm:mt-8">
+            <section className="jobs-list-wrapper flex flex-col gap-8 mt-6 sm:mt-8">
               {filteredJobs.length === 0 ? (
                 <div>No jobs available at the moment.</div>
               ) : (
                 filteredJobs.map((job) => (
                   <div
                     key={job._id}
-                    className="jobs-card py-4 px-2.5 xsm:px-4 rounded-[7px] bg-[#ececec] flex gap-8 items-center"
+                    className="jobs-card py-4 px-3 xsm:px-4 rounded-lg bg-[#ececec] flex gap-8 items-center"
                   >
-                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] w-6/12">
-                      <div className="poppins font-[500]">{job.userName}</div>
-                      <div className="text-[12px] xsm:text-[14px]">
-                        {job.title}
-                      </div>
+                    <div className="flex flex-col gap-2 text-xs xsm:text-sm w-6/12">
+                      <div className="poppins font-medium">{job.userName}</div>
+                      <div className="text-xs xsm:text-sm">{job.title}</div>
                     </div>
-                    <div className="flex flex-col gap-2 text-[12px] xsm:text-[14px] w-4/12">
-                      <div className="poppins font-[500]">Date posted</div>
-                      <div className="text-[12px] xsm:text-[14px]">
+                    <div className="flex flex-col gap-2 text-xs xsm:text-sm w-4/12">
+                      <div className="poppins font-medium">Date posted</div>
+                      <div className="text-xs xsm:text-sm">
                         {job.createdAt.slice(0, 10)}
                       </div>
                     </div>
-                    <button className="py-2.5 px-3 bg-[#10acf5] rounded-[7px] text-white text-[12px] xsm:text-[14px] w-2/12">
+                    <button className="py-2.5 px-3 bg-[#10acf5] rounded-lg text-white text-xs xsm:text-sm w-2/12">
                       View job
                     </button>
                   </div>

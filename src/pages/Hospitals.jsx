@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './styles/userstab.css';
 import { CiSearch } from 'react-icons/ci';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../slices/usersSlice';
@@ -80,7 +79,7 @@ const Hospitals = () => {
     <Layout>
       <main className="w-full flex justify-center items-center">
         {isLoading ? (
-          <div className="spinner flex justify-center items-center pt-[100px]">
+          <div className="flex justify-center items-center pt-24">
             <FadeLoader
               color={'#10ACF5'}
               loading={true}
@@ -93,28 +92,24 @@ const Hospitals = () => {
             />
           </div>
         ) : (
-          <div className="users-tab sm:px-[20px]">
-            <header className="flex flex-col mt-[15px] mb-[30px]">
-              <div className="poppins flex items-center gap-2">
+          <div className="bg-[#ECECEC] w-full rounded-lg p-3 pb-11 sm:px-5">
+            <header className="flex flex-col mt-4 mb-8">
+              <div className="flex items-center gap-2">
                 <h2 className="text-xl sm:text-2xl">Hospitals</h2>
               </div>
               <section className="mt-6 flex justify-between w-full items-center">
-                <div
-                  className="users-tab-input w-9/12"
-                  style={{ backgroundColor: '#d9d9d9' }}
-                >
-                  <CiSearch />
+                <div className="flex items-center rounded-lg bg-[#d9d9d9] p-2 gap-2 w-9/12">
+                  <CiSearch className="w-8 h-5 text-[#686868]" />
                   <input
-                    className="text-[14px]"
+                    className="bg-[#d9d9d9] text-sm text-[#8D8D8D] w-full outline-none"
                     type="text"
                     placeholder="search hospitals"
-                    style={{ backgroundColor: '#d9d9d9' }}
                   />
                 </div>
-                <div className="filter-button w-2/12">
-                  <div className="users-tab-sort flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-[15px] px-2 rounded-[7px]">
+                <div className="w-2/12">
+                  <div className="flex gap-3 sm:gap-4 justify-center items-center bg-[#d9d9d9] py-4 px-2 rounded-lg cursor-pointer">
                     <svg
-                      className="w-[14px]"
+                      className="w-4"
                       viewBox="0 0 31 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
