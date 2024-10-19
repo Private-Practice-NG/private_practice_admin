@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
 import { TfiEmail } from 'react-icons/tfi';
