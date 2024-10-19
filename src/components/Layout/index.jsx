@@ -117,7 +117,7 @@ const Layout = ({ children }) => {
       >
         {/* Just an overlay */}
       </div>
-      <div className="flex items-start h-screen overflow-auto relative">
+      <div className="flex flex-col  items-center lg:flex-row lg:items-start h-screen overflow-auto relative">
         <nav
           className={`mobile-side-nav min-h-screen  ${
             closeMobileNav
@@ -289,18 +289,18 @@ const Layout = ({ children }) => {
             </div>
           </section>
         </nav>
-        <div className="side-nav-for-larger-screens hidden lg:flex flex-col justify-between px-5 h-[70%] lg:h-full w-3/12">
+        <div className="side-nav-for-larger-screens hidden lg:flex flex-col justify-between px-3 h-[70%] lg:h-full w-3/12 bg-[var(--nav-ver--bg-color)]">
           <div className="flex items-center gap-[10px] p-5 h-24 mb-12 lg:h-[100px] lg:mb-12 lg:px-[30px]">
             <img src={logo} className="w-10" alt="brand" />
             <h4 className="poppins font-[500] text-[16px]">Private Practice</h4>
           </div>
-          <div className="flex flex-col justify-between px-5 lg:px-[30px] gap-6 h-[70%] ml-2">
-            <div className="flex flex-col justify-between gap-11 lg:mb-12">
+          <div className="flex flex-col justify-between px-5 lg:px-[30px] gap-4 h-full ml-2">
+            <div className="flex flex-col justify-between gap-8 lg:mb-12">
               <div
                 onClick={(event) => handleNav(event, { nav: 'Home', to: '/' })}
                 className={
                   nav == 'Home'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
@@ -313,7 +313,7 @@ const Layout = ({ children }) => {
                 }
                 className={
                   nav == 'Admin'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
@@ -329,7 +329,7 @@ const Layout = ({ children }) => {
                 }
                 className={
                   nav == 'Hospitals Enrolment'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
@@ -342,7 +342,7 @@ const Layout = ({ children }) => {
                 }
                 className={
                   nav == 'Specialist'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
@@ -358,7 +358,7 @@ const Layout = ({ children }) => {
                 }
                 className={
                   nav == 'Hospital'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
@@ -371,24 +371,24 @@ const Layout = ({ children }) => {
                 }
                 className={
                   nav == 'Jobs'
-                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
                 <HiBriefcase className="text-[25px]" />{' '}
                 <span className="poppins">Jobs</span>
               </div>
-            </div>
-            <div
-              onClick={confirmLogout}
-              className={
-                nav == 'Log Out'
-                  ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer'
-                  : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
-              }
-            >
-              <HiArrowLeftCircle className="text-[25px]" />{' '}
-              <span className="poppins">Log Out</span>
+              <div
+                onClick={confirmLogout}
+                className={
+                  nav == 'Log Out'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
+              >
+                <HiArrowLeftCircle className="text-[25px]" />{' '}
+                <span className="poppins">Log Out</span>
+              </div>
             </div>
           </div>
         </div>
@@ -418,7 +418,7 @@ const Layout = ({ children }) => {
             </div>
           </div>
           <div
-            className="w-[90%] mt-[75px] lg:mt-[25px] mx-auto p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px] overflow-y-auto"
+            className="w-full lg:w-[90%] mt-[75px] lg:mt-[25px] mx-auto p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px] overflow-y-auto"
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
