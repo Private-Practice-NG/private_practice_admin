@@ -8,6 +8,7 @@ import { showModal } from '../../slices/modalSlice';
 import { getAccessToken, getUserInfo } from '../../utils/tokenUtils';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
+import { Link } from 'react-router-dom';
 
 function JobsPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -167,9 +168,14 @@ function JobsPage() {
                         {job.createdAt.slice(0, 10)}
                       </div>
                     </div>
-                    <button className="py-2.5 px-3 bg-[#10acf5] rounded-lg text-white text-xs xsm:text-sm w-2/12">
-                      View job
-                    </button>
+                    <div className="flex justify-center w-1/5">
+                      <Link
+                        className="bg-[#10acf5] w-full rounded-[7px] py-3 px-4 text-white poppins text-[14px] text-center mt-6"
+                        to={`/jobs/job/${job._id}`}
+                      >
+                        View profile
+                      </Link>
+                    </div>
                   </div>
                 ))
               )}
