@@ -12,13 +12,15 @@ import Home from './pages/Home';
 import Admins from './pages/Admins';
 import Specialists from './pages/Specialists';
 import Hospitals from './pages/Hospitals';
-import SpecialistDetails from './components/SpecialistDetails';
+// import SpecialistDetails from './components/SpecialistDetails';
 import Hospital from './components/Hospital';
 import NotFound from './pages/NotFound';
 import CreateAdmin from './pages/Admins/components/CreateAdmin';
 import JobsPage from './pages/Jobs';
 import HospitalsEnrolment from './pages/HospitalsEnrolment';
 import UpdateAdmin from './pages/Admins/components/UpdateAdmin';
+import Specialist from './pages/Specialist';
+import SingleJob from './pages/Jobs/components/job';
 import { getUserInfo, getAccessToken, storeUserInfo } from './utils/tokenUtils';
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -91,7 +93,8 @@ function App() {
         <Route path="/hospitals" element={<Hospitals />} />
         <Route path="/hospitals-enrolment" element={<HospitalsEnrolment />} />
         <Route path="/specialists" element={<Specialists />} />
-        <Route path="/specialist/:userId" element={<SpecialistDetails />} />
+        <Route path="/specialist/:specialistId" element={<Specialist />} />
+        <Route path="/jobs/job/:jobId" element={<SingleJob />} />
         <Route path="/hospital/:userId" element={<Hospital />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
