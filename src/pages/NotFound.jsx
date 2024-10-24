@@ -1,13 +1,11 @@
 // import React from "react";
-import './styles/forgotmsg.css';
-import './styles/auth.css';
 import { useNavigate } from 'react-router-dom';
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="404-page auth-body forgot-msg px-3">
+    <div className="404-page auth-body w-screen h-screen flex flex-col justify-center items-center gap-6 px-3">
       <svg
         className="w-[200px] sm:w-[200px]"
         viewBox="0 0 489 189"
@@ -32,7 +30,7 @@ const NotFound = () => {
           </linearGradient>
         </defs>
       </svg>
-      <div className="forgot-msg-details">
+      <div className="text-center">
         <h1 className="poppins text-[18px] font-[500] uppercase">
           Page not found
         </h1>

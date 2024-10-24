@@ -1,28 +1,6 @@
-// import React from "react";
-// import './admin-card.css';
-// import mockAvatar from '../../../../assets/img-2.png';
-// import { useSelector, useDispatch } from "react-redux";
-// import { useActivateAdminMutation } from "../slices/usersApiSlice";
-// import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const AdminProfileCard = ({ profileData }) => {
-  // console.log(profileData);
-  // const [activateAdminApi, { isLoading }] = useActivateAdminMutation();
-
-  //   const handleActivate = async () => {
-  //     try {
-  //       const nActivated = !active;
-  //       // const data = { id, activated: nActivated };
-  //       // const res = await activateAdminApi(data).unwrap();
-  //       setActivate(nActivated);
-  //       const text = nActivated ? 'Activated' : 'Deactivated ';
-  //       toast.success(`User ${text}`);
-  //     } catch (error) {
-  //       toast.error(error?.data?.message || error.error);
-  //     }
-  //   };
-
   return (
     <div className="admin-profile-card border-t-[1px] border-b-[1px] py-3 border-gray-300 flex flex-col gap-x-[40px] gap-y-[30px] sm:flex-row w-full">
       <div className="w-full md:w-4/12 flex gap-4 items-center">

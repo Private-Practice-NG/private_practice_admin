@@ -1,250 +1,137 @@
-// import React from "react";
-import './styles/personaldetails.css';
-
-const PersonalDetails = ({ user, data }) => {
+const PersonalDetails = ({ specialistProfileData }) => {
   return (
-    <div className="personal-details">
-      {user == 'specialist' && (
-        <>
-          <div className="person-details-info">
-            <h3>Personal Information</h3>
-            <div className="personal-details-info-fields">
-              <div className="personal-details-info-field">
-                <h4>FULL NAME</h4>
-                <p>
-                  {data?.firstName} {data?.middleName} {data?.lastName}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>PHONE NUMBER</h4>
-                <p>{data?.phoneNumber ? data?.phoneNumber : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>EMAIL ADDRESS</h4>
-                <p>{data?.email}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Years In Practice</h4>
-                <p>{data?.yearsInPractice ? data?.yearsInPractice : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>GENDER</h4>
-                <p>{data?.sex ? data?.sex : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Specialisation</h4>
-                <p>{data?.specialisation ? data?.specialisation : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Allergies</h4>
-                <p>{data?.allergies ? data?.allergies : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>BloodGroup</h4>
-                <p>{data?.bloodGroup ? data?.bloodGroup : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Genotype</h4>
-                <p>{data?.genotype ? data?.genotype : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Hospital Affilation</h4>
-                <p>
-                  {data?.hospitalAffilation ? data?.hospitalAffilation : 'None'}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>City</h4>
-                <p>
-                  {data?.locationData.city ? data?.locationData.city : 'None'}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>State</h4>
-                <p>
-                  {data?.locationData.state ? data?.locationData.state : 'None'}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Address</h4>
-                <p>
-                  {data?.locationData.address
-                    ? data?.locationData.address
-                    : 'None'}
-                </p>
-              </div>
+    <div className="flex flex-col py-5 w-[90%] mx-auto">
+      <>
+        <div className="person-details-info">
+          <h3 className="font-semibold text-[#1F2737] text-base mb-7">
+            Personal Information
+          </h3>
+          <div className="text-xs mb-4 grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-4  border-b-stone-950">
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">full name</h4>
+              <p className="text-[#545F7D] text-xs font-bold">
+                {specialistProfileData.firstName}{' '}
+                {specialistProfileData.lastName}
+              </p>
+            </div>
+            <div className=" flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">PHONE NUMBER</h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">EMAIL ADDRESS</h4>
+              <p className="text-[#545F7D] text-xs font-bold">
+                {specialistProfileData.email}
+              </p>
+            </div>
+            <div className=" flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">bvn</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-----</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">GENDER</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-----</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">marital status</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-------</p>
+            </div>
+            <div className=" flex flex-col gap-1 ">
+              <h4 className="text-[#6E7792]  uppercase">children</h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">type of residence</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-----</p>
             </div>
           </div>
-          <div className="person-details-info">
-            <h3>Verification</h3>
-            <div className="personal-details-info-fields">
-              <div className="personal-details-info-field">
-                <h4>Email</h4>
-                <p>{data?.verified.email ? 'Verified' : 'Not Verified'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Phone</h4>
-                <p>{data?.verified.phone ? 'Verified' : 'Not Verified'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Profile</h4>
-                <p>{data?.verified.profile ? 'Verified' : 'Not Verified'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Certificate</h4>
-                <p>
-                  {data?.verified.certificate ? 'Verified' : 'Not Verified'}
-                </p>
-              </div>
+        </div>
+        <div className="Education and Employment">
+          <h3 className="font-semibold text-[#1F2737] text-base mb-7">
+            Education and Employment
+          </h3>
+          <div className="text-xs mb-4 grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-4  border-b-stone-950">
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                Level of education
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">-------</p>
+            </div>
+            <div className="flex flex-col gap-1 mb-5">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                employment status
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                sector of employment
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">office email</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                monthly income
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">-----</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                duration of employment
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">-------</p>
             </div>
           </div>
-          <div className="person-details-info">
-            <h3>Education and Certificates</h3>
-            <div className="personal-details-info-fields">
-              <div className="personal-details-info-field">
-                <h4>Secondary School Document</h4>
-                {data?.certificates.secondarySchoolDocument ? (
-                  <>
-                    <a
-                      href={`${data?.certificates.secondarySchoolDocument}`}
-                      className="download-cert"
-                    >
-                      Download
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <a href="#" className="download-cert">
-                      Not available
-                    </a>
-                  </>
-                )}
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Practicing License Document</h4>
-                {data?.certificates.nyscDocument ? (
-                  <>
-                    <a
-                      href={`${data?.certificates.nyscDocument}`}
-                      className="download-cert"
-                    >
-                      Download
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <a href="#" className="download-cert">
-                      Not available
-                    </a>
-                  </>
-                )}
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Nysc Document</h4>
-                {data?.certificates.practicingLicenseDocument ? (
-                  <>
-                    <a
-                      href={`${data?.certificates.practicingLicenseDocument}`}
-                      className="download-cert"
-                    >
-                      Download
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <a href="#" className="download-cert">
-                      Not available
-                    </a>
-                  </>
-                )}
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Specialization Document</h4>
-                {data?.certificates.specializationDocument ? (
-                  <>
-                    <a
-                      href={`${data?.certificates.specializationDocument}`}
-                      className="download-cert"
-                    >
-                      Download
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <a href="#" className="download-cert">
-                      Not available
-                    </a>
-                  </>
-                )}
-              </div>
+        </div>
+        <div className="person-details-info">
+          <h3 className="font-semibold text-[#1F2737] text-base mb-7">
+            Social
+          </h3>
+          <div className="text-xs mb-4 grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-4  border-b-stone-950">
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">twitter</h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">facebook</h4>
+              <p className="text-[#545F7D] text-xs font-bold">--------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] uppercase">instagram</h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
             </div>
           </div>
-        </>
-      )}
-      {user == 'hospital' && (
-        <>
-          <div className="person-details-info">
-            <h3>Personal Information</h3>
-            <div className="personal-details-info-fields">
-              <div className="personal-details-info-field">
-                <h4>HOSPITAL NAME</h4>
-                <p className="pName">{data?.hospitalName}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>CONTACT NUMBER</h4>
-                <p>{data?.contactNumber ? data?.contactNumber : 'None'}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>EMAIL ADDRESS</h4>
-                <p>{data?.email}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>City</h4>
-                <p className="pName">
-                  {data?.locationData.city ? data?.locationData.city : 'None'}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>State</h4>
-                <p>
-                  {data?.locationData.state ? data?.locationData.state : 'None'}
-                </p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Address</h4>
-                <p className="pName">
-                  {data?.locationData.address
-                    ? data?.locationData.address
-                    : 'None'}
-                </p>
-              </div>
+        </div>
+        <div className="person-details-info">
+          <h3 className="font-semibold text-[#1F2737] text-base mb-7">
+            Guarantor
+          </h3>
+          <div className="text-xs mb-4 grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-4  border-b-stone-950">
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">full name</h4>
+              <p className="text-[#545F7D] text-xs font-bold">-------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">phone number</h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">
+                email address
+              </h4>
+              <p className="text-[#545F7D] text-xs font-bold">------</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[#6E7792] text-xs uppercase">relationship</h4>
+              <p className="text-[#545F7D] text-xs font-bold">--------</p>
             </div>
           </div>
-          {/* <div className="person-details-info">
-            <h3>Verification</h3>
-            <div className="personal-details-info-fields">
-              <div className="personal-details-info-field">
-                <h4>Email</h4>
-                <p>{data?.verified.email ? "Verified" : "Not Verified"}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Phone</h4>
-                <p>{data?.verified.phone ? "Verified" : "Not Verified"}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Profile</h4>
-                <p>{data?.verified.profile ? "Verified" : "Not Verified"}</p>
-              </div>
-              <div className="personal-details-info-field">
-                <h4>Certificate</h4>
-                <p>
-                  {data?.verified.certificate ? "Verified" : "Not Verified"}
-                </p>
-              </div>
-            </div>
-          </div> */}
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
 };

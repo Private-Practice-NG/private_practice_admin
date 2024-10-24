@@ -1,0 +1,50 @@
+.job-completed-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.job-completed-card {
+  border-radius: 10px;
+  background: #e0e0e0;
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  justify-content: space-between;
+}
+.job-completed-card-details {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+img.job-completed-card-hos-img {
+  width: 100px;
+}
+.job-completed-details-context {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.job-completed-details-context h1 {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.job-completed-details-context h4 {
+  font-size: 0.8rem;
+}
+.job-completed-details-context p {
+  font-size: 0.8rem;
+}
+
+/* for the large view */
+@media screen and (min-width: 950px) {
+  .job-completed-card-details {
+    width: 75%;
+  }
+}
+/* for the large view */
+@media screen and (min-width: 1250px) {
+  .job-completed-card-details {
+    width: 55%;
+  }
+}

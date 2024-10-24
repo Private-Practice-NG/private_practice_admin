@@ -32,7 +32,7 @@ function SpecialistProfileCard({ specialistProfile }) {
       <div className="flex justify-center">
         <Link
           className="bg-[#10acf5] w-1/2 rounded-[7px] py-3 px-4 text-white poppins text-[14px] text-center mt-6"
-          to="/"
+          to={`/specialist/${specialistProfile._id}`}
         >
           View profile
         </Link>
