@@ -1,6 +1,6 @@
 // import React from "react";
 // import './styles/forgotmsg.css';
-import '../styles/auth.css';
+// import '../styles/auth.css';
 import { Link } from 'react-router-dom';
 
 const ForgotPassMsg = () => {

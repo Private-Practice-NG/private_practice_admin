@@ -1,5 +1,3 @@
-// import React from "react";
-import './styles/specialistdetails.css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +9,6 @@ import { setHospital, setNav } from '../slices/usersSlice';
 import { Rating } from 'react-simple-star-rating';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import profile from './../assets/hospitalAvatar.png';
-// import stars from "./../assets/stars.png";
 import PersonalDetails from './PersonalDetails';
 import { toast } from 'react-toastify';
 import FadeLoader from 'react-spinners/FadeLoader';
@@ -37,14 +34,13 @@ const Hospital = () => {
       }
     }
     fetchData();
-  });
+  }, [userId, hospitalApiCall, dispatch]);
 
   const handleActivate = async () => {
     try {
       const nActivated = !hospital?.activated;
       const data = { id: hospital?._id, activated: nActivated };
       const res = await activateHospital(data).unwrap();
-      console.log(res);
       dispatch(setHospital(res.data));
       const text = nActivated ? 'Activated' : 'Deactivated ';
       toast.success(`Hospital Account ${text}`);
@@ -52,139 +48,126 @@ const Hospital = () => {
       toast.error(error?.data?.message || 'Something went wrong');
     }
   };
+
   const { hospital } = useSelector((state) => state.users);
 
   return (
-    <section className="specialist-details">
+    <section className="bg-[#ECECEC] rounded-[15px] py-8 max-w-[1440px] mx-auto">
       {isLoading ? (
-        <>
-          <div className="spinner-details">
-            <FadeLoader
-              color={'#10ACF5'}
-              loading={isLoading}
-              // cssOverride={override}
-              size={300}
-              height={50}
-              width={5}
-              radius={10}
-              margin={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        </>
+        <div className="flex justify-center items-center">
+          <FadeLoader
+            color={'#10ACF5'}
+            loading={isLoading}
+            size={300}
+            height={50}
+            width={5}
+            radius={10}
+            margin={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       ) : (
         <>
-          <header className="specialist-details-header">
-            <nav className="specialist-details-header-nav">
-              <button className="nav-back" onClick={() => navigate(-1)}>
+          <header className="w-[95%] mx-auto">
+            <nav className="flex justify-between items-center py-8">
+              <button
+                className="flex items-center gap-2"
+                onClick={() => navigate(-1)}
+              >
                 <MdOutlineArrowBackIosNew /> <span>Back</span>
               </button>
-              <div className="nav-right">
-                {true ? (
-                  <div className="nav-right-status">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="17"
-                      height="17"
-                      viewBox="0 0 17 17"
-                      fill="none"
-                    >
-                      <circle cx="8.5" cy="8.5" r="8.5" fill="#19BE3E" />
-                    </svg>{' '}
-                    <span>Verified</span>{' '}
-                  </div>
-                ) : (
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 15 15"
-                      fill="none"
-                    >
-                      <circle cx="7.5" cy="7.5" r="7.5" fill="#9CA09D" />
-                    </svg>{' '}
-                    <span>Unverified</span>
-                  </div>
-                )}
+              <div className="flex items-center gap-12">
+                <div className="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                  >
+                    <circle cx="8.5" cy="8.5" r="8.5" fill="#19BE3E" />
+                  </svg>
+                  <span>Verified</span>
+                </div>
                 {hospital?.activated ? (
-                  <>
-                    {activateLoading ? (
-                      <>
-                        <FadeLoader color="#10ACF5" />
-                      </>
-                    ) : (
-                      <>
-                        <button className="warn" onClick={handleActivate}>
-                          Deactivate
-                        </button>
-                      </>
-                    )}
-                  </>
+                  activateLoading ? (
+                    <FadeLoader color="#10ACF5" />
+                  ) : (
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-md"
+                      onClick={handleActivate}
+                    >
+                      Deactivate
+                    </button>
+                  )
+                ) : activateLoading ? (
+                  <FadeLoader color="#10ACF5" />
                 ) : (
-                  <>
-                    {activateLoading ? (
-                      <>
-                        <FadeLoader color="#10ACF5" />
-                      </>
-                    ) : (
-                      <>
-                        <button className="sucess" onClick={handleActivate}>
-                          Activate
-                        </button>
-                      </>
-                    )}
-                  </>
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-md"
+                    onClick={handleActivate}
+                  >
+                    Activate
+                  </button>
                 )}
-                <Link>Reset Password</Link>
+                <Link className="text-blue-500">Reset Password</Link>
               </div>
             </nav>
-            <section className="specialist-details-sec">
-              <div className="specialist-details-sec-first">
-                <div className="specialist-details-sec-first-1">
+            <section className="bg-[#D1D1D1] shadow-lg rounded-t-lg p-8">
+              <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-4">
                   <img
                     src={profile}
-                    alt=""
-                    className="specialist-detail-profile"
+                    alt="Profile"
+                    className="w-[120px] h-[120px] rounded-full"
                   />
-                  <div className="specialist-details-sec-first-1-info">
-                    <h1>{hospital?.hospitalName}</h1>
-                    <p>HOSPITAL</p>
+                  <div className="flex flex-col gap-2">
+                    <h1 className="text-lg font-bold">
+                      {hospital?.hospitalName}
+                    </h1>
+                    <p className="tracking-widest uppercase">HOSPITAL</p>
                     <Rating
                       size={'25px'}
                       readonly={true}
                       initialValue={hospital?.rating ? hospital?.rating : 5}
                     />
-                    {/* <h3>34 Years Old</h3> */}
                   </div>
                 </div>
-                <div className="specialist-details-sec-first-2">
-                  {/* <div className="total-earn">
-                <p>Total Earnings</p>
-                <h1>₦326,200,000.23</h1>
-              </div> */}
-                  <div className="balance">
-                    <div className="main-bal">
+                <div className="flex flex-col gap-4">
+                  <div className="bg-green-600 text-white p-3 rounded-lg">
+                    <p>Total Earnings</p>
+                    <h1>₦326,200,000.23</h1>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <div className="bg-gray-300 p-3 rounded-lg">
                       <p>Main Balance</p>
                       <h3>₦{hospital?.wallet?.balance}</h3>
                     </div>
-                    <div className="book-bal">
+                    <div className="bg-gray-300 p-3 rounded-lg">
                       <p>Book Balance</p>
                       <h4>₦{hospital?.wallet?.bookBalance}</h4>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="specialist-details-sec-second">
-                <button className="active">Personal Details</button>
-                <button>Jobs Completed (6)</button>
-                <button>Pending Jobs (2)</button>
-                <button>Declined Jobs (9)</button>
+              <div className="flex justify-center gap-8 mt-12">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-md active">
+                  Personal Details
+                </button>
+                <button className="bg-gray-400 px-4 py-2 rounded-md">
+                  Jobs Completed (6)
+                </button>
+                <button className="bg-gray-400 px-4 py-2 rounded-md">
+                  Pending Jobs (2)
+                </button>
+                <button className="bg-gray-400 px-4 py-2 rounded-md">
+                  Declined Jobs (9)
+                </button>
               </div>
             </section>
           </header>
-          <div className="specialist-details-details">
+          <div className="bg-gray-300 py-12 w-[95%] mx-auto">
             <PersonalDetails user={'hospital'} data={hospital} />
           </div>
         </>
