@@ -36,8 +36,10 @@ function App() {
   const userInfo = getUserInfo();
   const token = getAccessToken();
 
-  if (userInfo && userInfo.profileImageData.lastFetch) {
-    // console.log('userInfo', userInfo);
+  console.log('userInfo outside', userInfo);
+
+  if (userInfo && userInfo.profileImageData) {
+    console.log('userInfo inside', userInfo);
 
     const imageTimeToLive = userInfo.profileImageData.lastFetch + 590400000;
 
