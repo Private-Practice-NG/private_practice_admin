@@ -6,7 +6,7 @@ const HospitalProfileCard = ({ profileData }) => {
   console.log('Profile Data:', profileData);
   if (!profileData) return null;
 
-  const { hospitalName, rating, approvalStatus, avatar } = profileData;
+  const { hospitalName, rating, approvalStatus, avatar, _id } = profileData;
 
   return (
     <div className="hospital-profile-card border-t-[1px] border-b-[1px] py-3 border-gray-300 flex flex-col gap-x-[40px] gap-y-[30px] sm:flex-row sm:justify-between sm:items-center">
@@ -36,7 +36,7 @@ const HospitalProfileCard = ({ profileData }) => {
           </span>
         </button>
         <Link
-          to="/"
+          to={`/hospital/${_id}`}
           className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white"
         >
           View application
