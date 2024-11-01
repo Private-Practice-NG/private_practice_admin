@@ -68,7 +68,7 @@ const Login = () => {
         storeUserInfo(userInfo);
 
         console.log(userInfo);
-        toast.success('Login successful.', { id: toastId });
+        // toast.success('Login successful.', { id: toastId });
 
         setIsLoading(false);
         console.log('Navigating to home...');

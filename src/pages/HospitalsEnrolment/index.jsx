@@ -227,12 +227,18 @@ function HospitalsEnrolment() {
                         <div className="w-[10%]">
                           <p
                             className={`status-tag text-white text-[12px] py-[4px] px-[10px] text-center rounded-full ${
-                              hospitalData.activated
-                                ? 'bg-[#19BE3E]'
-                                : 'bg-[#F6AB27]'
+                              hospitalData.approvalStatus === 'approved'
+                                ? 'bg-[#19BE3E]' // Green for approved
+                                : hospitalData.approvalStatus === 'rejected'
+                                  ? 'bg-red-600' // Reddish for rejected (you can adjust this color as needed)
+                                  : 'bg-[#F6AB27]' // Yellow for pending
                             }`}
                           >
-                            {hospitalData.activated ? 'approved' : 'pending'}
+                            {hospitalData.approvalStatus === 'approved'
+                              ? 'approved'
+                              : hospitalData.approvalStatus === 'rejected'
+                                ? 'rejected'
+                                : 'pending'}
                           </p>
                         </div>
                       </div>
