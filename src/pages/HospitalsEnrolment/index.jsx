@@ -7,9 +7,25 @@ import axios from 'axios';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
 import { showModal } from '../../slices/modalSlice';
+import ViewApplicationModal from './components/ViewApplicationModal';
 
 function HospitalsEnrolment() {
+  const [selectedHospital, setSelectedHospital] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleOpenModal = (hospitalId) => {
+    const foundHospital = hospitalEnrolmentDashboardData.allHospitals.find(
+      (hospital) => hospital._id === hospitalId
+    );
+    setSelectedHospital(foundHospital);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const [hospitalEnrolmentDashboardData, setHospitalEnrolmentDashboardData] =
     useState({
       allHospitalsCount: 0,
@@ -127,12 +143,12 @@ function HospitalsEnrolment() {
               </div>
             </section>
             <section className="mt-[50px] md:mt-16 flex justify-between w-full items-center">
-              <div className="users-tab-input w-9/12">
-                <CiSearch />
+              <div className="flex items-center rounded-lg bg-[#d9d9d9] p-2 gap-2 w-9/12">
+                <CiSearch className="w-8 h-5 text-[#686868]" />
                 <input
-                  className="text-[14px]"
+                  className="bg-[#d9d9d9] text-sm text-[#8D8D8D] w-full outline-none"
                   type="text"
-                  placeholder="search applications"
+                  placeholder="search Application"
                 />
               </div>
               <div className="filter-button w-2/12">
@@ -182,9 +198,9 @@ function HospitalsEnrolment() {
                     return (
                       <div
                         key={hospitalData._id}
-                        className="application-card bg-[#ececec] py-4 flex justify-between poppins rounded-[7px] items-center"
+                        className="application-card bg-[#ececec] py-4 flex justify-between poppins rounded-[7px] items-center px-3"
                       >
-                        <div className="w-[22%] px-3 mr-6">
+                        <div className="w-[22%] mr-6">
                           {hospitalData.hospitalName}
                         </div>
                         <div className="w-[28%] overflow-x-auto mr-6">
@@ -201,19 +217,28 @@ function HospitalsEnrolment() {
                           )}
                         </div>
                         <div className="w-[20%]">
-                          <button className="view-application-btn text-[#10ACF5]">
+                          <button
+                            onClick={() => handleOpenModal(hospitalData._id)}
+                            className="view-application-btn text-[#10ACF5]"
+                          >
                             View application
                           </button>
                         </div>
                         <div className="w-[10%]">
                           <p
                             className={`status-tag text-white text-[12px] py-[4px] px-[10px] text-center rounded-full ${
-                              hospitalData.activated
-                                ? 'bg-[#19BE3E]'
-                                : 'bg-[#F6AB27]'
+                              hospitalData.approvalStatus === 'approved'
+                                ? 'bg-[#19BE3E]' // Green for approved
+                                : hospitalData.approvalStatus === 'rejected'
+                                  ? 'bg-red-600' // Reddish for rejected (you can adjust this color as needed)
+                                  : 'bg-[#F6AB27]' // Yellow for pending
                             }`}
                           >
-                            {hospitalData.activated ? 'approved' : 'pending'}
+                            {hospitalData.approvalStatus === 'approved'
+                              ? 'approved'
+                              : hospitalData.approvalStatus === 'rejected'
+                                ? 'rejected'
+                                : 'pending'}
                           </p>
                         </div>
                       </div>
@@ -225,6 +250,14 @@ function HospitalsEnrolment() {
           </>
         )}
       </main>
+
+      {isModalOpen && (
+        <ViewApplicationModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          hospital={selectedHospital}
+        />
+      )}
     </Layout>
   );
 }

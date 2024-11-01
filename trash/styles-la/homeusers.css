@@ -1,55 +1,52 @@
 /* @media screen and (min-width: 1150px) { */
-    .home-users {
+/* .home-users {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: space-between;
         gap: 30px;
-    }
+    } */
 
-    .home-user-hos,
+/* .home-user-hos,
     .home-user-spec {
-        /* min-height: 450px; */
         display: block;
         width: 100%;
         background-color: #ECECEC;
         padding: 12px;
         border-radius: 7px;
-    }
+    } */
 
-    /* .home-user-hos {
+/* .home-user-hos {
         display: flex;
         flex-direction:column;
         justify-content: space-between;
     } */
 
-     .btn-view-all {
+/* .btn-view-all {
         width: 100%;
         border: 2px solid var(--btn-form-background);
         border-radius: 7px;
         text-align: center;
         font-size: 14px;
         padding: 12px 0;
-        /* font-family: "Poppins", sans-serif; */
     }
-    
-    @media screen and (min-width: 768px) {
+     */
+/* @media screen and (min-width: 768px) {
         .home-user-hos,
         .home-user-spec {
             width: 100%;
-            /* min-height: 450px; */
-        }
+        } */
 
-        .home-users {
+/* .home-users {
             gap: 20px;
         }
 
         .btn-view-profile {
             font-size: 16px;
         }
-    }
+    } */
 
-    .home-users h1 {
+/* .home-users h1 {
         font-weight: 400;
         font-size: 18px;
     }
@@ -85,15 +82,15 @@
         font-size: 0.7rem;
         padding: 5px 10px;
         border-radius: 8px;
-    }
+    } */
 
-    /* .home-user-spec{
+/* .home-user-spec{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     } */
 
-    .home-user-spec-pros{
+/* .home-user-spec-pros{
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
@@ -120,10 +117,10 @@
 
     .spec-stars{
         width: 80%;
-    }
+    } */
 /* } */
 
-@media screen and (min-width:1305px) {
+/* @media screen and (min-width:1305px) {
     .home-profile-img img{
         width: 70px;
         height: 70px;
@@ -139,13 +136,13 @@
         width: 110px;
         height: 110px;
     }
-}
+} */
 
 /* for the large view */
-@media screen and (min-width: 1536px) {
+/* @media screen and (min-width: 1536px) {
     .home-user-hos,
     .home-user-spec {
         width: 48%;
-        /* min-height: 450px; */
+       
     }
-}
+} */

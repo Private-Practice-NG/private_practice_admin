@@ -1,6 +1,6 @@
 // import React from 'react';
 import { useState } from 'react';
-import '../styles/pagecont.css';
+// import '../styles/pagecont.css';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -113,14 +113,16 @@ const Layout = ({ children }) => {
   return (
     <>
       <div
-        className={`${closeMobileNav ? 'hidden' : 'block'} overlay text-white overlay-bg fixed top-0 left-0 right-0 z-40 h-screen`}
+        className={`${closeMobileNav ? 'hidden' : 'block'} overlay text-white bg-[rgba(0,0,0,0.5)] transition-colors duration-750 ease-in fixed top-0 left-0 right-0 z-40 h-screen`}
       >
         {/* Just an overlay */}
       </div>
-      <div className="page-cont relative">
+      <div className="flex flex-col  items-center lg:flex-row lg:items-start h-screen overflow-auto relative">
         <nav
           className={`mobile-side-nav min-h-screen  ${
-            closeMobileNav ? 'nav--slide-out' : 'nav--slide-in'
+            closeMobileNav
+              ? '-translate-x-full transition-transform duration-700 ease-in-out'
+              : 'translate-x-0 transition-transform duration-700 ease-in-out'
           } bg-[#F0F0F0] fixed top-0 right-0 left-0 lg:hidden h-screen w-[85%] sm:w-[400px] z-50 flex flex-col gap-[30px]`}
         >
           <div className="flex p-8 bg-[#10ACF5] items-center justify-between">
@@ -145,14 +147,18 @@ const Layout = ({ children }) => {
             </div>
           </div>
           <section className="px-3 pt-4 pb-24" style={{ height: '100%' }}>
-            <div className="vertical-nav h-full">
-              <section className="vertical-nav-links-wrapper">
+            <div className="flex flex-col justify-between px-5 gap-6 h-full lg:w-1/4">
+              <section className="flex flex-col justify-center gap-9 lg:w-1/4 lg:bg-[#F1F1F1]">
                 <div
                   onClick={
                     (event) => handleNav(event, { nav: 'Home', to: '/' })
                     // hideMobileNav()
                   }
-                  className={nav == 'Home' ? 'nav-link active' : 'nav-link'}
+                  className={
+                    nav == 'Home'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
+                  }
                 >
                   <HiHome className="text-[25px]" />
                   <span>Home</span>
@@ -161,7 +167,11 @@ const Layout = ({ children }) => {
                   onClick={(event) =>
                     handleNav(event, { nav: 'Admin', to: '/admins' })
                   }
-                  className={nav == 'Admin' ? 'nav-link active' : 'nav-link'}
+                  className={
+                    nav == 'Admin'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
+                  }
                 >
                   <HiUsers className="text-[25px]" />
                   <span>Admins</span>
@@ -175,8 +185,8 @@ const Layout = ({ children }) => {
                   }
                   className={
                     nav == 'Hospitals Enrolment'
-                      ? 'nav-link active'
-                      : 'nav-link'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
                   }
                 >
                   <HiSquaresPlus className="text-[25px]" />{' '}
@@ -187,7 +197,9 @@ const Layout = ({ children }) => {
                     handleNav(event, { nav: 'Specialist', to: '/specialists' })
                   }
                   className={
-                    nav == 'Specialist' ? 'nav-link active' : 'nav-link'
+                    nav == 'Specialist'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
                   }
                 >
                   <HiUserGroup
@@ -198,28 +210,42 @@ const Layout = ({ children }) => {
                 </div>
                 <div
                   onClick={(event) =>
-                    handleNav(event, { nav: 'Hospital', to: '/hospitals' })
+                    handleNav(event, {
+                      nav: 'Approved Hospitals',
+                      to: '/hospitals'
+                    })
                   }
-                  className={nav == 'Hospital' ? 'nav-link active' : 'nav-link'}
+                  className={
+                    nav == 'Approved Hospitals'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
+                  }
                 >
                   <HiHomeModern className="text-[25px]" />{' '}
-                  <span>Hospitals</span>
+                  <span>Approved Hospitals</span>
                 </div>
                 <div
                   onClick={(event) =>
                     handleNav(event, { nav: 'Jobs', to: '/jobs' })
                   }
-                  className={nav == 'Jobs' ? 'nav-link active' : 'nav-link'}
+                  className={
+                    nav == 'Jobs'
+                      ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
+                      : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
+                  }
                 >
                   <HiBriefcase className="text-[25px]" /> <span>Jobs</span>
                 </div>
               </section>
               <div
-                onClick={confirmLogout}
+                onClick={() => {
+                  hideMobileNav();
+                  confirmLogout();
+                }}
                 className={
                   nav == 'Log Out'
-                    ? 'nav-link active mt-auto'
-                    : 'nav-link mt-auto'
+                    ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer mt-auto'
+                    : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer mt-auto'
                 }
               >
                 <HiArrowLeftCircle className="text-[25px]" /> Log Out
@@ -266,16 +292,20 @@ const Layout = ({ children }) => {
             </div>
           </section>
         </nav>
-        <div className="side-nav-for-larger-screens vertical-nav hidden lg:block">
-          <div className="vertical-nav-brand">
-            <img src={logo} alt="brand" />
+        <div className="side-nav-for-larger-screens hidden lg:flex flex-col justify-between px-3 h-[70%] lg:h-full w-3/12 bg-[var(--nav-ver--bg-color)]">
+          <div className="flex items-center gap-[10px] p-5 h-24 mb-12 lg:h-[100px] lg:mb-12 lg:px-[30px]">
+            <img src={logo} className="w-10" alt="brand" />
             <h4 className="poppins font-[500] text-[16px]">Private Practice</h4>
           </div>
-          <div className="vertical-nav-links ml-2">
-            <div className="vertical-nav-links-top">
+          <div className="flex flex-col justify-between px-5 lg:px-[30px] gap-4 h-full ml-2">
+            <div className="flex flex-col justify-between gap-8 lg:mb-12">
               <div
                 onClick={(event) => handleNav(event, { nav: 'Home', to: '/' })}
-                className={nav == 'Home' ? 'nav-link active' : 'nav-link'}
+                className={
+                  nav == 'Home'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
               >
                 <HiHome className="text-[25px]" />
                 <span className="poppins">Home</span>
@@ -284,7 +314,11 @@ const Layout = ({ children }) => {
                 onClick={(event) =>
                   handleNav(event, { nav: 'Admin', to: '/admins' })
                 }
-                className={nav == 'Admin' ? 'nav-link active' : 'nav-link'}
+                className={
+                  nav == 'Admin'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
               >
                 <HiUsers className="text-[25px]" />{' '}
                 <span className="poppins">Admins</span>
@@ -297,7 +331,9 @@ const Layout = ({ children }) => {
                   })
                 }
                 className={
-                  nav == 'Hospitals Enrolment' ? 'nav-link active' : 'nav-link'
+                  nav == 'Hospitals Enrolment'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
                 <HiSquaresPlus className="text-[25px]" />{' '}
@@ -307,7 +343,11 @@ const Layout = ({ children }) => {
                 onClick={(event) =>
                   handleNav(event, { nav: 'Specialist', to: '/specialists' })
                 }
-                className={nav == 'Specialist' ? 'nav-link active' : 'nav-link'}
+                className={
+                  nav == 'Specialist'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
               >
                 <HiUserGroup
                   className="text-[25px]"
@@ -317,58 +357,80 @@ const Layout = ({ children }) => {
               </div>
               <div
                 onClick={(event) =>
-                  handleNav(event, { nav: 'Hospital', to: '/hospitals' })
+                  handleNav(event, {
+                    nav: 'Approved Hospitals',
+                    to: '/hospitals'
+                  })
                 }
-                className={nav == 'Hospital' ? 'nav-link active' : 'nav-link'}
+                className={
+                  nav == 'Approved Hospitals'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
               >
                 <HiHomeModern className="text-[25px]" />{' '}
-                <span className="poppins">Hospitals</span>
+                <span className="poppins">Approved Hospitals</span>
               </div>
               <div
                 onClick={(event) =>
                   handleNav(event, { nav: 'Jobs', to: '/jobs' })
                 }
-                className={nav == 'Jobs' ? 'nav-link active' : 'nav-link'}
+                className={
+                  nav == 'Jobs'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
               >
                 <HiBriefcase className="text-[25px]" />{' '}
                 <span className="poppins">Jobs</span>
               </div>
-            </div>
-            <div
-              onClick={confirmLogout}
-              className={nav == 'Log Out' ? 'nav-link active' : 'nav-link'}
-            >
-              <HiArrowLeftCircle className="text-[25px]" />{' '}
-              <span className="poppins">Log Out</span>
+              <div
+                onClick={confirmLogout}
+                className={
+                  nav == 'Log Out'
+                    ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
+                    : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
+                }
+              >
+                <HiArrowLeftCircle className="text-[25px]" />{' '}
+                <span className="poppins">Log Out</span>
+              </div>
             </div>
           </div>
         </div>
-        <div className="top-nav-for-larger-screens_wrapper page-cont-2 overflow-y-auto">
-          <div className="top-nav-for-larger-screens top-hori-nav hidden lg:flex">
+        <div className="top-nav-for-larger-screens_wrapper flex flex-col w-[85%] h-full overflow-y-auto">
+          <div className="top-nav-for-larger-screens bg-[#10ACF5] text-[#FFF] hidden lg:flex items-center justify-center p-[30px] h-24 w-full">
             <div className="w-full flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
                 <img
                   src={userInfo?.profileImageData.imageUrl}
                   alt="profile-image"
-                  className="w-[45[px] rounded-[100%]"
+                  className="w-[45px] rounded-[100%]"
                 />
               </div>
               <div className="flex flex-col">
-                <h3 className="poppins font-[600]">{`${userInfo?.userName}`}</h3>
-                <p className="poppins">Admin</p>
+                <h3 className="poppins font-[600] m-0">{`${userInfo?.userName}`}</h3>
+                <p className="poppins m-0">Admin</p>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative pr-4">
               <IoIosNotificationsOutline className="text-[30px]" />
               <div
-                className="absolute top-[-13px] right-[-10px] bg-white w-[25px] h-[25px] rounded-full 
+                className="absolute top-[-13px] right-[7px] bg-white w-[25px] h-[25px] rounded-full 
               text-gray-800 text-center font-bold pt-[4px]"
               >
                 25
               </div>
             </div>
           </div>
-          <div className="page-cont-outlet mt-[75px] lg:mt-0 p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px]">
+          <div
+            className="w-full lg:w-[90%] mt-[75px] lg:mt-[25px] mx-auto p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px] overflow-y-auto"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              scrollBehavior: 'smooth'
+            }}
+          >
             {children}
             {/* <Outlet /> */}
           </div>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './styles/auth.css';
 import loginPageSideImg from './../assets/img-1.png';
 import logo from './../assets/logo.png';
 import { TfiEmail } from 'react-icons/tfi';
@@ -69,7 +68,7 @@ const Login = () => {
         storeUserInfo(userInfo);
 
         console.log(userInfo);
-        toast.success('Login successful.', { id: toastId });
+        // toast.success('Login successful.', { id: toastId });
 
         setIsLoading(false);
         console.log('Navigating to home...');
@@ -122,7 +121,7 @@ const Login = () => {
       <div className="hidden lg:block login-page-aside-img-wrapper">
         <img src={loginPageSideImg} alt="auth-img" className="lg:h-screen" />
       </div>
-      <div className="min-h-screen flex flex-col py-[150px] w-full px-3 sm:px-5 lg:pt-0 auth-form-container">
+      <div className="min-h-screen flex flex-col py-[150px] w-full px-3 sm:px-5 auth-form-container">
         <div className="flex flex-col gap-6 items-center brand-name">
           <img src={logo} alt="brand" className="w-[50px]" />
           <h1 className="text-blue-500 text-3xl sm:text-4xl poppins font-bold">

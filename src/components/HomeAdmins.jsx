@@ -1,5 +1,4 @@
 import AdminProfileCard from '../pages/Admins/components/AdminProfileCard';
-import './styles/homeadmins.css';
 import { Link } from 'react-router-dom';
 
 const HomeAdmins = ({
@@ -11,7 +10,7 @@ const HomeAdmins = ({
     adminHomeData?.dashboardData?.allAdmins?.slice(0, 5) || [];
 
   return (
-    <div className="home-admins">
+    <div className="bg-[#ECECEC] w-full rounded-lg px-3 py-6 pb-11">
       <header className="flex justify-between items-center mb-[25px]">
         <h2 className="home-admins-title poppins font-[500] text-[14px] sm:text-[16px]">
           Admins

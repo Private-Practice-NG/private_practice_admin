@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import store from './store';
 import GlobalModal from './components/GlobalModal';
 import axios from 'axios';
-
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordResetMessage from './pages/PasswordResetMessage';
@@ -12,13 +11,14 @@ import Home from './pages/Home';
 import Admins from './pages/Admins';
 import Specialists from './pages/Specialists';
 import Hospitals from './pages/Hospitals';
-import SpecialistDetails from './components/SpecialistDetails';
-import Hospital from './components/Hospital';
 import NotFound from './pages/NotFound';
 import CreateAdmin from './pages/Admins/components/CreateAdmin';
 import JobsPage from './pages/Jobs';
 import HospitalsEnrolment from './pages/HospitalsEnrolment';
 import UpdateAdmin from './pages/Admins/components/UpdateAdmin';
+import Specialist from './pages/Specialist';
+import Hospital from './pages/Hospital';
+import SingleJob from './pages/Jobs/components/job';
 import { getUserInfo, getAccessToken, storeUserInfo } from './utils/tokenUtils';
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -34,8 +34,10 @@ function App() {
   const userInfo = getUserInfo();
   const token = getAccessToken();
 
-  if (userInfo && userInfo.profileImageData.lastFetch) {
-    // console.log('userInfo', userInfo);
+  console.log('userInfo outside', userInfo);
+
+  if (userInfo && userInfo.profileImageData) {
+    console.log('userInfo inside', userInfo);
 
     const imageTimeToLive = userInfo.profileImageData.lastFetch + 590400000;
 
@@ -87,12 +89,17 @@ function App() {
         <Route path="/admins" element={<Admins />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/admins/create-admin-account" element={<CreateAdmin />} />
-        <Route path="/admins/update-admin-account" element={<UpdateAdmin />} />
+        <Route
+          path="/admins/update-admin-account/:adminId"
+          element={<UpdateAdmin />}
+        />
         <Route path="/hospitals" element={<Hospitals />} />
         <Route path="/hospitals-enrolment" element={<HospitalsEnrolment />} />
         <Route path="/specialists" element={<Specialists />} />
-        <Route path="/specialist/:userId" element={<SpecialistDetails />} />
-        <Route path="/hospital/:userId" element={<Hospital />} />
+        <Route path="/specialist/:specialistId" element={<Specialist />} />
+        <Route path="/hospital/:hospitalId" element={<Hospital />} />
+        <Route path="/jobs/job/:jobId" element={<SingleJob />} />
+        {/* <Route path="/hospital/:userId" element={<Hospital />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <GlobalModal />

@@ -1,4 +1,4 @@
-.specialist-details{
+/* .specialist-details{
     border-radius: 15px;
     background: #ECECEC;
     padding: 30px 0;
@@ -59,7 +59,6 @@ button.nav-back{
     margin: 20px 0 30px 0;
 }
 .specialist-details-sec-first-1{
-    /* width: 50%; */
     display: flex;
     align-items: center;
     gap: 15px;
@@ -153,9 +152,8 @@ button.nav-back{
     padding: 50px 0;
 }
 
-
 /* for the large view */
-@media screen and (min-width:1179px) {
+/* @media screen and (min-width:1179px) {
     .specialist-detail-profile{
         width: 200px;
         height: 200px;
@@ -169,11 +167,11 @@ button.nav-back{
     .specialist-details-sec-first-1{
         gap: 20px;
     }
-}
+} */
 /* for the large view */
-@media screen and (min-width:1340px) {
+/* @media screen and (min-width:1340px) {
     .specialist-details-sec-first{
         justify-content: center;
         gap: 20%;
     }
-}
+} */

@@ -1,0 +1,125 @@
+.users-tab {
+  background-color: #ececec;
+  width: 100%;
+  border-radius: 7px;
+  padding: 12px;
+  padding-bottom: 43px;
+}
+
+.users-tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.users-tab-input {
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  background: #ececec;
+  padding: 10px;
+  gap: 8px;
+}
+
+.users-tab-input input {
+  background-color: #ececec;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.users-tab-input input::placeholder {
+  color: #8d8d8d;
+}
+
+.users-tab-input svg {
+  color: #686868;
+  width: 30px;
+  height: 20px;
+}
+
+.users-tab-sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.users-tab-sort:hover {
+  cursor: pointer;
+}
+
+.users-tab-sort svg {
+  width: 25px;
+}
+
+.users-tab-profiles {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2%;
+  flex-wrap: wrap;
+}
+
+.user-profile-card {
+  border-radius: 10px;
+  background: #d9d9d9;
+  width: 23%;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.user-profile-card-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: capitalize;
+}
+
+.user-profile-card-status svg {
+  width: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.user-profile-card-img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.user-profile-card p {
+  color: #000;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.user-profile-card a {
+  border-radius: 50px;
+  background: #9ca09d;
+  padding: 5px 17px;
+  margin: 13px 0;
+  color: white;
+  font-size: 0.85rem;
+}
+
+a.user-profile-card-active {
+  background: var(--btn-form-background);
+}
+
+/* for the large view */
+@media screen and (min-width: 1300px) {
+  .user-profile-card {
+    width: 18%;
+  }
+  .user-profile-card a {
+    padding: 5px 20px;
+    font-size: 1rem;
+  }
+  .user-profile-card p {
+    font-size: 1.1rem;
+  }
+}
