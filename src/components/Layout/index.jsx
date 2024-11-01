@@ -210,16 +210,19 @@ const Layout = ({ children }) => {
                 </div>
                 <div
                   onClick={(event) =>
-                    handleNav(event, { nav: 'Hospital', to: '/hospitals' })
+                    handleNav(event, {
+                      nav: 'Approved Hospitals',
+                      to: '/hospitals'
+                    })
                   }
                   className={
-                    nav == 'Hospital'
+                    nav == 'Approved Hospitals'
                       ? 'text-[#10ACF5] flex items-center gap-4 active:text-[#10ACF5] cursor-pointer'
                       : 'flex items-center gap-4 text-sm text-[#9F9F9F] font-normal hover:text-[#10ACF5] cursor-pointer'
                   }
                 >
                   <HiHomeModern className="text-[25px]" />{' '}
-                  <span>Hospitals</span>
+                  <span>Approved Hospitals</span>
                 </div>
                 <div
                   onClick={(event) =>
@@ -354,16 +357,19 @@ const Layout = ({ children }) => {
               </div>
               <div
                 onClick={(event) =>
-                  handleNav(event, { nav: 'Hospital', to: '/hospitals' })
+                  handleNav(event, {
+                    nav: 'Approved Hospitals',
+                    to: '/hospitals'
+                  })
                 }
                 className={
-                  nav == 'Hospital'
+                  nav == 'Approved Hospitals'
                     ? 'flex items-center gap-4 text-[#10ACF5] active:text-[#10ACF5] active:cursor-pointer text-base'
                     : 'flex items-center gap-4 text-base font-normal text-[#9F9F9F] hover:text-[#10ACF5] hover:cursor-pointer'
                 }
               >
                 <HiHomeModern className="text-[25px]" />{' '}
-                <span className="poppins">Hospitals</span>
+                <span className="poppins">Approved Hospitals</span>
               </div>
               <div
                 onClick={(event) =>

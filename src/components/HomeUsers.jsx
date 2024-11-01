@@ -33,7 +33,7 @@ const HomeUsers = ({
             )}
           </section>
           <Link
-            to="/hospitals"
+            to="/hospitals-enrolment"
             className="w-full border-2 border-[#10ACF5] bg-[#10ACF5] text-white text-center text-xs py-3 rounded-lg mt-8"
           >
             View All
