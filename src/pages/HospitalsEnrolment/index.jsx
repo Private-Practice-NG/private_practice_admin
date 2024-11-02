@@ -7,7 +7,7 @@ import axios from 'axios';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
 import { showModal } from '../../slices/modalSlice';
-import ViewApplicationModal from './components/ViewApplicationModal';
+import ViewApplicationModal from '../../components/ViewApplicationModal';
 
 function HospitalsEnrolment() {
   const [selectedHospital, setSelectedHospital] = useState(null);
