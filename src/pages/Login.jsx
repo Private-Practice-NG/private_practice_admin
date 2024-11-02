@@ -100,7 +100,7 @@ const Login = () => {
   // }, [navigate, userInfo]);
 
   return (
-    <div className="auth auth-body flex items-center justify-center">
+    <div className="auth auth-body flex items-center justify-center h-screen">
       {isLoading && (
         <div className="spinner flex justify-center items-center w-[100%] min-h-screen bg-[#ffffff79]">
           <FadeLoader
@@ -118,10 +118,10 @@ const Login = () => {
         </div>
       )}
 
-      <div className="hidden lg:block login-page-aside-img-wrapper">
-        <img src={loginPageSideImg} alt="auth-img" className="lg:h-screen" />
+      <div className="hidden lg:block login-page-aside-img-wrapper h-screen">
+        <img src={loginPageSideImg} alt="auth-img" className="w-full h-full" />
       </div>
-      <div className="min-h-screen flex flex-col py-[150px] w-full px-3 sm:px-5 auth-form-container">
+      <div className="min-h-screen flex flex-col py-[80px] w-full px-3 sm:px-5 auth-form-container">
         <div className="flex flex-col gap-6 items-center brand-name">
           <img src={logo} alt="brand" className="w-[50px]" />
           <h1 className="text-blue-500 text-3xl sm:text-4xl poppins font-bold">
@@ -149,7 +149,7 @@ const Login = () => {
                 <TfiEmail />
               </div>
               <input
-                className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                className="text-gray-500 border-2 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type="email"
                 placeholder="youremail@email.com"
                 value={loginForm.email}
@@ -172,7 +172,7 @@ const Login = () => {
                 <SlLock />
               </div>
               <input
-                className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                className="text-gray-500 border-2 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={loginForm.password}
