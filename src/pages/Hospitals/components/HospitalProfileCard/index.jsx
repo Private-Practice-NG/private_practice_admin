@@ -1,20 +1,28 @@
-// import mockAvatar from '../../../../assets/img-3.png';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
-
+import ViewApplicationModal from '../../../../components/ViewApplicationModal';
 const HospitalProfileCard = ({ profileData }) => {
-  console.log('Profile Data:', profileData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (!profileData) return null;
 
   const { hospitalName, rating, approvalStatus, _id, profileImage } =
     profileData;
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="hospital-profile-card border-t-[1px] border-b-[1px] py-3 border-gray-300 flex flex-col gap-x-[40px] gap-y-[30px] md:flex-row sm:justify-between sm:items-center">
       <div className="w-full md:w-4/12 flex gap-4 items-center">
         <div className="w-[50px] h-[50px] rounded-full">
           <img
-            // src={avatar || mockAvatar}
             src={profileImage.imageUrl}
             alt="profile-image"
             className="w-[50px] h-[50px] rounded-full"
@@ -46,28 +54,22 @@ const HospitalProfileCard = ({ profileData }) => {
               View profile
             </Link>
           ) : (
-            <Link
-              // to={`/hospital/${_id}`}
+            <button
+              onClick={handleOpenModal}
               className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white min-w-[150px] text-center"
             >
               View application
-            </Link>
+            </button>
           )}
         </div>
       </section>
+      <ViewApplicationModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        hospital={profileData}
+      />
     </div>
   );
 };
 
 export default HospitalProfileCard;
-// {activated ? (
-//   <button className="flex gap-3 items-center">
-//     {/* Activated SVG */}
-//     Activated
-//   </button>
-// ) : (
-//   <button className="flex gap-3 items-center">
-//     {/* Deactivated SVG */}
-//     Deactivated
-//   </button>
-// )}

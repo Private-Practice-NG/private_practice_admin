@@ -1,5 +1,5 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import mockAvatar from '../../../assets/hospitalAvatar.png';
+import mockAvatar from '../assets/hospitalAvatar.png';
 
 function ViewApplicationModal({ isOpen, onClose, hospital }) {
   if (!hospital) return null;
