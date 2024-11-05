@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 import { getAccessToken, getUserInfo } from '../../utils/tokenUtils';
 import axios from 'axios';
 import { FadeLoader } from 'react-spinners';
 import Layout from '../../components/Layout';
 import { showModal } from '../../slices/modalSlice';
-import ViewApplicationModal from './components/ViewApplicationModal';
+import ViewApplicationModal from '../../components/ViewApplicationModal';
 
 function HospitalsEnrolment() {
   const [selectedHospital, setSelectedHospital] = useState(null);
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +61,7 @@ function HospitalsEnrolment() {
         }
 
         const hospitalEnrolmentData = await axios.get(
-          `http://localhost:3001/api/v1/hospitals/get-all-hospitals-data`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/hospitals/get-all-hospitals-data`,
           {
             withCredentials: true,
             headers: {
@@ -77,6 +79,8 @@ function HospitalsEnrolment() {
         }
       } catch (error) {
         console.log(error?.data?.message || error.error);
+
+        navigate('/log-in');
       }
     }
 
@@ -225,7 +229,7 @@ function HospitalsEnrolment() {
                           </button>
                         </div>
                         <div className="w-[10%]">
-                          <p
+                          <div
                             className={`status-tag text-white text-[12px] py-[4px] px-[10px] text-center rounded-full ${
                               hospitalData.approvalStatus === 'approved'
                                 ? 'bg-[#19BE3E]' // Green for approved
@@ -239,7 +243,7 @@ function HospitalsEnrolment() {
                               : hospitalData.approvalStatus === 'rejected'
                                 ? 'rejected'
                                 : 'pending'}
-                          </p>
+                          </div>
                         </div>
                       </div>
                     );

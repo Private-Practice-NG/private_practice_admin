@@ -70,12 +70,16 @@ const Layout = ({ children }) => {
         return;
       }
 
-      await axios.post('http://localhost:3001/api/v1/admin/log-out', bodyData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Email: userEmail
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/log-out`,
+        bodyData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Email: userEmail
+          }
         }
-      });
+      );
 
       console.log('Logout successful, clearing tokens...');
 
@@ -87,12 +91,15 @@ const Layout = ({ children }) => {
       const errorMessage =
         error?.response?.data?.message ||
         'Something went wrong. Please try again.';
+
       dispatch(
         showModal({
           title: 'Error',
           message: errorMessage
         })
       );
+
+      navigate('/log-in');
       // setIsLoading(false);
     }
   };
@@ -117,13 +124,13 @@ const Layout = ({ children }) => {
       >
         {/* Just an overlay */}
       </div>
-      <div className="flex flex-col  items-center lg:flex-row lg:items-start h-screen overflow-auto relative">
+      <div className="flex flex-col lg:flex-row lg:items-start h-screen overflow-auto relative">
         <nav
           className={`mobile-side-nav min-h-screen  ${
             closeMobileNav
-              ? '-translate-x-full transition-transform duration-700 ease-in-out'
+              ? 'translate-x-[-100%] transition-transform duration-700 ease-in-out'
               : 'translate-x-0 transition-transform duration-700 ease-in-out'
-          } bg-[#F0F0F0] fixed top-0 right-0 left-0 lg:hidden h-screen w-[85%] sm:w-[400px] z-50 flex flex-col gap-[30px]`}
+          } bg-[#F0F0F0] fixed top-0 right-0 left-0 lg:hidden h-screen sm:w-[400px] z-50 flex flex-col gap-[30px]`}
         >
           <div className="flex p-8 bg-[#10ACF5] items-center justify-between">
             <section className="flex gap-4 items-center">
@@ -292,13 +299,13 @@ const Layout = ({ children }) => {
             </div>
           </section>
         </nav>
-        <div className="side-nav-for-larger-screens hidden lg:flex flex-col justify-between px-3 h-[70%] lg:h-full w-3/12 bg-[var(--nav-ver--bg-color)]">
+        <nav className="side-nav-for-larger-screens hidden lg:flex flex-col justify-between px-3 h-[70%] lg:h-full w-3/12 bg-[var(--nav-ver--bg-color)]">
           <div className="flex items-center gap-[10px] p-5 h-24 mb-12 lg:h-[100px] lg:mb-12 lg:px-[30px]">
             <img src={logo} className="w-10" alt="brand" />
             <h4 className="poppins font-[500] text-[16px]">Private Practice</h4>
           </div>
           <div className="flex flex-col justify-between px-5 lg:px-[30px] gap-4 h-full ml-2">
-            <div className="flex flex-col justify-between gap-8 lg:mb-12">
+            <div className="flex flex-col justify-between gap-y-10 lg:mb-12">
               <div
                 onClick={(event) => handleNav(event, { nav: 'Home', to: '/' })}
                 className={
@@ -397,9 +404,9 @@ const Layout = ({ children }) => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="top-nav-for-larger-screens_wrapper flex flex-col w-[85%] h-full overflow-y-auto">
-          <div className="top-nav-for-larger-screens bg-[#10ACF5] text-[#FFF] hidden lg:flex items-center justify-center p-[30px] h-24 w-full">
+        </nav>
+        <div className="top-nav-for-larger-screens_wrapper flex flex-col lg:w-[85%] h-full overflow-y-auto">
+          <nav className="top-nav-for-larger-screens bg-[#10ACF5] text-[#FFF] hidden lg:flex items-center justify-center p-[30px] h-24 w-full">
             <div className="w-full flex gap-4 items-center">
               <div className="admin-avatar-wrapper w-[45px] h-[45px] rounded-full bg-gray-400">
                 <img
@@ -422,7 +429,7 @@ const Layout = ({ children }) => {
                 25
               </div>
             </div>
-          </div>
+          </nav>
           <div
             className="w-full lg:w-[90%] mt-[75px] lg:mt-[25px] mx-auto p-3 sm:p-[20px] lg:px-0 lg:py-[40px] pb-[60px] overflow-y-auto"
             style={{

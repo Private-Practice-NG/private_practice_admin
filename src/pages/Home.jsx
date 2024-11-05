@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import HomeUsers from '../components/HomeUsers';
 import HomeAdmins from '../components/HomeAdmins';
 import { setNav } from '../slices/usersSlice';
@@ -12,6 +13,7 @@ import Layout from '../components/Layout';
 
 const Home = () => {
   console.log('Home component loaded');
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +46,7 @@ const Home = () => {
         }
 
         const dashboardData = await axios.get(
-          `http://localhost:3001/api/v1/admin/get-admin-dashboard-home-data`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/get-admin-dashboard-home-data`,
           {
             withCredentials: true,
             headers: {
@@ -55,10 +57,13 @@ const Home = () => {
         );
 
         if (dashboardData?.data?.response) {
-          toast.success('Dashboard data fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          toast.dismiss(toastId);
+
+          // toast.success('Dashboard data fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
+
           setAdminHomeData(dashboardData.data.response);
         } else {
           throw new Error('Invalid response structure');
@@ -68,8 +73,12 @@ const Home = () => {
         toast.error(error?.response?.data?.message || 'Something went wrong.', {
           id: toastId
         });
+
+        navigate('/log-in');
       } finally {
         setIsLoading(false);
+
+        // navigate('/log-in');
       }
     }
 

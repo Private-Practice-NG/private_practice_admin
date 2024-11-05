@@ -1,5 +1,5 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import mockAvatar from '../../../assets/hospitalAvatar.png';
+import mockAvatar from '../assets/hospitalAvatar.png';
 
 function ViewApplicationModal({ isOpen, onClose, hospital }) {
   if (!hospital) return null;
@@ -22,7 +22,11 @@ function ViewApplicationModal({ isOpen, onClose, hospital }) {
               {/* Hospital Info */}
               <div className="flex items-center gap-5">
                 <img
-                  src={mockAvatar}
+                  src={
+                    hospital.profileImage.imageUrl
+                      ? hospital.profileImage.imageUrl
+                      : mockAvatar
+                  }
                   className="h-20 w-20 rounded-full"
                   alt="Hospital Avatar"
                 />

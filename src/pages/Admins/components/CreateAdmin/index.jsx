@@ -13,7 +13,7 @@ import { setNav } from '../../../../slices/usersSlice';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import Layout from '../../../../components/Layout';
-import { getAccessToken } from '../../../../utils/tokenUtils';
+// import { getAccessToken } from '../../../../utils/tokenUtils';
 
 function CreateAdmin() {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ function CreateAdmin() {
     console.log(createAdminForm);
 
     const formData = new FormData();
-    formData.append('profileImage', createAdminForm.profileImage);
+    formData.append('profileImg', createAdminForm.profileImage);
     formData.append('fullName', createAdminForm.fullName);
     formData.append('email', createAdminForm.email);
     formData.append('password', createAdminForm.password);
@@ -91,20 +91,20 @@ function CreateAdmin() {
     // formData.append('profileImage', createAdminForm.profileImage);
 
     // console.log(formData);
-    console.log(createAdminForm.profileImage);
+    // console.log(createAdminForm.profileImage);
 
     const toastId = toast.loading('creating admin account...');
 
     try {
-      const accessToken = getAccessToken();
+      // const accessToken = getAccessToken();
       const newUser = await axios.post(
-        'http://localhost:3001/api/v1/admin/register-admin', // this is the endpoint for creating a new user
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/register-admin`, // this is the endpoint for creating a new user
         formData,
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`
+            'Content-Type': 'multipart/form-data'
+            // Authorization: `Bearer ${accessToken}`// access token not necessary for login and sign-up end-points
           }
         }
       );
@@ -131,6 +131,8 @@ function CreateAdmin() {
     } catch (error) {
       toast.error('error creating user', { id: toastId, duration: 3000 });
       console.log(error);
+
+      navigate('/log-in');
     }
   }
 

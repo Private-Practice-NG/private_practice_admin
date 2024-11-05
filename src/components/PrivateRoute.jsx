@@ -1,12 +1,20 @@
-// import React from "react";
-import { Navigate, Outlet } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 
 const PrivateRoute = () => {
-  // const { userInfo } = useSelector((state) => state.auth);
-  const userInfo = true;
+  const navigate = useNavigate();
+  const userInfo = getUserInfo();
+  const token = getAccessToken();
 
-  return userInfo ? <Outlet /> : <Navigate to="/login" replace />;
+  useEffect(() => {
+    if (!userInfo || !token) {
+      navigate('/log-in', { replace: true });
+    }
+  }, [userInfo, token, navigate]); // Run useEffect when userInfo or token changes
+
+  // If authenticated, render the nested routes
+  return userInfo && token ? <Outlet /> : null;
 };
 
 export default PrivateRoute;
