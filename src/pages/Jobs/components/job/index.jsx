@@ -6,6 +6,7 @@ import mockAvatar from '../../../../assets/img-5.png';
 import JobProgress from './components/JobProgress';
 import { HiStar } from 'react-icons/hi2';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { toast } from 'react-hot-toast';
@@ -18,11 +19,12 @@ const SingleJob = () => {
   const [jobDetails, setJobDetails] = useState([]);
   const { jobId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const toastId = toast.loading('Signing you in...');
+    const toastId = toast.loading('Fetching job data...');
 
     const fetchJobProfile = async () => {
       try {
@@ -44,7 +46,7 @@ const SingleJob = () => {
         console.log('Fetching profile for adminId: ', jobId);
 
         const response = await axios.get(
-          `http://localhost:3001/api/v1/jobs/get-job/${jobId}`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/jobs/get-job/${jobId}`,
           {
             withCredentials: true,
             headers: {
@@ -66,6 +68,8 @@ const SingleJob = () => {
           id: toastId
         });
         setIsLoading(false);
+
+        navigate('/log-in');
       } finally {
         setIsLoading(false);
       }
@@ -76,7 +80,7 @@ const SingleJob = () => {
   if (isLoading) {
     return (
       <Layout>
-        <div className="spinner flex justify-center items-center pt-[100px]">
+        <div className="w-full flex justify-center items-center]">
           <FadeLoader
             color={'#10ACF5'}
             loading={true}
@@ -107,8 +111,12 @@ const SingleJob = () => {
         <main key={job._id} className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/4 flex flex-col justify-center">
             <Link to={`/jobs`}>
-              <button className="flex items-center gap-1 px-4">
-                <MdOutlineArrowBackIosNew /> <span>Back</span>
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 px-4"
+              >
+                <MdOutlineArrowBackIosNew />{' '}
+                <div className="mt-[0.5px]">Back</div>
               </button>
             </Link>
             <div className="mt-10 p-4">

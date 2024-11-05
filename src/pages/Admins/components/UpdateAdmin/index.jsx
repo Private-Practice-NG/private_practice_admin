@@ -32,7 +32,7 @@ function UpdateAdmin() {
   // const toastId = toast.loading('creating admin account...');
   // Fetch admin profile data on mount
   useEffect(() => {
-    const toastId = toast.loading('Signing you in...');
+    const loadingProfileToast = toast.loading('Fetching profile to update...');
 
     async function fetchAdminProfile() {
       try {
@@ -54,7 +54,7 @@ function UpdateAdmin() {
         console.log('Fetching profile for adminId: ', adminId);
 
         const response = await axios.get(
-          `http://localhost:3001/api/v1/admin/get-admin-profile/${adminId}`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/get-admin-profile/${adminId}`,
           {
             withCredentials: true,
             headers: {
@@ -74,13 +74,18 @@ function UpdateAdmin() {
           confirmPassword: ''
         });
 
-        toast.success('Profile fetched successfully', { id: toastId });
+        toast.dismiss(loadingProfileToast);
+        // toast.success('Profile fetched successfully', {
+        //   id: loadingProfileToast
+        // });
       } catch (error) {
         console.error('Error fetching admin profile: ', error);
         toast.error(error?.response?.data?.message || 'Something went wrong.', {
-          id: toastId
+          id: loadingProfileToast
         });
         setIsLoading(false);
+
+        navigate('/log-in');
       } finally {
         setIsLoading(false);
       }
@@ -131,6 +136,7 @@ function UpdateAdmin() {
       console.log('Access Token:', accessToken);
       console.log('User Info:', userInfo);
       console.log('User Email:', userEmail);
+      console.log('data to add', updateAdminForm);
 
       if (!accessToken || !adminId) {
         dispatch(
@@ -145,7 +151,7 @@ function UpdateAdmin() {
       }
 
       await axios.post(
-        'http://localhost:3001/api/v1/admin/update-admin',
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/update-admin`,
         formData,
         {
           headers: {
@@ -158,19 +164,24 @@ function UpdateAdmin() {
 
       toast.success('Admin profile updated successfully', {
         id: toastId,
-        duration: 4000
+        duration: 3000
       });
       navigate('/admins');
     } catch (error) {
+      console.log(error);
       const errorMessage =
         error?.response?.data?.message ||
         'Something went wrong. Please try again.';
+
       dispatch(
         showModal({
           title: 'Error',
           message: errorMessage
         })
       );
+
+      navigate('/log-in');
+
       toast.dismiss(toastId);
     }
   }
@@ -178,7 +189,7 @@ function UpdateAdmin() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="spinner flex justify-center items-center pt-[100px]">
+        <div className="w-full flex justify-center items-center">
           <FadeLoader
             color={'#10ACF5'}
             loading={true}

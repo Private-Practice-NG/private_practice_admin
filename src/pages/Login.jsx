@@ -30,7 +30,8 @@ const Login = () => {
   async function loginHandler(e) {
     e.preventDefault();
 
-    const toastId = toast.loading('logging you in...');
+    const loginToast = toast.loading('logging you in...');
+
     setIsLoading(true);
 
     console.log(loginForm);
@@ -47,40 +48,58 @@ const Login = () => {
           withCredentials: true
         }
       );
-      console.log('Server response:', response.data);
-      const accessToken = response.data.response?.accessToken;
-      const {
-        _id: userId,
-        email: userEmail,
-        profileImage,
-        fullName
-      } = response.data.response.user;
 
-      if (accessToken) {
-        storeAccessToken(accessToken);
+      // toast.promise(response, {
+      //   loading: 'logging you in...',
+      //   success: 'Log in successful',
+      //   error: 'Sorry an error occurred while attempting to log you in'
+      // });
 
-        const userInfo = {
-          userId,
-          email: userEmail,
-          profileImageData: profileImage,
-          userName: fullName
-        };
-        storeUserInfo(userInfo);
+      if (response) {
+        toast.dismiss(loginToast);
 
-        console.log(userInfo);
-        // toast.success('Login successful.', { id: toastId });
+        console.log('Server response:', response.data);
 
-        setIsLoading(false);
-        console.log('Navigating to home...');
-        navigate('/');
+        const accessToken = response.data.response?.accessToken;
+
+        if (accessToken) {
+          const {
+            _id: userId,
+            email: userEmail,
+            profileImage,
+            fullName
+          } = response.data.response.user;
+
+          storeAccessToken(accessToken);
+
+          const userInfo = {
+            userId,
+            email: userEmail,
+            profileImageData: profileImage,
+            userName: fullName
+          };
+          storeUserInfo(userInfo);
+
+          console.log(userInfo);
+          // toast.success('Login successful.', { id: toastId });
+
+          setIsLoading(false);
+          console.log('Navigating to home...');
+          navigate('/');
+        }
       } else {
         throw new Error('Failed to obtain access token');
       }
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || 'Something went wrong.', {
-        id: toastId
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          'Something went wrong while attempting to log you in',
+        {
+          id: loginToast
+        }
+      );
+
       setIsLoading(false);
     }
   }
@@ -124,7 +143,7 @@ const Login = () => {
       <div className="min-h-screen flex flex-col py-[80px] w-full px-3 sm:px-5 auth-form-container">
         <div className="flex flex-col gap-6 items-center brand-name">
           <img src={logo} alt="brand" className="w-[50px]" />
-          <h1 className="text-blue-500 text-3xl sm:text-4xl poppins font-bold">
+          <h1 className="text-blue-500 text-3xl sm:text-4xl poppins font-bold text-center">
             Private Practice
           </h1>
         </div>
@@ -137,7 +156,7 @@ const Login = () => {
 
         <form
           // onSubmit={submitHandler}
-          className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
+          className="xsm:w-full xsm:mx-auto sm:w-[500px] flex flex-col mt-6 auth-form"
         >
           <section className="flex flex-col gap-8">
             <div className="relative auth-form-input auth-form-email">

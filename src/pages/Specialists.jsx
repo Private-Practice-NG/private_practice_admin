@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../slices/usersSlice';
+import { useNavigate } from 'react-router-dom';
 import FadeLoader from 'react-spinners/FadeLoader';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -23,6 +24,7 @@ const Specialists = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNav('Specialist'));
@@ -47,12 +49,13 @@ const Specialists = () => {
         }
 
         const specialistsProfiles = await axios.get(
-          `http://localhost:3001/api/v1/specialists/get-all-specialists`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/specialists/get-all-specialists`,
           {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${token}`,
-              Email: userEmail
+              Email: userEmail,
+              client: 'web'
             }
           }
         );
@@ -74,6 +77,8 @@ const Specialists = () => {
         );
         setIsLoading(false);
         toast.dismiss(toastId);
+
+        navigate('/log-in');
       }
     };
 
@@ -148,20 +153,20 @@ const Specialists = () => {
             />
           </div>
         ) : (
-          <div className="w-full px-3 sm:px-5">
+          <div className="w-full sm:px-5">
             <header className="flex flex-col mt-4">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl sm:text-2xl">Specialists</h2>
               </div>
               <section className="mt-6 mb-10 flex justify-between items-center">
-                <div className="flex items-center gap-2 w-3/5 bg-gray-300 p-2 rounded">
+                <div className="flex items-center gap-2 w-9/12 bg-gray-300 p-2 rounded">
                   <input
                     className="bg-gray-300 text-sm outline-none w-full"
                     type="text"
                     placeholder="Search specialists"
                   />
                 </div>
-                <div className="w-1/3">
+                <div className="w-2/12">
                   <Popover>
                     <PopoverButton
                       className="flex gap-3 justify-center items-center bg-gray-300 py-3 w-full rounded"
@@ -330,7 +335,7 @@ const Specialists = () => {
                 onClick={() => setIsFilterOpen(false)}
               ></div>
             )}
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredData.length > 0 ? (
                 filteredData.map((each) => (
                   <SpecialistProfileCard

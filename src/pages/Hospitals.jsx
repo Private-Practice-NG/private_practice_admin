@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import toast from 'react-hot-toast';
@@ -14,6 +15,7 @@ const Hospitals = () => {
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNav('Hospital'));
@@ -42,7 +44,7 @@ const Hospitals = () => {
         }
 
         const hospitalsData = await axios.get(
-          `http://localhost:3001/api/v1/hospitals/get-approved-hospitals`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/hospitals/get-approved-hospitals`,
           {
             withCredentials: true,
             headers: {
@@ -69,6 +71,8 @@ const Hospitals = () => {
         );
         setIsLoading(false);
         toast.dismiss(toastId);
+
+        navigate('/log-in');
       }
     }
 

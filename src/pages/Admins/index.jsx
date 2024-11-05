@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import FadeLoader from 'react-spinners/FadeLoader';
@@ -14,6 +15,7 @@ const Admins = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [adminProfilesData, setAdminProfilesData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNav('Admin'));
@@ -38,7 +40,7 @@ const Admins = () => {
         }
 
         const adminProfiles = await axios.get(
-          `http://localhost:3001/api/v1/admin/get-all-admins`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/get-all-admins`,
           {
             withCredentials: true,
             headers: {
@@ -48,9 +50,13 @@ const Admins = () => {
           }
         );
         console.log('Admin Profiles Response: ', adminProfiles.data);
+
         const adminUsers = adminProfiles.data.response.allAdminsData.adminsData;
+
         setAdminProfilesData(adminUsers);
+
         setIsLoading(false);
+
         toast.dismiss(toastId);
       } catch (error) {
         console.error('API Error: ', error);
@@ -66,6 +72,8 @@ const Admins = () => {
         setAdminProfilesData([]);
         setIsLoading(false);
         toast.dismiss(toastId);
+
+        navigate('/log-in');
       }
     }
 

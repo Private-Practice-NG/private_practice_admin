@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -20,6 +21,7 @@ const Hospital = () => {
   const [specialistProfileData, setSpecialistProfileData] = useState([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +50,7 @@ const Hospital = () => {
         console.log('Fetching profile for adminId: ', hospitalId);
 
         const response = await axios.get(
-          `http://localhost:3001/api/v1/specialists/get-specialist-profile/${hospitalId}`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/specialists/get-specialist-profile/${hospitalId}`,
           {
             withCredentials: true,
             headers: {
@@ -95,12 +97,20 @@ const Hospital = () => {
         ) : (
           <section className="w-full rounded-xl bg-[#ECECEC] pt-7">
             <header className="w-[95%] mx-auto">
-              <button className="flex md:hidden items-center gap-1">
-                <MdOutlineArrowBackIosNew /> <span>Back</span>
+              <button
+                onClick={() => navigate(-1)}
+                className="flex md:hidden items-center gap-2"
+              >
+                <MdOutlineArrowBackIosNew />{' '}
+                <div className="mt-[0.5px]">Back</div>
               </button>
               <nav className="flex justify-between items-center pt-5 pl-[10px] pb-9 pr-[10px]">
-                <button className="hidden md:flex items-center gap-1">
-                  <MdOutlineArrowBackIosNew /> <span>Back</span>
+                <button
+                  onClick={() => navigate(-1)}
+                  className="hidden md:flex items-center gap-2"
+                >
+                  <MdOutlineArrowBackIosNew />{' '}
+                  <div className="mt-[0.5px]">Back</div>
                 </button>
                 <div className="flex flex-wrap items-center gap-5 md:gap-[50px]">
                   <div className="flex items-center gap-2"></div>

@@ -39,24 +39,42 @@ const HospitalProfileCard = ({ profileData }) => {
         </div>
       </div>
       <section className="w-full md:w-8/12 flex justify-between items-center flex-row-reverse md:flex-row">
-        <div className="flex gap-3 items-center">
-          <span className="poppins">Enrolment Status: </span>
-          <span className="underline">
-            {approvalStatus ? approvalStatus : '-- -- --'}
+        <div className="flex gap-3 items-center ml-[10px]">
+          <span className="poppins text-[12px] xsm:text-[14px]">
+            Enrolment Status:{' '}
           </span>
+          <div className="">
+            <div
+              className={`status-tag text-white text-[12px] py-[4px] px-[10px] min-w-[75px] text-center rounded-full ${
+                approvalStatus === 'approved'
+                  ? 'bg-[#19BE3E]' // Green for approved
+                  : approvalStatus === 'rejected'
+                    ? 'bg-red-600' // Reddish for rejected (you can adjust this color as needed)
+                    : 'bg-[#F6AB27]' // Yellow for pending
+              }`}
+            >
+              {approvalStatus === 'approved'
+                ? 'approved'
+                : approvalStatus === 'rejected'
+                  ? 'rejected'
+                  : 'pending'}
+            </div>
+          </div>
         </div>
         <div>
           {approvalStatus === 'approved' ? (
             <Link
               to={`/hospital/${_id}`}
-              className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white min-w-[150px] text-center"
+              className="py-[10px] rounded-[7px] bg-[#10acf5] text-white text-center"
             >
-              View profile
+              <button className="w-[95px] xsm:w-[130px] text-[10px] xsm:text-[12px]">
+                View profile
+              </button>
             </Link>
           ) : (
             <button
               onClick={handleOpenModal}
-              className="py-[10px] px-4 rounded-[7px] bg-[#10acf5] text-white min-w-[150px] text-center"
+              className="py-[10px] rounded-[7px] bg-[#10acf5] text-white w-[95px] xsm:w-[130px]  text-center text-[10px] xsm:text-[12px]"
             >
               View application
             </button>
