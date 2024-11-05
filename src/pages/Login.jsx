@@ -42,7 +42,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/v1/admin/admin-log-in`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/admin-log-in`,
         loginForm,
         {
           withCredentials: true
