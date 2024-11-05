@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNav } from '../../slices/usersSlice';
 import { CiSearch } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { showModal } from '../../slices/modalSlice';
@@ -15,10 +16,11 @@ function JobsPage() {
   const [jobsData, setJobsData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNav('Jobs'));
-    const toastId = toast.loading('Fetching jobs data...');
+    const toastId = toast.loading('Fetching jobs...');
 
     async function fetchData() {
       try {
@@ -39,7 +41,7 @@ function JobsPage() {
         }
 
         const serverResponse = await axios.get(
-          `http://localhost:3001/api/v1/jobs/get-all-jobs`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/jobs/get-all-jobs`,
           {
             withCredentials: true,
             headers: {
@@ -50,11 +52,15 @@ function JobsPage() {
         );
 
         if (serverResponse) {
-          toast.success('Jobs data fetched successfully', {
-            id: toastId,
-            duration: 4000
-          });
+          // toast.success('Jobs data fetched successfully', {
+          //   id: toastId,
+          //   duration: 4000
+          // });
+
+          toast.dismiss(toastId);
+
           const jobsArray = serverResponse.data.response.jobs.allJobs.allJobs;
+
           setJobsData(jobsArray);
           setIsLoading(false);
         }
@@ -65,6 +71,8 @@ function JobsPage() {
           duration: 4000
         });
         setIsLoading(false);
+
+        navigate('/log-in');
       }
     }
 
@@ -168,12 +176,12 @@ function JobsPage() {
                         {job.createdAt.slice(0, 10)}
                       </div>
                     </div>
-                    <div className="flex justify-center w-1/5">
+                    <div className="flex justify-center w-1/5 items-center">
                       <Link
-                        className="bg-[#10acf5] w-full rounded-[7px] py-3 px-4 text-white poppins text-[14px] text-center mt-6"
-                        to={`/jobs/job/${job._id}`}
+                        className="bg-[#10acf5] w-full rounded-[7px] py-3 px-4 text-white poppins text-[12px] md:text-[14px] text-center"
+                        to={`/jobs/${job._id}`}
                       >
-                        View profile
+                        View job
                       </Link>
                     </div>
                   </div>

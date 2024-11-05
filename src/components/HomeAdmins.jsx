@@ -25,13 +25,19 @@ const HomeAdmins = ({
       <section className="flex flex-col gap-8">
         {adminProfilesData.length > 0 ? (
           adminProfilesData
-            .slice(0, 5)
+            .slice(0, 4)
             .map((each) => (
               <AdminProfileCard key={each._id} profileData={each} />
             ))
         ) : (
           <p>No admins available</p>
         )}
+        <Link
+          to="/admins"
+          className="poppins w-full border-2 border-[#10ACF5] bg-[#10ACF5] text-white text-center text-xs py-3 rounded-lg mt-8"
+        >
+          View All Admins
+        </Link>
       </section>
     </div>
   );

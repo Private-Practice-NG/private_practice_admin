@@ -41,7 +41,7 @@ const ForgetPassword = () => {
       }
 
       const response = await axios.patch(
-        `http://localhost:3001/api/v1/admin/reset-admin-password/?email=${forgotPasswordForm.email}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/admin/reset-admin-password/?email=${forgotPasswordForm.email}`,
         {
           withCredentials: true,
           headers: {
@@ -76,11 +76,11 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="flex items-center h-screen w-screen mx-auto overflow-hidden">
+    <div className="flex items-center h-screen mx-auto overflow-hidden">
       <div className="hidden lg:block h-screen">
         <img src={authImg} className="w-full h-full" alt="auth-img" />
       </div>
-      <div className="min-h-screen flex flex-col justify-center items-center py-[150px] w-full px-3 sm:px-5 lg:pt-0">
+      <div className="min-h-screen flex flex-col justify-center py-[150px] w-full px-3 sm:px-5 lg:pt-0">
         <div className="flex flex-col gap-6 items-center brand-name">
           <img src={logo} alt="brand" className="w-[50px]" />
           <h1 className="text-blue-500 text-3xl sm:text-4xl poppins font-bold">
@@ -95,7 +95,7 @@ const ForgetPassword = () => {
         </div>
 
         <form
-          className="xsm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
+          className="sm:w-[500px] xsm:mx-auto flex flex-col mt-6 auth-form"
           onSubmit={handleSubmit}
         >
           <section className="flex flex-col gap-8">

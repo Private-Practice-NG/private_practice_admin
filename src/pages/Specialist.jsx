@@ -14,12 +14,14 @@ import SpecialistContent from '../components/SpecialistContent';
 import { getAccessToken, getUserInfo } from '../utils/tokenUtils';
 import { showModal } from '../slices/modalSlice';
 import Layout from '../components/Layout';
+import { useNavigate } from 'react-router-dom';
 
 const Specialist = () => {
   const { specialistId } = useParams();
   const [specialistProfileData, setSpecialistProfileData] = useState([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,6 +32,7 @@ const Specialist = () => {
       try {
         const accessToken = getAccessToken();
         const userInfo = getUserInfo();
+        console.log(userInfo);
         console.log('token:', accessToken);
         console.log('specialistId:', specialistId);
 
@@ -48,12 +51,13 @@ const Specialist = () => {
         console.log('Fetching profile for adminId: ', specialistId);
 
         const response = await axios.get(
-          `http://localhost:3001/api/v1/specialists/get-specialist-profile/${specialistId}`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/specialists/get-specialist-profile/${specialistId}`,
           {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${accessToken}`,
               email: userInfo.email,
+              client: 'web',
               'Content-Type': 'application/json'
             }
           }
@@ -69,6 +73,8 @@ const Specialist = () => {
           id: toastId
         });
         setIsLoading(false);
+
+        navigate('/log-in');
       } finally {
         setIsLoading(false);
       }
@@ -95,12 +101,20 @@ const Specialist = () => {
         ) : (
           <section className="w-full rounded-xl bg-[#ECECEC] pt-7">
             <header className="w-[95%] mx-auto">
-              <button className="flex md:hidden items-center gap-1">
-                <MdOutlineArrowBackIosNew /> <span>Back</span>
+              <button
+                onClick={() => navigate(-1)}
+                className="flex md:hidden items-center gap-2"
+              >
+                <MdOutlineArrowBackIosNew />{' '}
+                <div className="mt-[0.5px]">Back</div>
               </button>
               <nav className="flex justify-between items-center pt-5 pl-[10px] pb-9 pr-[10px]">
-                <button className="hidden md:flex items-center gap-1">
-                  <MdOutlineArrowBackIosNew /> <span>Back</span>
+                <button
+                  onClick={() => navigate(-1)}
+                  className="hidden md:flex items-center gap-2"
+                >
+                  <MdOutlineArrowBackIosNew />{' '}
+                  <div className="mt-[0.5px]">Back</div>
                 </button>
                 <div className="flex flex-wrap items-center gap-5 md:gap-[50px]">
                   <div className="flex items-center gap-2"></div>

@@ -19,13 +19,13 @@ const AdminProfileCard = ({ profileData }) => {
       <section className="w-full md:w-8/12 flex justify-between items-center">
         {profileData.activated ? (
           <button
-            className="flex gap-3 items-center"
+            className="flex gap-[5px] xsm:gap-3 items-center"
             //   onClick={handleActivate}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width="20"
+              height="20"
               viewBox="0 0 27 27"
               fill="none"
             >
@@ -42,8 +42,8 @@ const AdminProfileCard = ({ profileData }) => {
                 stroke="#ECECEC"
                 strokeWidth="3"
               />
-            </svg>{' '}
-            Activated
+            </svg>
+            <span className="text-[12px] sm:text-[14px]">Activated</span>
           </button>
         ) : (
           <button className="flex gap-3 items-center">
@@ -71,12 +71,22 @@ const AdminProfileCard = ({ profileData }) => {
             Deactivated
           </button>
         )}
-        <Link
-          to={`/admins/update-admin-account/${profileData._id}`}
-          className="py-[10px] px-4 rounded-[7px] bg-[#d9d9d9]"
-        >
-          Update profile
-        </Link>
+        <div className="ml-3 flex gap-4 items-center">
+          <button
+            // to={`/admins/update-admin-account/${profileData._id}`}
+            className="hidden py-[10px] px-4 rounded-[7px] bg-[#d9d9d9] items-center text-[10px] sm:text-[12px]"
+          >
+            {profileData.activated ? 'Deactivate Admin' : 'Activate Admin'}
+          </button>
+          <Link
+            to={`/admins/update-admin-account/${profileData._id}`}
+            className="py-[10px] px-4 rounded-[7px] bg-[#d9d9d9] flex items-center"
+          >
+            <button className="text-[10px] sm:text-[12px]">
+              Update profile
+            </button>
+          </Link>
+        </div>
       </section>
     </div>
   );

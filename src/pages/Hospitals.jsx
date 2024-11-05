@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setNav } from '../slices/usersSlice';
 import FadeLoader from 'react-spinners/FadeLoader';
 import toast from 'react-hot-toast';
@@ -14,6 +15,7 @@ const Hospitals = () => {
   const [hospitalsProfilesData, setHospitalsProfilesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNav('Hospital'));
@@ -25,9 +27,9 @@ const Hospitals = () => {
         const userInfo = getUserInfo();
         const userEmail = userInfo?.email;
 
-        console.log('Access Token:', token);
-        console.log('User Info:', userInfo);
-        console.log('User Email:', userEmail);
+        // console.log('Access Token:', token);
+        // console.log('User Info:', userInfo);
+        // console.log('User Email:', userEmail);
 
         if (!token || !userEmail) {
           dispatch(
@@ -42,12 +44,13 @@ const Hospitals = () => {
         }
 
         const hospitalsData = await axios.get(
-          `http://localhost:3001/api/v1/hospitals/get-approved-hospitals`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/hospitals/get-approved-hospitals`,
           {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${token}`,
-              Email: userEmail
+              Email: userEmail,
+              client: 'web'
             }
           }
         );
@@ -69,6 +72,8 @@ const Hospitals = () => {
         );
         setIsLoading(false);
         toast.dismiss(toastId);
+
+        navigate('/log-in');
       }
     }
 
@@ -95,7 +100,7 @@ const Hospitals = () => {
           <div className="bg-[#ECECEC] w-full rounded-lg p-3 pb-11 sm:px-5">
             <header className="flex flex-col mt-4 mb-8">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl sm:text-2xl">Hospitals</h2>
+                <h2 className="text-xl sm:text-2xl poppins">Hospitals</h2>
               </div>
               <section className="mt-6 flex justify-between w-full items-center">
                 <div className="flex items-center rounded-lg bg-[#d9d9d9] p-2 gap-2 w-9/12">
