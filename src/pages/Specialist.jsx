@@ -32,6 +32,7 @@ const Specialist = () => {
       try {
         const accessToken = getAccessToken();
         const userInfo = getUserInfo();
+        console.log(userInfo);
         console.log('token:', accessToken);
         console.log('specialistId:', specialistId);
 
@@ -56,6 +57,7 @@ const Specialist = () => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
               email: userInfo.email,
+              client: 'web',
               'Content-Type': 'application/json'
             }
           }
