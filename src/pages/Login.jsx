@@ -149,7 +149,7 @@ const Login = () => {
                 <TfiEmail />
               </div>
               <input
-                className="text-gray-500 border-2 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                className="text-gray-500 border outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type="email"
                 placeholder="youremail@email.com"
                 value={loginForm.email}
@@ -172,7 +172,7 @@ const Login = () => {
                 <SlLock />
               </div>
               <input
-                className="text-gray-500 border-2 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                className="text-gray-500 border outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={loginForm.password}
