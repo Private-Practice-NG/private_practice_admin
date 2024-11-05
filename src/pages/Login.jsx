@@ -150,7 +150,7 @@ const Login = () => {
         <div className="mt-6 auth-welcome text-center">
           <h2 className="text-base font-[500]">Welcome back</h2>
           <p className="text-[12px] mt-3 uppercase">
-            Login to start managing data...
+            Login to start managing data.
           </p>
         </div>
 
