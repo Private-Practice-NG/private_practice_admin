@@ -178,7 +178,7 @@ function CreateAdmin() {
                   </div>
                   <input
                     id="fullName"
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 border outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
                     type="text"
                     placeholder="enter full name"
                     value={createAdminForm.fullName}
@@ -210,7 +210,7 @@ function CreateAdmin() {
                     <TfiEmail />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type="email"
                     placeholder="youremail@email.com"
                     required
@@ -243,7 +243,7 @@ function CreateAdmin() {
                     <SlLock />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
                     value={createAdminForm.password}
@@ -284,7 +284,7 @@ function CreateAdmin() {
                     <SlLock />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="confirm password"
                     value={createAdminForm.confirmPassword}

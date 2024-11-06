@@ -239,7 +239,7 @@ function UpdateAdmin() {
                   </div>
                   <input
                     id="fullName"
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type="text"
                     placeholder="Enter full name"
                     value={updateAdminForm.fullName || ''}
@@ -270,7 +270,7 @@ function UpdateAdmin() {
                     <TfiEmail />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type="email"
                     placeholder="youremail@email.com"
                     required
@@ -303,7 +303,7 @@ function UpdateAdmin() {
                     <SlLock />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type="password"
                     placeholder="Password"
                     value={updateAdminForm.password || ''}
@@ -336,7 +336,7 @@ function UpdateAdmin() {
                     <SlLock />
                   </div>
                   <input
-                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px]"
+                    className="text-gray-500 outline-none pl-[50px] sm:pl-[60px] py-3.5 px-4 w-full rounded-[5px] text-[14px] border"
                     type="password"
                     placeholder="confirm password"
                     value={updateAdminForm.confirmPassword || ''}
